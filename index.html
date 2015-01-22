@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Demo - Cookies CNIL Banner</title>
+	<style>
+		html,
+		body {
+			margin: 15px 5%;
+			padding: 0;
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+<body>
+	<h1>My Awesome website witch use Google Analatics</h1>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut laboriosam et adipisci veritatis laborum laudantium optio. Voluptas libero ab repellendus molestiae, consectetur animi alias dignissimos. Quaerat repellendus cumque rerum.
+	</p>
+
+	<script src="./cookies-cnil-banner.js"></script>
+	<script>
+		var cookiesBanner = new CookiesCnilBanner(function(){
+			/*
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-45460887-1', 'auto');
+			ga('send', 'pageview');
+			*/
+			console.log("LOAD GA");
+		});
+	</script>
+</body>
+</html>

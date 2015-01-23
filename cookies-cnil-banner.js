@@ -44,7 +44,7 @@
 			} else if(document.cookie.indexOf("hasConsent=false") > -1){
 				return false;
 			}
-			return null;
+			return undefined;
 		},
 
 		/*
@@ -74,13 +74,19 @@
 	    	}
 	    },
 
+	    /*
+	     * Create/update cookie
+	     */
 	    setCookie: function(name, value){
 		    var date = new Date();
 		    date.setTime(date.getTime() + this.cookieTimeout);
 
-	    	document.cookie = name + "=" + hasconsent + "; expires=" + date.toGMTString() + "; path=/";
+	    	document.cookie = name + "=" + value + ";expires=" + date.toGMTString() + ";path=/";
 	    },
 
+	    /*
+	     * Delete cookie by changing expire
+	     */
 	    deleteCookie: function(name){
 	        var hostname = document.location.hostname;
 	        if(hostname.indexOf("www.") === 0){

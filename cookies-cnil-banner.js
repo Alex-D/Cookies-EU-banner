@@ -36,6 +36,13 @@
 		},
 
 		/*
+		 * Show banner at the top of the page
+		 */
+		showBanner: function(){
+			
+		},
+
+		/*
 		 * Check if user already consent
 		 */
 		hasConsent: function(){

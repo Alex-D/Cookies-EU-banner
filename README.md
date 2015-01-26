@@ -66,7 +66,7 @@ In short:
 
 - Do Not Track detection
 - Disable banner when visitor is a bot : prevent from SEO Engine to get your cookie advert message like main content of your pages
-- Respect [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/) and [these points](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/bandeau-cookie/).
+- Respect [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/) and [these points](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/).
 
 
 ## Supported browsers

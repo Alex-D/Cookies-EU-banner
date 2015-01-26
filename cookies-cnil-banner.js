@@ -132,13 +132,4 @@
 			}
 	    }
 	};
-
-	/*
-	 * Add CookieCnilBanner to jQuery.fn
-	 */
-	if(window.jQuery){
-		jQuery.fn.cookieCnilBanner = function(launchFunction, prefixId){
-			return new CookiesCnilBanner(launchFunction, prefixId);
-		};
-	}
 })(navigator, window, document);

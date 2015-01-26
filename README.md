@@ -7,13 +7,13 @@ Manage display of banner to accept/reject cookies from tracking services like Go
 
 ### Get the script
 
-You can use bower : `bower install cookies-cnil-banner --save`  
+Use bower : `bower install cookies-cnil-banner --save`  
 Or [download the latest version](https://github.com/Alex-D/cookies-cnil-banner/archive/master.zip).
 
 
 ### In your pages
 
-Insert the banner before all content at the beginning of the `<body>` element, with this IDs:
+Insert the banner before any content at the beginning of the `<body>` element, with these IDs:
 
 ```html
 <div id="cookies-cnil-banner" style="display: none;">
@@ -24,12 +24,12 @@ Insert the banner before all content at the beginning of the `<body>` element, w
 </div>
 ```
 
-- `#cookies-cnil-banner` is the div contain all elements to hide within user has accept/decline;
-- `#cookies-cnil-more` is this link go to the "Read more" page which explains how you use cookies;
-- `#cookies-cnil-reject` and `#cookies-cnil-accept` to reject/accept cookies.
+- `#cookies-cnil-banner` is the div that contains all elements to be hidden after user accepts or declines the use of cookies;
+- `#cookies-cnil-more` is a link to a "Read more" page where you explain your use of cookies;
+- `#cookies-cnil-reject` and `#cookies-cnil-accept` are the buttons used to reject/accept cookies.
 
 
-Before the end of your `<body>`, or in a script file inserted at the same place, put that:
+Before the end of `<body>`, or in a script file inserted at the same place, put the following code:
 
 ```html
 <script src="./cookies-cnil-banner.min.js"></script>
@@ -40,7 +40,7 @@ Before the end of your `<body>`, or in a script file inserted at the same place,
 </script>
 ```
 
-Exemple for Google Analaytics:
+Example for Google Analytics:
 
 ```html
 <script src="./cookies-cnil-banner.min.js"></script>
@@ -59,26 +59,26 @@ Exemple for Google Analaytics:
 ```
 
 
-## How it's works?
+## How does it works?
 
 For a detailed explaination, see comments in the main file : [cookies-cnil-banner.js](cookies-cnil-banner.js).
 
 In short:
 
-1. Exclude bots, client has activated DoNotTrack and users has already decline;
-2. Launch your custom function if user has already accept;
-3. Show banner, then:
-    - if user accept, launch custom function and put a cookie to save this acceptance;
-    - if user decline, remove all Google Analytics cookies and put a cookie to save this rejection.
+1. Excludes bots, clients who have DoNotTrack activated, and users who have already declined;
+2. Runs your custom function if user has already accepted;
+3. Shows banner, then:
+    - if user accepts, run custom function and put a cookie to save this acceptance;
+    - if user declines, remove all Google Analytics cookies and put a cookie to save this rejection.
 
 
 ## Functionalities
 
-- Do Not Track detection (IE9+, Firefox, and all navigators compatibles with the `navigator.doNotTrack` JavaScript variable);
-- Disable banner when visitor is a bot : prevent from SEO Engine to get your cookie advert message like main content of your pages;
-- Respect [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/) and [these points](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/).
+- Do Not Track detection (IE9+, Firefox, and all browsers compatible with the `navigator.doNotTrack` JavaScript variable);
+- Disables banner when visitor is a bot : prevents SEO Engines to confuse your cookie advert message with the main content of your pages;
+- Respects [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/) and [these points](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/).
 
 
 ## Supported browsers
 
-All navigators support JavaScript. Take a look at [navigators that implements DoNotTrack](http://donottrack.us/).
+All navigators which supports JavaScript. Take a look at [navigators that implements DoNotTrack](http://donottrack.us/).

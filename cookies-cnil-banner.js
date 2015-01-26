@@ -1,10 +1,12 @@
 ;var CookiesCnilBanner;
 
 (function(navigator, window, document){
-	CookiesCnilBanner = function(launchFunction){
+	CookiesCnilBanner = function(launchFunction, prefixId){
 		if(!(this instanceof CookiesCnilBanner)){
 	        return new CookiesCnilBanner(launchFunction);
 		}
+
+		this.prefixId = prefixId || "cookies-cnil-";
 
 		this.cookieTimeout = 33696000000; // 13 months in milliseconds
 		this.bots = /bot|googlebot|crawler|spider|robot|crawling/i;
@@ -30,16 +32,23 @@
 
 			// If it's not a bot, no DoNotTrack and not already accept : show banner
 			this.showBanner();
-
-			// By default, accept cookies for the next if user do nothing
-			this.setCookie('hasConsent', true);
 		},
 
 		/*
 		 * Show banner at the top of the page
 		 */
 		showBanner: function(){
-			
+			var _this = this,
+				banner = document.getElementById(this.prefixId + "banner"),
+				acceptButton = document.getElementById(this.prefixId + "accept");
+
+			banner.style.display = "block";
+
+			this.addEventListener(acceptButton, "click", function(){
+				banner.parentNode.removeChild(banner);
+				_this.setCookie('hasConsent', true);
+				_this.launchFunction();
+			});
 		},
 
 		/*
@@ -100,6 +109,23 @@
 	            hostname = hostname.substring(4);
 	        }     
 	        document.cookie = name + "=;path=/;domain=." + hostname + ";expires=Thu, 01-Jan-1970 00:00:01 GMT";
+	    },
+
+	    addEventListener: function(DOMElement, evnt, callback){
+	    	if(document.addEventListener){ // For all major browsers, except IE 8 and earlier
+			    DOMElement.addEventListener(evnt, callback);
+			} else if(DOMElement.attachEvent){ // For IE 8 and earlier versions
+			    DOMElement.attachEvent("on"+evnt, callback);
+			}
 	    }
 	};
+
+	/*
+	 * Add CookieCnilBanner to jQuery.fn
+	 */
+	if(jQuery){
+		jQuery.fn.cookieCnilBanner = function(launchFunction, prefixId){
+			return new CookiesCnilBanner(launchFunction, prefixId);
+		};
+	}
 })(navigator, window, document);

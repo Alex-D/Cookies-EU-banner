@@ -7,7 +7,7 @@ Manage display of banner to accept/reject cookies from tracking services like Go
 
 ### Get the script
 
-You can use bower : `bower install cookies-cnil-banner --save`
+You can use bower : `bower install cookies-cnil-banner --save`  
 Or [download the latest version](https://github.com/Alex-D/cookies-cnil-banner/archive/master.zip).
 
 
@@ -74,8 +74,8 @@ In short:
 
 ## Functionalities
 
-- Do Not Track detection
-- Disable banner when visitor is a bot : prevent from SEO Engine to get your cookie advert message like main content of your pages
+- Do Not Track detection (IE9+, Firefox, and all navigators compatibles with the `navigator.doNotTrack` JavaScript variable);
+- Disable banner when visitor is a bot : prevent from SEO Engine to get your cookie advert message like main content of your pages;
 - Respect [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/) and [these points](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/).
 
 

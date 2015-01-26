@@ -21,9 +21,10 @@ Insert the banner before all content at the beginning of the `<body>` element, w
 - `#cookies-cnil-reject` and `#cookies-cnil-accept` to reject/accept cookies.
 
 
-Next, before the end of your `<body>`, or in a script file inserted at the same place, insert that:
+Next, get the [`cookies-cnil-banner.min.js`](cookies-cnil-banner.min.js) file and before the end of your `<body>`, or in a script file inserted at the same place, put that:
 
 ```html
+<script src="./cookies-cnil-banner.min.js"></script>
 <script>
     new CookiesCnilBanner(function(){
         // Your code to launch when user accept cookies
@@ -34,6 +35,7 @@ Next, before the end of your `<body>`, or in a script file inserted at the same 
 Exemple for Google Analaytics:
 
 ```html
+<script src="./cookies-cnil-banner.min.js"></script>
 <script>
     new CookiesCnilBanner(function(){
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

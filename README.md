@@ -5,6 +5,14 @@ Manage display of banner to accept/reject cookies from tracking services like Go
 
 ## Installation
 
+### Get the script
+
+You can use bower : `bower install cookies-cnil-banner --save`
+Or [download the latest version](https://github.com/Alex-D/cookies-cnil-banner/archive/master.zip).
+
+
+### In your pages
+
 Insert the banner before all content at the beginning of the `<body>` element, with this IDs:
 
 ```html
@@ -21,7 +29,7 @@ Insert the banner before all content at the beginning of the `<body>` element, w
 - `#cookies-cnil-reject` and `#cookies-cnil-accept` to reject/accept cookies.
 
 
-Next, get the [`cookies-cnil-banner.min.js`](cookies-cnil-banner.min.js) file and before the end of your `<body>`, or in a script file inserted at the same place, put that:
+Before the end of your `<body>`, or in a script file inserted at the same place, put that:
 
 ```html
 <script src="./cookies-cnil-banner.min.js"></script>

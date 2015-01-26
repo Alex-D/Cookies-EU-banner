@@ -39,7 +39,6 @@ gulp.task('test', function(){
 gulp.task('scripts', ['test'], function(){
     return gulp.src(['cookies-cnil-banner.js'])
         .pipe($.header(banner, { pkg: pkg }))
-        .pipe($.newer('cookies-cnil-banner.min.js'))
         .pipe($.concat('cookies-cnil-banner.js', { newLine: '\r\n\r\n' }))
         .pipe($.size({ title: 'cookies-cnil-banner.js' }))
         .pipe($.rename({ suffix: ".min" }))

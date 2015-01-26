@@ -5,7 +5,23 @@ Manage display of banner to accept/reject cookies from tracking services like Go
 
 ## Installation
 
-Before the end of your `<body>`, or in a script file inserted at the same place, insert that:
+Insert the banner before all content at the beginning of the `<body>` element, with this IDs:
+
+```html
+<div id="cookies-cnil-banner" style="display: none;">
+    En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies par Google Analytics pour réaliser des statistiques de visites.
+    <a href="./en-savoir-plus.html" id="cookies-cnil-more">En savoir plus</a>
+    <button id="cookies-cnil-reject">Je refuse</button>
+    <button id="cookies-cnil-accept">J'accepte</button>
+</div>
+```
+
+- `#cookies-cnil-banner` is the div contain all elements to hide within user has accept/decline;
+- `#cookies-cnil-more` is this link go to the "Read more" page which explains how you use cookies;
+- `#cookies-cnil-reject` and `#cookies-cnil-accept` to reject/accept cookies.
+
+
+Next, before the end of your `<body>`, or in a script file inserted at the same place, insert that:
 
 ```html
 <script>
@@ -32,21 +48,6 @@ Exemple for Google Analaytics:
 </script>
 ```
 
-Insert the banner before all content at the beginning of the `<body>` element, with this IDs:
-
-```html
-<div id="cookies-cnil-banner" style="display: none;">
-    En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies par Google Analytics pour réaliser des statistiques de visites.
-    <a href="./en-savoir-plus.html" id="cookies-cnil-more">En savoir plus</a>
-    <button id="cookies-cnil-reject">Je refuse</button>
-    <button id="cookies-cnil-accept">J'accepte</button>
-</div>
-```
-
-- `#cookies-cnil-banner` is the div contain all elements to hide within user has accept/decline;
-- `#cookies-cnil-more` is this link go to the "Read more" page which explains how you use cookies;
-- `#cookies-cnil-reject` and `#cookies-cnil-accept` to reject/accept cookies.
-
 
 ## How it's works?
 
@@ -65,9 +66,9 @@ In short:
 
 - Do Not Track detection
 - Disable banner when visitor is a bot : prevent from SEO Engine to get your cookie advert message like main content of your pages
-- Respect [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/).
+- Respect [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/) and [these points](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/bandeau-cookie/).
 
 
-## Supported browser
+## Supported browsers
 
 All navigators support JavaScript. Take a look at [navigators that implements DoNotTrack](http://donottrack.us/).

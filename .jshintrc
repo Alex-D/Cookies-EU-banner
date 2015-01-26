@@ -1,0 +1,11 @@
+{
+    "expr": true,
+    "noarg": true,
+    "onevar": true,
+    "quotmark": "double",
+    "undef": true,
+    "unused": true,
+
+    "browser": true,
+    "node": true
+}

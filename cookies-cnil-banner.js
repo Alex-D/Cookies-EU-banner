@@ -1,4 +1,4 @@
-;var CookiesCnilBanner;
+var CookiesCnilBanner;
 
 (function(navigator, window, document){
 	CookiesCnilBanner = function(launchFunction){
@@ -32,7 +32,7 @@
 			this.showBanner();
 
 			// Accept cookies by default for the next page
-			this.setCookie('hasConsent', true);
+			this.setCookie("hasConsent", true);
 		},
 
 		/*
@@ -41,25 +41,25 @@
 		showBanner: function(){
 			var _this = this,
 				banner = document.getElementById("cookies-cnil-banner"),
-				rejectButton = document.getElementById("cookies-cnil-reject")
-				acceptButton = document.getElementById("cookies-cnil-accept")
+				rejectButton = document.getElementById("cookies-cnil-reject"),
+				acceptButton = document.getElementById("cookies-cnil-accept"),
 				moreLink = document.getElementById("cookies-cnil-more");
 
 			banner.style.display = "block";
 
-			this.addEventListener(moreLink, "click", function(e){
-				_this.deleteCookie('hasConsent');
+			this.addEventListener(moreLink, "click", function(){
+				_this.deleteCookie("hasConsent");
 			});
 
 			this.addEventListener(acceptButton, "click", function(){ 
 				banner.parentNode.removeChild(banner);
-				_this.setCookie('hasConsent', true);
+				_this.setCookie("hasConsent", true);
 				_this.launchFunction();
 			});
 
 			this.addEventListener(rejectButton, "click", function(){ 
 				banner.parentNode.removeChild(banner);
-				_this.setCookie('hasConsent', false);
+				_this.setCookie("hasConsent", false);
 			});
 		},
 
@@ -89,7 +89,7 @@
 		 */
 	    isToTrack: function() {
 	    	var dnt = navigator.doNotTrack || navigator.msDoNotTrack || window.doNotTrack;
-	        return (dnt !== undefined) ? (dnt && dnt !== 'yes' && dnt !== 1 && dnt !== "1") : true;
+	        return (dnt !== undefined) ? (dnt && dnt !== "yes" && dnt !== 1 && dnt !== "1") : true;
 	    },
 
 	    /*

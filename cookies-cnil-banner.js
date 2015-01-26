@@ -1,12 +1,10 @@
 ;var CookiesCnilBanner;
 
 (function(navigator, window, document){
-	CookiesCnilBanner = function(launchFunction, prefixId){
+	CookiesCnilBanner = function(launchFunction){
 		if(!(this instanceof CookiesCnilBanner)){
 	        return new CookiesCnilBanner(launchFunction);
 		}
-
-		this.prefixId = prefixId || "cookies-cnil-";
 
 		this.cookieTimeout = 33696000000; // 13 months in milliseconds
 		this.bots = /bot|googlebot|crawler|spider|robot|crawling/i;
@@ -32,6 +30,9 @@
 
 			// If it's not a bot, no DoNotTrack and not already accept : show banner
 			this.showBanner();
+
+			// Accept cookies by default for the next page
+			this.setCookie('hasConsent', true);
 		},
 
 		/*
@@ -39,15 +40,26 @@
 		 */
 		showBanner: function(){
 			var _this = this,
-				banner = document.getElementById(this.prefixId + "banner"),
-				acceptButton = document.getElementById(this.prefixId + "accept");
+				banner = document.getElementById("cookies-cnil-banner"),
+				rejectButton = document.getElementById("cookies-cnil-reject")
+				acceptButton = document.getElementById("cookies-cnil-accept")
+				moreLink = document.getElementById("cookies-cnil-more");
 
 			banner.style.display = "block";
 
-			this.addEventListener(acceptButton, "click", function(){
+			this.addEventListener(moreLink, "click", function(e){
+				_this.deleteCookie('hasConsent');
+			});
+
+			this.addEventListener(acceptButton, "click", function(){ 
 				banner.parentNode.removeChild(banner);
 				_this.setCookie('hasConsent', true);
 				_this.launchFunction();
+			});
+
+			this.addEventListener(rejectButton, "click", function(){ 
+				banner.parentNode.removeChild(banner);
+				_this.setCookie('hasConsent', false);
 			});
 		},
 
@@ -107,8 +119,9 @@
 	        var hostname = document.location.hostname;
 	        if(hostname.indexOf("www.") === 0){
 	            hostname = hostname.substring(4);
-	        }     
-	        document.cookie = name + "=;path=/;domain=." + hostname + ";expires=Thu, 01-Jan-1970 00:00:01 GMT";
+	        }
+	        document.cookie = name + "=; domain=." + hostname + "; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/";
+	        document.cookie = name + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/";
 	    },
 
 	    addEventListener: function(DOMElement, evnt, callback){
@@ -123,7 +136,7 @@
 	/*
 	 * Add CookieCnilBanner to jQuery.fn
 	 */
-	if(jQuery){
+	if(window.jQuery){
 		jQuery.fn.cookieCnilBanner = function(launchFunction, prefixId){
 			return new CookiesCnilBanner(launchFunction, prefixId);
 		};

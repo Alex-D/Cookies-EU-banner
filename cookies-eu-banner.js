@@ -1,9 +1,9 @@
-var CookiesCnilBanner;
+var CookiesEuBanner;
 
 (function(navigator, window, document){
-    CookiesCnilBanner = function(launchFunction){
-        if(!(this instanceof CookiesCnilBanner)){
-            return new CookiesCnilBanner(launchFunction);
+    CookiesEuBanner = function(launchFunction){
+        if(!(this instanceof CookiesEuBanner)){
+            return new CookiesEuBanner(launchFunction);
         }
 
         this.cookieTimeout = 33696000000; // 13 months in milliseconds
@@ -13,7 +13,7 @@ var CookiesCnilBanner;
         this.init();
     };
 
-    CookiesCnilBanner.prototype = {
+    CookiesEuBanner.prototype = {
         init: function(){
             // Do nothing if it is a bot
             // If DoNotTrack is activated, do nothing too
@@ -40,10 +40,10 @@ var CookiesCnilBanner;
          */
         showBanner: function(){
             var _this = this,
-                banner = document.getElementById("cookies-cnil-banner"),
-                rejectButton = document.getElementById("cookies-cnil-reject"),
-                acceptButton = document.getElementById("cookies-cnil-accept"),
-                moreLink = document.getElementById("cookies-cnil-more");
+                banner = document.getElementById("cookies-eu-banner"),
+                rejectButton = document.getElementById("cookies-eu-reject"),
+                acceptButton = document.getElementById("cookies-eu-accept"),
+                moreLink = document.getElementById("cookies-eu-more");
 
             banner.style.display = "block";
 

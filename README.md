@@ -1,4 +1,4 @@
-# Cookies CNIL banner
+# Cookies EU banner
 
 Manage display of banner to accept/reject cookies from tracking services like Google Analytics.
 
@@ -7,8 +7,8 @@ Manage display of banner to accept/reject cookies from tracking services like Go
 
 ### Get the script
 
-Use bower : `bower install cookies-cnil-banner --save`  
-Or [download the latest version](https://github.com/Alex-D/cookies-cnil-banner/archive/master.zip).
+Use bower : `bower install cookies-eu-banner --save`  
+Or [download the latest version](https://github.com/Alex-D/cookies-eu-banner/archive/master.zip).
 
 
 ### In your pages
@@ -16,25 +16,26 @@ Or [download the latest version](https://github.com/Alex-D/cookies-cnil-banner/a
 Insert the banner before any content at the beginning of the `<body>` element, with these IDs:
 
 ```html
-<div id="cookies-cnil-banner" style="display: none;">
+<div id="cookies-eu-banner" style="display: none;">
     En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies par Google Analytics pour réaliser des statistiques de visites.
-    <a href="./en-savoir-plus.html" id="cookies-cnil-more">En savoir plus</a>
-    <button id="cookies-cnil-reject">Je refuse</button>
-    <button id="cookies-cnil-accept">J'accepte</button>
+    <a href="./en-savoir-plus.html" id="cookies-eu-more">En savoir plus</a>
+    <button id="cookies-eu-reject">Je refuse</button>
+    <button id="cookies-eu-accept">J'accepte</button>
 </div>
 ```
 
-- `#cookies-cnil-banner` is the div that contains all elements to be hidden after user accepts or declines the use of cookies;
-- `#cookies-cnil-more` is a link to a "Read more" page where you explain your use of cookies;
-- `#cookies-cnil-reject` and `#cookies-cnil-accept` are the buttons used to reject/accept cookies.
+
+- `#cookies-eu-banner` is the div that contains all elements to be hidden after user accepts or declines the use of cookies;
+- `#cookies-eu-more` is a link to a "Read more" page where you explain your use of cookies;
+- `#cookies-eu-reject` and `#cookies-eu-accept` are the buttons used to reject/accept cookies.
 
 
 Before the end of `<body>`, or in a script file inserted at the same place, put the following code:
 
 ```html
-<script src="./cookies-cnil-banner.min.js"></script>
+<script src="./cookies-eu-banner.min.js"></script>
 <script>
-    new CookiesCnilBanner(function(){
+    new CookiesEuBanner(function(){
         // Your code to launch when user accept cookies
     });
 </script>
@@ -43,9 +44,9 @@ Before the end of `<body>`, or in a script file inserted at the same place, put 
 Example for Google Analytics:
 
 ```html
-<script src="./cookies-cnil-banner.min.js"></script>
+<script src="./cookies-eu-banner.min.js"></script>
 <script>
-    new CookiesCnilBanner(function(){
+    new CookiesEuBanner(function(){
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -61,7 +62,7 @@ Example for Google Analytics:
 
 ## How does it works?
 
-For a detailed explaination, see comments in the main file : [cookies-cnil-banner.js](cookies-cnil-banner.js).
+For a detailed explaination, see comments in the main file : [cookies-eu-banner.js](cookies-eu-banner.js).
 
 In short:
 

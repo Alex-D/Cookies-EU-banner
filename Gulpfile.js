@@ -31,27 +31,27 @@ gulp.task('clean', function(){
 });
 
 gulp.task('test', function(){
-    return gulp.src(['cookies-cnil-banner.js'])
+    return gulp.src(['cookies-eu-banner.js'])
         .pipe($.jshint())
         .pipe($.jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('scripts', ['test'], function(){
-    return gulp.src(['cookies-cnil-banner.js'])
+    return gulp.src(['cookies-eu-banner.js'])
         .pipe($.header(banner, { pkg: pkg }))
-        .pipe($.concat('cookies-cnil-banner.js', { newLine: '\r\n\r\n' }))
-        .pipe($.size({ title: 'cookies-cnil-banner.js' }))
+        .pipe($.concat('cookies-eu-banner.js', { newLine: '\r\n\r\n' }))
+        .pipe($.size({ title: 'cookies-eu-banner.js' }))
         .pipe($.rename({ suffix: ".min" }))
         .pipe($.uglify())
         .pipe($.header(bannerLight, { pkg: pkg }))
         .pipe(gulp.dest('.'))
-        .pipe($.size({ title: 'cookies-cnil-banner.min.js' }))
+        .pipe($.size({ title: 'cookies-eu-banner.min.js' }))
 });
 
 
 
 gulp.task('watch', function(){
-    gulp.watch(['cookies-cnil-banner.js'], ['scripts']);
+    gulp.watch(['cookies-eu-banner.js'], ['scripts']);
 
     gulp.watch(['/*.min.js'], function(file){
         $.livereload.changed(file);

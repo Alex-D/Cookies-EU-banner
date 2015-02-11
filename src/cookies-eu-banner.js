@@ -11,7 +11,7 @@
     var CookiesEuBanner,
         document = window.document;
 
-    CookiesEuBanner = function(launchFunction){
+    CookiesEuBanner = function(launchFunction, waitAccept){
         if(!(this instanceof CookiesEuBanner)){
             return new CookiesEuBanner(launchFunction);
         }
@@ -20,6 +20,7 @@
         this.bots = /bot|googlebot|crawler|spider|robot|crawling/i;
         this.trackingCookiesNames = ["__utma","__utmb","__utmc","__utmt","__utmv","__utmz","_ga","_gat"];
         this.launchFunction = launchFunction;
+        this.waitAccept = waitAccept !== undefined ? waitAccept : false;
         this.init();
     };
 
@@ -41,8 +42,10 @@
             // If it's not a bot, no DoNotTrack and not already accept : show banner
             this.showBanner();
 
-            // Accept cookies by default for the next page
-            this.setCookie("hasConsent", true);
+            if(!this.waitAccept){
+                // Accept cookies by default for the next page
+                this.setCookie("hasConsent", true);
+            }
         },
 
         /*

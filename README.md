@@ -59,6 +59,20 @@ Example for Google Analytics:
 </script>
 ```
 
+### Options
+
+#### waitAccept
+
+```html
+<script>
+    new CookiesEuBanner(function(){
+        // Your code to launch when user accept cookies
+    }, true);
+</script>
+```
+
+The second parameter (`true` in the example over it) defined if Cookie EU banner wait the user acceptation before hide the banner. Set to `false` by default.
+
 
 ## How does it works?
 

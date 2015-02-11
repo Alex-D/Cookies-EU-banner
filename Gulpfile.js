@@ -31,29 +31,30 @@ gulp.task('clean', function(){
 });
 
 gulp.task('test', function(){
-    return gulp.src(['cookies-eu-banner.js'])
+    return gulp.src(['src/cookies-eu-banner.js'])
         .pipe($.jshint())
         .pipe($.jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('scripts', ['test'], function(){
-    return gulp.src(['cookies-eu-banner.js'])
+    return gulp.src(['src/cookies-eu-banner.js'])
         .pipe($.header(banner, { pkg: pkg }))
         .pipe($.concat('cookies-eu-banner.js', { newLine: '\r\n\r\n' }))
+        .pipe(gulp.dest('dist/'))
         .pipe($.size({ title: 'cookies-eu-banner.js' }))
         .pipe($.rename({ suffix: ".min" }))
         .pipe($.uglify())
         .pipe($.header(bannerLight, { pkg: pkg }))
-        .pipe(gulp.dest('.'))
+        .pipe(gulp.dest('dist/'))
         .pipe($.size({ title: 'cookies-eu-banner.min.js' }))
 });
 
 
 
 gulp.task('watch', function(){
-    gulp.watch(['cookies-eu-banner.js'], ['scripts']);
+    gulp.watch(['src/cookies-eu-banner.js'], ['scripts']);
 
-    gulp.watch(['/*.min.js'], function(file){
+    gulp.watch(['dist/**'], function(file){
         $.livereload.changed(file);
     });
 

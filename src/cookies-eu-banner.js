@@ -1,15 +1,17 @@
-(function (root, factory) {
-    if (typeof define === "function" && define.amd){
+(function(root, factory, undefined){
+    if(typeof define === "function" && define.amd){
         define([], factory);
-    } else if (typeof exports === "object"){
+    } else if(typeof exports === "object"){
         module.exports = factory();
     } else {
         // root is window
         root.CookiesEuBanner = factory();
     }
-}(this, function(){
+}(window, function(){
+    var CookiesEuBanner,
+        document = window.document;
 
-    var CookiesEuBanner = function(launchFunction){
+    CookiesEuBanner = function(launchFunction){
         if(!(this instanceof CookiesEuBanner)){
             return new CookiesEuBanner(launchFunction);
         }
@@ -141,6 +143,7 @@
             }
         }
     };
+
     return CookiesEuBanner;
 }));
 

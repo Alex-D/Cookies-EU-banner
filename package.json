@@ -3,10 +3,10 @@
   "title": "Cookies EU banner",
   "description": "Manage display of banner to accept/reject cookies from tracking services like Google Analytics",
   "version": "1.1.0",
-  "main": "cookies-eu-banner.js",
+  "main": "dist/cookies-eu-banner.js",
   "homepage": "https://github.com/Alex-D/cookies-eu-banner",
   "author": {
-    "name": "Alexandre Demode (Alex-D)",
+    "name": "Alex-D",
     "email": "contact@alex-d.fr",
     "url": "http://alex-d.fr"
   },

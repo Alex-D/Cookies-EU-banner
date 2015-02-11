@@ -7,4 +7,5 @@ node_js:
     - "0.10"
 
 install:
+    - "npm install"
     - "npm install -g gulp"

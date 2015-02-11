@@ -17,10 +17,10 @@ Insert the banner before any content at the beginning of the `<body>` element, w
 
 ```html
 <div id="cookies-eu-banner" style="display: none;">
-    En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies par Google Analytics pour réaliser des statistiques de visites.
-    <a href="./en-savoir-plus.html" id="cookies-eu-more">En savoir plus</a>
-    <button id="cookies-eu-reject">Je refuse</button>
-    <button id="cookies-eu-accept">J'accepte</button>
+    By continuing your visit to this site, you accept the use of cookies by Google Analytics to make visits statistics.
+    <a href="./read-more.html" id="cookies-eu-more">Read more</a>
+    <button id="cookies-eu-reject">Reject</button>
+    <button id="cookies-eu-accept">Accept</button>
 </div>
 ```
 
@@ -33,7 +33,7 @@ Insert the banner before any content at the beginning of the `<body>` element, w
 Before the end of `<body>`, or in a script file inserted at the same place, put the following code:
 
 ```html
-<script src="./cookies-eu-banner.min.js"></script>
+<script src="./bower_components/cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
 <script>
     new CookiesEuBanner(function(){
         // Your code to launch when user accept cookies
@@ -44,7 +44,7 @@ Before the end of `<body>`, or in a script file inserted at the same place, put 
 Example for Google Analytics:
 
 ```html
-<script src="./cookies-eu-banner.min.js"></script>
+<script src="./bower_components/cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
 <script>
     new CookiesEuBanner(function(){
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -78,6 +78,19 @@ In short:
 - Do Not Track detection (IE9+, Firefox, and all browsers compatible with the `navigator.doNotTrack` JavaScript variable);
 - Disables banner when visitor is a bot : prevents SEO Engines to confuse your cookie advert message with the main content of your pages;
 - Respects [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/) and [these points](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/).
+
+
+## Contribute
+
+This project use a Gulpfile, to use it, you need to have [node.js](http://nodejs.org/) and npm (included in node.js installation). Then, in the Cookies EU banner folder, run these commands:
+
+```console
+npm install
+npm install -g gulp
+gulp build
+```
+
+The first line install all dependancies listed in `package.json`. Second line install gulp as command, so you could now launch the third line which build the project.
 
 
 ## Supported browsers

@@ -1,7 +1,15 @@
-var CookiesEuBanner;
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define([], factory);
+    } else if (typeof exports === 'object') {
+        module.exports = factory();
+    } else {
+        // root is window
+        root.CookiesEuBanner = factory();
+  }
+}(this, function () {
 
-(function(navigator, window, document){
-    CookiesEuBanner = function(launchFunction){
+    var CookiesEuBanner = function(launchFunction){
         if(!(this instanceof CookiesEuBanner)){
             return new CookiesEuBanner(launchFunction);
         }
@@ -51,13 +59,13 @@ var CookiesEuBanner;
                 _this.deleteCookie("hasConsent");
             });
 
-            this.addEventListener(acceptButton, "click", function(){ 
+            this.addEventListener(acceptButton, "click", function(){
                 banner.parentNode.removeChild(banner);
                 _this.setCookie("hasConsent", true);
                 _this.launchFunction();
             });
 
-            this.addEventListener(rejectButton, "click", function(){ 
+            this.addEventListener(rejectButton, "click", function(){
                 banner.parentNode.removeChild(banner);
                 _this.setCookie("hasConsent", false);
                 _this.deleteTrackingCookies();
@@ -133,4 +141,6 @@ var CookiesEuBanner;
             }
         }
     };
-})(navigator, window, document);
+    return CookiesEuBanner;
+}));
+

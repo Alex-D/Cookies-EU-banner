@@ -11,7 +11,7 @@
     var CookiesEuBanner,
         document = window.document;
 
-    CookiesEuBanner = function(launchFunction, waitAccept){
+    CookiesEuBanner = function(launchFunction, waitAccept, undefined){
         if(!(this instanceof CookiesEuBanner)){
             return new CookiesEuBanner(launchFunction);
         }

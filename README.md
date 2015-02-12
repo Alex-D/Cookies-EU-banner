@@ -7,7 +7,8 @@ Manage display of banner to accept/reject cookies from tracking services like Go
 
 ### Get the script
 
-Use bower : `bower install cookies-eu-banner --save`  
+Using bower : `bower install cookies-eu-banner --save`  
+Or using npm : `npm install cookies-eu-banner --save`  
 Or [download the latest version](https://github.com/Alex-D/cookies-eu-banner/archive/master.zip).
 
 

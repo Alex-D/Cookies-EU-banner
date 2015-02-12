@@ -12,6 +12,7 @@ install:
 
 deploy:
   provider: npm
+  email: "contact@alex-d.fr"
   api_key: 
     secure: VQPIxfKMG92a6843DLYiPzu3cGGFUDK1wx6D8FML20Q3Is88vv7UrA4YM1RDcqb/HHFA6nJMfK/lW/lVSwaa7fF4zgVHXGchyC5YnR0amTAeooZZHtgbvSdrTultGMx1Ir+Putw3i7N2/vstUV8da4rMbnBsqh6NRKMl+7eA3J8=
   on:

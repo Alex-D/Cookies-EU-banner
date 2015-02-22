@@ -18,6 +18,7 @@
 
         this.cookieTimeout = 33696000000; // 13 months in milliseconds
         this.bots = /bot|googlebot|crawler|spider|robot|crawling/i;
+        this.cookieName = "hasConsent";
         this.trackingCookiesNames = ["__utma","__utmb","__utmc","__utmt","__utmv","__utmz","_ga","_gat"];
         this.launchFunction = launchFunction;
         this.waitAccept = waitAccept !== undefined ? waitAccept : false;
@@ -44,7 +45,7 @@
 
             if(!this.waitAccept){
                 // Accept cookies by default for the next page
-                this.setCookie("hasConsent", true);
+                this.setCookie(this.cookieName, true);
             }
         },
 
@@ -61,18 +62,18 @@
             banner.style.display = "block";
 
             this.addEventListener(moreLink, "click", function(){
-                _this.deleteCookie("hasConsent");
+                _this.deleteCookie(this.cookieName);
             });
 
             this.addEventListener(acceptButton, "click", function(){
                 banner.parentNode.removeChild(banner);
-                _this.setCookie("hasConsent", true);
+                _this.setCookie(this.cookieName, true);
                 _this.launchFunction();
             });
 
             this.addEventListener(rejectButton, "click", function(){
                 banner.parentNode.removeChild(banner);
-                _this.setCookie("hasConsent", false);
+                _this.setCookie(this.cookieName, false);
                 _this.deleteTrackingCookies();
             });
         },
@@ -81,9 +82,9 @@
          * Check if user already consent
          */
         hasConsent: function(){
-            if(document.cookie.indexOf("hasConsent=true") > -1){
+            if(document.cookie.indexOf(this.cookieName+"=true") > -1){
                 return true;
-            } else if(document.cookie.indexOf("hasConsent=false") > -1){
+            } else if(document.cookie.indexOf(this.cookieName+"=false") > -1){
                 return false;
             }
             return undefined;

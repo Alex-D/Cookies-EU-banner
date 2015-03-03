@@ -67,13 +67,13 @@
 
             this.addEventListener(acceptButton, "click", function(){
                 banner.parentNode.removeChild(banner);
-                _this.setCookie(this.cookieName, true);
+                _this.setCookie(_this.cookieName, true);
                 _this.launchFunction();
             });
 
             this.addEventListener(rejectButton, "click", function(){
                 banner.parentNode.removeChild(banner);
-                _this.setCookie(this.cookieName, false);
+                _this.setCookie(_this.cookieName, false);
                 _this.deleteTrackingCookies();
             });
         },

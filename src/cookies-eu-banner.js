@@ -62,7 +62,7 @@
             banner.style.display = "block";
 
             this.addEventListener(moreLink, "click", function(){
-                _this.deleteCookie(this.cookieName);
+                _this.deleteCookie(_this.cookieName);
             });
 
             this.addEventListener(acceptButton, "click", function(){

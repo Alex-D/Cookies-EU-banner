@@ -5,6 +5,7 @@
     "quotmark": "double",
     "undef": true,
     "unused": true,
+    "eqnull": true,
 
     "browser": true,
     "node": true,

@@ -21,7 +21,7 @@
         this.cookieName = "hasConsent";
         this.trackingCookiesNames = ["__utma","__utmb","__utmc","__utmt","__utmv","__utmz","_ga","_gat"];
         this.launchFunction = launchFunction;
-        this.waitAccept = waitAccept !== undefined ? waitAccept : false;
+        this.waitAccept = waitAccept != null ? waitAccept : false;
         this.init();
     };
 
@@ -87,7 +87,7 @@
             } else if(document.cookie.indexOf(this.cookieName+"=false") > -1){
                 return false;
             }
-            return undefined;
+            return null;
         },
 
         /*
@@ -104,7 +104,7 @@
          */
         isToTrack: function() {
             var dnt = navigator.doNotTrack || navigator.msDoNotTrack || window.doNotTrack;
-            return (dnt !== undefined) ? (dnt && dnt !== "yes" && dnt !== 1 && dnt !== "1") : true;
+            return (dnt != null) ? (dnt && dnt !== "yes" && dnt !== 1 && dnt !== "1") : true;
         },
 
         /*

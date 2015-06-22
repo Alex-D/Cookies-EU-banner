@@ -2,13 +2,15 @@
 
 Manage display of banner to accept/reject cookies from tracking services like Google Analytics.
 
+![Build status image](https://api.travis-ci.org/Alex-D/Cookies-EU-banner.svg)
+
 
 ## Installation
 
 ### Get the script
 
-Using bower : `bower install cookies-eu-banner --save`  
-Or using npm : `npm install cookies-eu-banner --save`  
+Using bower : `bower install cookies-eu-banner --save`
+Or using npm : `npm install cookies-eu-banner --save`
 Or [download the latest version](https://github.com/Alex-D/cookies-eu-banner/archive/master.zip).
 
 

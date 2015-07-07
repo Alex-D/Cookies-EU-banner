@@ -77,7 +77,7 @@ Example for Google Analytics:
 The second parameter (`true` in the example over it) defined if Cookie EU banner wait the user acceptation before hide the banner. Set to `false` by default.
 
 
-## How does it works?
+## How does it work?
 
 For a detailed explaination, see comments in the main file : [cookies-eu-banner.js](cookies-eu-banner.js).
 

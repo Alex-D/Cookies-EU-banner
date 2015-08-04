@@ -61,21 +61,27 @@
 
             banner.style.display = "block";
 
-            this.addEventListener(moreLink, "click", function(){
-                _this.deleteCookie(_this.cookieName);
-            });
+            if (moreLink) {
+                this.addEventListener(moreLink, "click", function(){
+                    _this.deleteCookie(_this.cookieName);
+                });
+            }
 
-            this.addEventListener(acceptButton, "click", function(){
-                banner.parentNode.removeChild(banner);
-                _this.setCookie(_this.cookieName, true);
-                _this.launchFunction();
-            });
+            if (acceptButton) {
+                this.addEventListener(acceptButton, "click", function(){
+                    banner.parentNode.removeChild(banner);
+                    _this.setCookie(_this.cookieName, true);
+                    _this.launchFunction();
+                });
+            }
 
-            this.addEventListener(rejectButton, "click", function(){
-                banner.parentNode.removeChild(banner);
-                _this.setCookie(_this.cookieName, false);
-                _this.deleteTrackingCookies();
-            });
+            if (rejectButton) {
+                this.addEventListener(rejectButton, "click", function(){
+                    banner.parentNode.removeChild(banner);
+                    _this.setCookie(_this.cookieName, false);
+                    _this.deleteTrackingCookies();
+                });
+            }
         },
 
         /*

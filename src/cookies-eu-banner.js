@@ -1,3 +1,4 @@
+;
 (function(root, factory, undefined){
     if(typeof define === "function" && define.amd){
         define([], factory);
@@ -156,4 +157,3 @@
 
     return CookiesEuBanner;
 }));
-

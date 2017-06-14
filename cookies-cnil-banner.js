@@ -97,9 +97,9 @@ var CookiesCnilBanner;
          * Delete existants tracking cookies
          */
         deleteTrackingCookies: function(){
-            var name;
-            for(name in this.trackingCookiesNames){
-                this.deleteCookie(name);
+            var nameId;
+            for(nameId in this.trackingCookiesNames){
+                this.deleteCookie(this.trackingCookiesNames[nameId]);
             }
         },
 

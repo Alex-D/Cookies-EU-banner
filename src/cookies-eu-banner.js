@@ -115,7 +115,7 @@
      */
     isToTrack: function () {
       var dnt = navigator.doNotTrack || navigator.msDoNotTrack || window.doNotTrack;
-      return (dnt !== null) ? (dnt && dnt !== 'yes' && dnt !== 1 && dnt !== '1') : true;
+      return (dnt !== null && dnt !== undefined) ? (dnt && dnt !== 'yes' && dnt !== 1 && dnt !== '1') : true;
     },
 
     /*

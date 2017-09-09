@@ -14,6 +14,6 @@ deploy:
   provider: npm
   email: "contact@alex-d.fr"
   api_key: 
-    secure: VQPIxfKMG92a6843DLYiPzu3cGGFUDK1wx6D8FML20Q3Is88vv7UrA4YM1RDcqb/HHFA6nJMfK/lW/lVSwaa7fF4zgVHXGchyC5YnR0amTAeooZZHtgbvSdrTultGMx1Ir+Putw3i7N2/vstUV8da4rMbnBsqh6NRKMl+7eA3J8=
+    secure: NrGziWXmU3uMQBLKk7n2Qd22wrPNGBQ9MwaMZDom5qvUN6c8hwVJFXC8wLbRU035XqXQRg2ntxzWQc/LRyWKH73zjhmhIk5LDHp5Jz11T0hvVcS1drV8zUIvgTu2rmzchvHmEFPI5UcoMswMa9Ifgcum1foZV4csahtx/IePVqM=
   on:
     tags: true

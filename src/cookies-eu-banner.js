@@ -1,4 +1,4 @@
-;
+; // jshint ignore:line
 (function (root, factory, undefined) {
   'use strict';
   if (typeof define === 'function' && define.amd) {

@@ -79,7 +79,7 @@ The second parameter (`true` in the example over it) defined if Cookie EU banner
 
 ## How does it work?
 
-For a detailed explaination, see comments in the main file : [cookies-eu-banner.js](cookies-eu-banner.js).
+For a detailed explaination, see comments in the main file : [cookies-eu-banner.js](src/cookies-eu-banner.js).
 
 In short:
 

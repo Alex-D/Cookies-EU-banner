@@ -61,7 +61,8 @@
         banner = document.getElementById('cookies-eu-banner'),
         rejectButton = document.getElementById('cookies-eu-reject'),
         acceptButton = document.getElementById('cookies-eu-accept'),
-        moreLink = document.getElementById('cookies-eu-more');
+        moreLink = document.getElementById('cookies-eu-more'),
+        waitRemove = (banner.dataset.waitRemove === undefined) ? 0 : parseInt(banner.dataset.waitRemove); 
 
       banner.style.display = 'block';
 
@@ -73,7 +74,7 @@
 
       if (acceptButton) {
         this.addEventListener(acceptButton, 'click', function () {
-          banner.parentNode.removeChild(banner);
+          _this.removeBanner(banner, waitRemove);
           _this.setCookie(_this.cookieName, true);
           _this.launchFunction();
         });
@@ -81,7 +82,7 @@
 
       if (rejectButton) {
         this.addEventListener(rejectButton, 'click', function () {
-          banner.parentNode.removeChild(banner);
+          _this.removeBanner(banner, waitRemove);
           _this.setCookie(_this.cookieName, false);
           _this.deleteTrackingCookies();
         });
@@ -156,6 +157,16 @@
       } else if (DOMElement.attachEvent) { // For IE 8 and earlier versions
         DOMElement.attachEvent('on' + evnt, callback);
       }
+    },
+
+    /*
+     * Delays removal of banner allowing developers
+     * to specify their own transition effects
+     */
+    removeBanner: function (banner, wait) {
+      setTimeout (function() {
+        banner.parentNode.removeChild(banner);
+      }, wait);
     }
   };
 

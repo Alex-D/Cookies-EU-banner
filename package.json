@@ -2,7 +2,7 @@
   "name": "cookies-eu-banner",
   "title": "Cookies EU banner",
   "description": "Manage display of banner to accept/reject cookies from tracking services like Google Analytics",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "main": "dist/cookies-eu-banner.js",
   "homepage": "http://alex-d.github.io/Cookies-EU-banner/",
   "author": {

@@ -62,7 +62,7 @@
         rejectButton = document.getElementById('cookies-eu-reject'),
         acceptButton = document.getElementById('cookies-eu-accept'),
         moreLink = document.getElementById('cookies-eu-more'),
-        waitRemove = (banner.dataset.waitRemove === undefined) ? 0 : parseInt(banner.dataset.waitRemove); 
+        waitRemove = (banner.dataset.waitRemove === undefined) ? 0 : parseInt(banner.dataset.waitRemove);
 
       banner.style.display = 'block';
 
@@ -165,7 +165,9 @@
      */
     removeBanner: function (banner, wait) {
       setTimeout (function() {
-        banner.parentNode.removeChild(banner);
+        if (banner && banner.parentNode) {
+          banner.parentNode.removeChild(banner);
+        }
       }, wait);
     }
   };

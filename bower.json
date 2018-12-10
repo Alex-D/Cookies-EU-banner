@@ -1,7 +1,7 @@
 {
   "name": "cookies-eu-banner",
   "main": "dist/cookies-eu-banner.js",
-  "version": "1.2.13",
+  "version": "1.2.15",
   "homepage": "http://alex-d.github.io/Cookies-EU-banner/",
   "authors": [
     "Alex-D <contact@alex-d.fr>"

@@ -1,0 +1,39 @@
+{
+  "name": "cookies-eu-banner-docs",
+  "private": true,
+  "title": "Cookies EU banner",
+  "description": "Github page of Cookies EU banner",
+  "homepage": "http://alex-d.github.io/Cookies-EU-banner",
+  "author": {
+    "name": "Alexandre Demode (Alex-D)",
+    "email": "contact@alex-d.fr",
+    "url": "http://alex-d.fr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Alex-D/cookies-eu-banner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Alex-D/cookies-eu-banner/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "del": "^4.1.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^6.1.0",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-concat": "^2.4.3",
+    "gulp-load-plugins": "^1.6.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.2",
+    "vinyl-paths": "^3.0.0"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "start": "gulp",
+    "test": "gulp test"
+  },
+  "dependencies": {}
+}

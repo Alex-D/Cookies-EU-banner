@@ -7,10 +7,25 @@
         body {
             margin: 0;
             padding: 0;
+            font-size: 16px;
             font-family: sans-serif;
+            background: #111;
+            color: #f1f1f1;
+            text-align: center;
         }
         main {
-            margin: 30px 10%;
+            margin: 30px auto;
+            padding: 0 30px;
+            max-width: 900px;
+        }
+        a {
+            color: #f1f1f1;
+            padding: 3px 0;
+        }
+        hr {
+            width: 50%;
+            margin: 30px auto;
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -22,15 +37,19 @@
         <button id="cookies-eu-accept">Accept</button>
     </div>
 
-    <h1>Read more</h1>
-    <p>
-        Page explaining the use of cookies
-    </p>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut laboriosam et adipisci veritatis laborum laudantium optio. Voluptas libero ab repellendus molestiae, consectetur animi alias dignissimos. Quaerat repellendus cumque rerum.
-    </p>
+    <main>
+        <h1>Read more</h1>
+        <a href="./">Back to demo main page</a>
+        <hr>
+        <p>
+            Page explaining cookies purposes.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut laboriosam et adipisci veritatis laborum laudantium optio. Voluptas libero ab repellendus molestiae, consectetur animi alias dignissimos. Quaerat repellendus cumque rerum.
+        </p>
+    </main>
 
-    <script src="../dist/cookies-eu-banner.min.js"></script>
+    <script src="../js/main.js"></script>
     <script>
         new CookiesEuBanner(function(){
             /* Example: your Google Analytics script

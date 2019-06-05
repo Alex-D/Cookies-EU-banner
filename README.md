@@ -1,17 +1,46 @@
-# Cookies EU banner
+<h1 align="center">Cookies EU banner</h1>
 
-Manage display of banner to accept/reject cookies from tracking services like Google Analytics.
+<p align="center">
+    <a href="https://bundlephobia.com/result?p=cookies-eu-banner"><img src="https://img.shields.io/bundlephobia/minzip/cookies-eu-banner.svg?style=for-the-badge" alt="Minzipped size 1kb" /></a>
+    <a href="https://www.npmjs.com/package/cookies-eu-banner"><img src="https://img.shields.io/npm/dm/cookies-eu-banner.svg?color=blue&label=npm%20downloads&style=for-the-badge" alt="Downloads" /></a>
+    <a href="https://github.com/Alex-D/cookies-eu-banner/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/cookies-eu-banner.svg?color=blue&style=for-the-badge" alt="MIT Licence" /></a>
+    <br>
+    <a href="https://www.npmjs.com/package/cookies-eu-banner"><img src="https://img.shields.io/npm/v/cookies-eu-banner.svg?color=blue&style=for-the-badge" alt="Version on npm" /></a>
+    <img src="https://img.shields.io/bower/v/cookies-eu-banner.svg?color=blue&style=for-the-badge" alt="Version on bower" />
+</p>
 
-![Build status image](https://api.travis-ci.org/Alex-D/Cookies-EU-banner.svg)
+<h2 align="center">Screenshot</h2>
 
+<p align="center">
+    <a href="https://alex-d.github.io/Cookies-EU-banner/demo"><img src="overview.png" alt=""/></a>
+</p>
+
+<h2 align="center">Supporting Cookies EU banner</h2>
+
+Cookies EU banner is an MIT-licensed open source project and completely free to use.
+You can support it's ongoing development by being a backer or a sponsor:
+ 
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/alexandredemode)
+- [One-time donation via PayPal](https://www.paypal.me/alexandredemode/20eur)
+
+-----
+
+## Introduction
+
+Cookies EU banner manage display of a banner which allows user to accept or reject cookies from tracking services like Google Analytics.
+It is a GDPR-compliant way to get cookie consent from visitors.
+
+- [Try Cookies EU banner demo in action](https://alex-d.github.io/Cookies-EU-banner/demo)
+- [Go to presentation website](https://alex-d.github.io/Cookies-EU-banner/)
 
 ## Installation
 
 ### Get the script
 
-Using bower : `bower install cookies-eu-banner --save`
-Or using npm : `npm install cookies-eu-banner --save`
-Or [download the latest version](https://github.com/Alex-D/cookies-eu-banner/archive/master.zip).
+- Using npm: `npm install cookies-eu-banner --save`
+- Or using yarn: `yarn add cookies-eu-banner`
+- Or using bower: `bower install cookies-eu-banner --save`
+- Or [download the latest version](https://github.com/Alex-D/cookies-eu-banner/archive/master.zip).
 
 
 ### In your pages
@@ -20,7 +49,7 @@ Insert the banner before any content at the beginning of the `<body>` element, w
 
 ```html
 <div id="cookies-eu-banner" style="display: none;">
-    By continuing your visit to this site, you accept the use of cookies by Google Analytics to make visits statistics.
+    By continuing to visit this site, you accept the use of cookies by Google Analytics for statistical purposes.
     <a href="./read-more.html" id="cookies-eu-more">Read more</a>
     <button id="cookies-eu-reject">Reject</button>
     <button id="cookies-eu-accept">Accept</button>
@@ -36,9 +65,9 @@ Insert the banner before any content at the beginning of the `<body>` element, w
 Before the end of `<body>`, or in a script file inserted at the same place, put the following code:
 
 ```html
-<script src="./bower_components/cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
+<script src="cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
 <script>
-    new CookiesEuBanner(function(){
+    new CookiesEuBanner(function () {
         // Your code to launch when user accept cookies
     });
 </script>
@@ -47,9 +76,9 @@ Before the end of `<body>`, or in a script file inserted at the same place, put 
 Example for Google Analytics:
 
 ```html
-<script src="./bower_components/cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
+<script src="cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
 <script>
-    new CookiesEuBanner(function(){
+    new CookiesEuBanner(function () {
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -66,20 +95,46 @@ Example for Google Analytics:
 
 #### waitAccept
 
+The second parameter (`true` in the example below) define if Cookie EU banner wait the user acceptation before hide the banner. Set to `false` by default.
+
 ```html
 <script>
-    new CookiesEuBanner(function(){
+    new CookiesEuBanner(function () {
         // Your code to launch when user accept cookies
     }, true);
 </script>
 ```
 
-The second parameter (`true` in the example over it) defined if Cookie EU banner wait the user acceptation before hide the banner. Set to `false` by default.
+#### useLocalStorage
 
+If you really don't want save the consent in a cookie, you can use localStorage.
+
+The third parameter (`true` in the example below) define if Cookie EU banner use localStorage (`true`) or cookie (`false`). Set to `false` by default.
+
+*Note: the localStorage method is not as good as the cookie method since the localStorage cannot expires after 13 months as recommended.*
+
+```html
+<script>
+    new CookiesEuBanner(function () {
+        // Your code to launch when user accept cookies
+    }, false, true);
+</script>
+```
+
+#### waitRemove
+
+If you want add some transition on accept/reject, and want to prevent the premature deletion of the banner, you can add
+`data-wait-remove` attribute to the banner, with the time to wait in milliseconds. 
+
+```html
+<div id="cookies-eu-banner" style="display: none;" data-wait-remove="250">
+    <!-- ... -->
+</div>
+```
 
 ## How does it work?
 
-For a detailed explaination, see comments in the main file : [cookies-eu-banner.js](src/cookies-eu-banner.js).
+For a detailed explanation, see comments in the main file: [cookies-eu-banner.js](src/cookies-eu-banner.js).
 
 In short:
 
@@ -90,26 +145,33 @@ In short:
     - if user declines, remove all Google Analytics cookies and put a cookie to save this rejection.
 
 
-## Functionalities
+## Features
 
 - Do Not Track detection (IE9+, Firefox, and all browsers compatible with the `navigator.doNotTrack` JavaScript variable);
-- Disables banner when visitor is a bot : prevents SEO Engines to confuse your cookie advert message with the main content of your pages;
-- Respects [all points imposed by CNIL (FR)](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/outils-et-codes-sources/la-mesure-daudience/) and [these points](http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/que-dit-la-loi/).
+- Disables banner when visitor is a bot: prevents SEO Engines to confuse your cookie advert message with the main content of your pages;
+- Respects [all points imposed by CNIL (FR)](https://www.cnil.fr/fr/solutions-pour-les-cookies-de-mesure-daudience) and [these points](https://www.cnil.fr/fr/cookies-traceurs-que-dit-la-loi).
 
 
 ## Contribute
 
-This project use a Gulpfile, to use it, you need to have [node.js](http://nodejs.org/) and npm (included in node.js installation). Then, in the Cookies EU banner folder, run these commands:
+This project use Gulp.
+To contribute, you need [Node.js](http://nodejs.org/) and npm (or yarn).
+Then, in the Cookies EU banner folder, run these commands:
 
 ```console
 npm install
-npm install -g gulp
-gulp build
+npm run start
+
+# or
+
+yarn
+yarn start
 ```
 
-The first line install all dependancies listed in `package.json`. Second line install gulp as command, so you could now launch the third line which build the project.
+The first line install all dependencies.
+The second line builds the min file and watch for changes to rebuild it on the fly.
 
 
 ## Supported browsers
 
-All navigators which supports JavaScript. Take a look at [navigators that implements DoNotTrack](http://donottrack.us/).
+All browsers desktop/mobile: IE8+, Edge, Firefox, Chrome, Safari, Opera, ...

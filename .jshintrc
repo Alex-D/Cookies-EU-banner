@@ -9,6 +9,7 @@
   "browser": true,
   "node": true,
   "predef": [
-    "define"
+    "define",
+    "hljs"
   ]
 }

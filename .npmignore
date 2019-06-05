@@ -1,3 +1,14 @@
 ~$*
-/node_modules
-/bower_components
+node_modules
+bower_components
+docs
+src
+.idea
+.github
+.gitattributes
+.gitignore
+.jshintrc
+.travis.yml
+Gulpfile.js
+bower.json
+overview.png

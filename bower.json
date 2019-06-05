@@ -1,22 +1,24 @@
 {
   "name": "cookies-eu-banner",
   "main": "dist/cookies-eu-banner.js",
-  "version": "1.2.16",
+  "version": "2.0.0",
   "homepage": "http://alex-d.github.io/Cookies-EU-banner/",
   "authors": [
     "Alex-D <contact@alex-d.fr>"
   ],
-  "description": "Manage display of banner to accept/reject cookies from tracking services like Google Analytics.",
+  "description": "Manage display of cookies consent banner for GDPR compliance.",
   "keywords": [
     "cookies",
-    "analytics"
+    "analytics",
+    "rgpd",
+    "gdpr"
   ],
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "demo",
+    "docs",
     "src"
   ]
 }

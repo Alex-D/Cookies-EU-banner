@@ -1,5 +1,6 @@
-*~
+~$*
 /node_modules
 /bower_components
 /dist
 /.idea
+/docs/node_modules

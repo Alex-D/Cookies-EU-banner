@@ -4,16 +4,4 @@ git:
 language: node_js
 
 node_js:
-    - "0.10"
-
-install:
-    - "npm install"
-    - "npm install -g gulp"
-
-deploy:
-  provider: npm
-  email: "contact@alex-d.fr"
-  api_key: 
-    secure: NrGziWXmU3uMQBLKk7n2Qd22wrPNGBQ9MwaMZDom5qvUN6c8hwVJFXC8wLbRU035XqXQRg2ntxzWQc/LRyWKH73zjhmhIk5LDHp5Jz11T0hvVcS1drV8zUIvgTu2rmzchvHmEFPI5UcoMswMa9Ifgcum1foZV4csahtx/IePVqM=
-  on:
-    tags: true
+  - '12'

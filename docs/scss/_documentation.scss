@@ -1,0 +1,19 @@
+.main pre {
+	.filename {
+		background: #ccc;
+		padding: 3px 15px;
+		font-size: 16px;
+		font-family: $font;
+	}
+	code {
+	    padding: 0 25px;
+	    font-size: 14px;
+	    background-color: #fcfcfc;
+	    border: 1px solid #ccc;
+	}
+}
+
+.highlight {
+	padding: 0 3px;
+	background: rgba(255, 255, 0, 0.5);
+}

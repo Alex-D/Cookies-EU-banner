@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo - Cookies EU banner</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            font-family: sans-serif;
+            background: #111;
+            color: #f1f1f1;
+            text-align: center;
+        }
+        main {
+            margin: 30px auto;
+            padding: 0 30px;
+            max-width: 900px;
+        }
+        .links {
+            line-height: 24px;
+            text-align: center;
+            padding: 0;
+            list-style: none;
+        }
+        a {
+            color: #f1f1f1;
+            padding: 3px 0;
+        }
+        hr {
+            width: 50%;
+            margin: 30px auto;
+            opacity: 0.5;
+        }
+        button {
+            font-size: 16px;
+            padding: 7px 15px;
+            background: #ddd;
+            border: 0;
+        }
+        button:hover,
+        button:focus {
+            color: #f1f1f1;
+        }
+        #custom-accept:hover,
+        #custom-accept:focus {
+            background: green;
+        }
+        #custom-reject:hover,
+        #custom-reject:focus {
+            background: darkred;
+        }
+        #custom-reset:hover,
+        #custom-reset:focus {
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+    <div id="cookies-eu-banner" style="display: none;">
+        <span>By continuing to visit this site, you accept the use of cookies by Google Analytics for statistical purposes.</span>
+        <a href="./read-more.html" id="cookies-eu-more">Read more</a>
+        <button id="cookies-eu-reject">Reject</button>
+        <button id="cookies-eu-accept">Accept</button>
+    </div>
+
+    <main>
+        <h1>Cookies EU banner demo</h1>
+        <ul class="links">
+            <li><a href="../">Go to Cookies EU banner website</a></li>
+            <li><a href="https://github.com/Alex-D/Cookies-EU-Banner">Go to Cookies EU banner GitHub</a></li>
+        </ul>
+        <hr>
+        <p>
+            Current consent state: <span id="cookies-eu-state"></span>
+        </p>
+        <p>
+            You can do some custom buttons or link to accept/reject anywhere with some JS (see in script tag at the bottom).
+        </p>
+        <div>
+            <button id="custom-accept">Accept</button>
+            <button id="custom-reject">Reject</button>
+            <button id="custom-reset">Reset</button>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script>
+        var cookiesBanner = new CookiesEuBanner(function () {
+            /* Example: your Google Analytics script
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-XXXXXXXX-X', 'auto');
+            ga('send', 'pageview');
+            */
+            console.log("LOAD GA");
+        }, true);
+
+        function updateCookiesEuState() {
+          var hasConsent = cookiesBanner.hasConsent()
+          var state = '❔ Nor accepted nor rejected';
+
+          if (hasConsent === true) {
+            state = '✅ Accepted';
+          } else if (hasConsent === false) {
+            state = '❌ Rejected';
+          }
+
+          document.getElementById('cookies-eu-state').innerText = state;
+        }
+        updateCookiesEuState();
+        setInterval(updateCookiesEuState, 100);
+
+        // Prefer use addEventListener
+        // For demo purpose I will use the CookiesEuBanner internal method
+        cookiesBanner.addClickListener(document.getElementById('custom-accept'), function () {
+          cookiesBanner.setConsent(true);
+          cookiesBanner.removeBanner();
+          updateCookiesEuState();
+        });
+        cookiesBanner.addClickListener(document.getElementById('custom-reject'), function () {
+          cookiesBanner.setConsent(false);
+          cookiesBanner.removeBanner();
+          updateCookiesEuState();
+        });
+        cookiesBanner.addClickListener(document.getElementById('custom-reset'), function () {
+          cookiesBanner.deleteCookie(cookiesBanner.cookieName);
+          window.location.reload();
+        });
+    </script>
+</body>
+</html>

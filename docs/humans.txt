@@ -1,0 +1,11 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Alex-D -- Main developer -- @AlexandreDemode
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    JavaScript

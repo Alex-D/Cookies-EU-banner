@@ -2,7 +2,7 @@
   "name": "cookies-eu-banner",
   "title": "Cookies EU banner",
   "description": "Manage display of banner to accept/reject cookies from tracking services like Google Analytics",
-  "version": "1.2.16",
+  "version": "2.0.0",
   "main": "dist/cookies-eu-banner.js",
   "homepage": "http://alex-d.github.io/Cookies-EU-banner/",
   "author": {
@@ -19,23 +19,33 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "del": "2.0.2",
-    "gulp": "3.9.1",
-    "gulp-concat": "2.6.1",
-    "gulp-header": "1.8.9",
-    "gulp-jshint": "1.11.2",
-    "gulp-livereload": "3.8.1",
-    "gulp-load-plugins": "1.5.0",
-    "gulp-newer": "1.0.0",
-    "gulp-rename": "1.2.2",
-    "gulp-size": "2.1.0",
-    "gulp-uglify": "1.4.2",
-    "jshint-stylish": "2.2.1",
-    "vinyl-paths": "2.0.0"
+    "del": "^4.1.1",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-header": "^2.0.7",
+    "gulp-jshint": "^2.1.0",
+    "gulp-load-plugins": "^1.6.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-size": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "jshint-stylish": "^2.2.1",
+    "vinyl-paths": "^3.0.0"
   },
   "scripts": {
-    "build": "gulp build",
     "start": "gulp",
+    "clean": "gulp clean",
+    "build": "gulp build",
+    "lint": "gulp lint",
     "test": "gulp test"
-  }
+  },
+  "dependencies": {
+    "jshint": "^2.10.2"
+  },
+  "keywords": [
+    "cookies",
+    "analytics",
+    "rgpd",
+    "gdpr"
+  ]
 }

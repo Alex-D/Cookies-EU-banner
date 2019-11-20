@@ -232,7 +232,7 @@
                         <option value="eur">€</option>
                         <option value="usd">$</option>
                     </select>
-                    <a href="https://paypal.me/alexandredemode/5eur" class="big-button" id="donate-link">Donate</a>
+                    <a href="https://paypal.me/demodealexandre/5eur" class="big-button" id="donate-link">Donate</a>
                     <span class="big-button-effects"></span>
                 </div>
             </section>
@@ -280,7 +280,7 @@
             var donateLink = document.getElementById('donate-link')
 
             function updateDonateLinkUrl() {
-              donateLink.href = 'https://paypal.me/alexandredemode/' + amountInput.value.replace('.', ',') + currencySelect.value;
+              donateLink.href = 'https://paypal.me/demodealexandre/' + amountInput.value.replace('.', ',') + currencySelect.value;
             }
 
             amountInput.addEventListener('input', updateDonateLinkUrl)

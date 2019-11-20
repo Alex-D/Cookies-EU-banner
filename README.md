@@ -21,7 +21,7 @@ Cookies EU banner is an MIT-licensed open source project and completely free to 
 You can support it's ongoing development by being a backer or a sponsor:
  
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/alexandredemode)
-- [One-time donation via PayPal](https://www.paypal.me/alexandredemode/20eur)
+- [One-time donation via PayPal](https://www.paypal.me/demodealexandre/20eur)
 
 -----
 

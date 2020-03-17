@@ -170,7 +170,7 @@
      */
     removeBanner: function (wait) {
       var banner = document.getElementById('cookies-eu-banner');
-      banner.classList.add('before-remove');
+      banner.classList.add('cookies-eu-banner--before-remove');
       setTimeout (function() {
         if (banner && banner.parentNode) {
           banner.parentNode.removeChild(banner);

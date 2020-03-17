@@ -20,7 +20,7 @@
       return new CookiesEuBanner(launchFunction);
     }
 
-    this.cookieTimeout = 33696000000; // 13 months in milliseconds
+    this.cookieTimeout = 31104000000; // 12 months in milliseconds
     this.bots = /bot|crawler|spider|crawling/i;
     this.cookieName = 'hasConsent';
     this.trackingCookiesNames = ['__utma', '__utmb', '__utmc', '__utmt', '__utmv', '__utmz', '_ga', '_gat', '_gid'];

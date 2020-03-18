@@ -169,8 +169,9 @@
      * to specify their own transition effects
      */
     removeBanner: function (wait) {
+      var banner = document.getElementById('cookies-eu-banner');
+      banner.classList.add('cookies-eu-banner--before-remove');
       setTimeout (function() {
-        var banner = document.getElementById('cookies-eu-banner');
         if (banner && banner.parentNode) {
           banner.parentNode.removeChild(banner);
         }

@@ -24,7 +24,7 @@
     this.bots = /bot|crawler|spider|crawling/i;
     this.cookieName = 'hasConsent';
     this.trackingCookiesNames = ['__utma', '__utmb', '__utmc', '__utmt', '__utmv', '__utmz', '_ga', '_gat', '_gid'];
-    this.launchFunction = launchFunction;
+    this.launchFunction = 'function' === typeof launchFunction ? launchFunction : function () {};
     this.waitAccept = waitAccept || false;
     this.useLocalStorage = useLocalStorage || false;
     this.init();

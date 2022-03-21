@@ -141,7 +141,7 @@
       var date = new Date();
       date.setTime(date.getTime() + this.cookieTimeout);
 
-      document.cookie = name + '=' + value + ';expires=' + date.toGMTString() + ';path=/';
+      document.cookie = name + '=' + value + ';expires=' + date.toGMTString() + ';path=/' + ';secure;SameSite=Lax';
     },
 
     /*

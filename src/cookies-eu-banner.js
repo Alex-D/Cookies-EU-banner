@@ -78,7 +78,11 @@
         addClickListener = this.addClickListener,
         removeBanner = _this.removeBanner.bind(_this, waitRemove);
 
-      banner.style.display = 'block';
+      if (banner.hasAttribute('hidden')) {
+        banner.removeAttribute('hidden');
+      } else {
+        banner.style.display = 'block';
+      }
 
       if (moreLink) {
         addClickListener(moreLink, function () {

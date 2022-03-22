@@ -78,7 +78,11 @@
         addClickListener = this.addClickListener,
         removeBanner = _this.removeBanner.bind(_this, waitRemove);
 
-      banner.style.display = 'block';
+      if (banner.hasAttribute('hidden')) {
+        banner.removeAttribute('hidden');
+      } else {
+        banner.style.display = 'block';
+      }
 
       if (moreLink) {
         addClickListener(moreLink, function () {
@@ -141,7 +145,7 @@
       var date = new Date();
       date.setTime(date.getTime() + this.cookieTimeout);
 
-      document.cookie = name + '=' + value + ';expires=' + date.toGMTString() + ';path=/' + ';secure;SameSite=Lax';
+      document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/' + ';secure;SameSite=Lax';
     },
 
     /*
@@ -170,7 +174,8 @@
      */
     removeBanner: function (wait) {
       var banner = document.getElementById('cookies-eu-banner');
-      banner.classList.add('cookies-eu-banner--before-remove');
+      if (!banner) return;
+      banner.className += ' cookies-eu-banner--before-remove';
       setTimeout (function() {
         if (banner && banner.parentNode) {
           banner.parentNode.removeChild(banner);

@@ -19,7 +19,7 @@
 
 Cookies EU banner is an MIT-licensed open source project and completely free to use.
 You can support it's ongoing development by being a backer or a sponsor:
- 
+
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/alexandredemode)
 - [One-time donation via PayPal](https://www.paypal.me/demodealexandre/20eur)
 
@@ -48,7 +48,7 @@ It is a GDPR-compliant way to get cookie consent from visitors.
 Insert the banner before any content at the beginning of the `<body>` element, with these IDs:
 
 ```html
-<div id="cookies-eu-banner" style="display: none;">
+<div id="cookies-eu-banner" hidden>
     By continuing to visit this site, you accept the use of cookies by Google Analytics for statistical purposes.
     <a href="./read-more.html" id="cookies-eu-more">Read more</a>
     <button id="cookies-eu-reject">Reject</button>
@@ -124,10 +124,10 @@ The third parameter (`true` in the example below) define if Cookie EU banner use
 #### waitRemove
 
 If you want add some transition on accept/reject, and want to prevent the premature deletion of the banner, you can add
-`data-wait-remove` attribute to the banner, with the time to wait in milliseconds. 
+`data-wait-remove` attribute to the banner, with the time to wait in milliseconds.
 
 ```html
-<div id="cookies-eu-banner" style="display: none;" data-wait-remove="250">
+<div id="cookies-eu-banner" hidden data-wait-remove="250">
     <!-- ... -->
 </div>
 ```

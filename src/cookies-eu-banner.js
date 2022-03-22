@@ -177,7 +177,7 @@
       if (!banner) return;
       banner.className += ' cookies-eu-banner--before-remove';
       setTimeout (function() {
-        if (banner.parentNode) {
+        if (banner && banner.parentNode) {
           banner.parentNode.removeChild(banner);
         }
       }, wait);

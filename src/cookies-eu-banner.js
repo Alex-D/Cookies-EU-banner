@@ -139,9 +139,10 @@
      */
     setCookie: function (name, value) {
       var date = new Date();
+      var hostname = document.location.hostname.replace(/^www\./, '');
       date.setTime(date.getTime() + this.cookieTimeout);
 
-      document.cookie = name + '=' + value + ';expires=' + date.toGMTString() + ';path=/' + ';secure;SameSite=Lax';
+      document.cookie = name + '=' + value + ';expires=' + date.toGMTString() + ';path=/' + ';secure;SameSite=Lax' + ';domain=' + hostname + ';';
     },
 
     /*

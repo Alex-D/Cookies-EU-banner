@@ -18,8 +18,8 @@
 <h2 align="center">Supporting Cookies EU banner</h2>
 
 Cookies EU banner is an MIT-licensed open source project and completely free to use.
-You can support it's ongoing development by being a backer or a sponsor:
- 
+You can support its ongoing development by being a backer or a sponsor:
+
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/alexandredemode)
 - [One-time donation via PayPal](https://www.paypal.me/demodealexandre/20eur)
 
@@ -39,7 +39,6 @@ It is a GDPR-compliant way to get cookie consent from visitors.
 
 - Using npm: `npm install cookies-eu-banner --save`
 - Or using yarn: `yarn add cookies-eu-banner`
-- Or using bower: `bower install cookies-eu-banner --save`
 - Or [download the latest version](https://github.com/Alex-D/cookies-eu-banner/archive/master.zip).
 
 
@@ -124,7 +123,7 @@ The third parameter (`true` in the example below) define if Cookie EU banner use
 #### waitRemove
 
 If you want add some transition on accept/reject, and want to prevent the premature deletion of the banner, you can add
-`data-wait-remove` attribute to the banner, with the time to wait in milliseconds. 
+`data-wait-remove` attribute to the banner, with the time to wait in milliseconds.
 
 ```html
 <div id="cookies-eu-banner" style="display: none;" data-wait-remove="250">
@@ -161,11 +160,6 @@ Then, in the Cookies EU banner folder, run these commands:
 ```console
 npm install
 npm run start
-
-# or
-
-yarn
-yarn start
 ```
 
 The first line install all dependencies.

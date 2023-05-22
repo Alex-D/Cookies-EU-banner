@@ -1,14 +1,50 @@
 {
   "name": "cookies-eu-banner",
+  "version": "3.0.0",
   "title": "Cookies EU banner",
   "description": "Manage display of banner to accept/reject cookies from tracking services like Google Analytics",
-  "version": "2.0.1",
-  "main": "dist/cookies-eu-banner.js",
-  "homepage": "http://alex-d.github.io/Cookies-EU-banner/",
-  "author": {
-    "name": "Alex-D",
-    "email": "contact@alex-d.fr",
-    "url": "http://alex-d.fr"
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "module": "./dist/cookies-eu-banner.mjs",
+  "types": "./dist/cookies-eu-banner.d.ts",
+  "exports": {
+    "import": "./dist/cookies-eu-banner.mjs",
+    "types": "./dist/cookies-eu-banner.d.ts"
+  },
+  "scripts": {
+    "build:lib": "rollup --config",
+    "build:dts": "rollup --config rollup.dts.config.mjs",
+    "build": "npm-run-all build:lib build:dts",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --noEmit",
+    "test": "npm-run-all test:coverage lint typecheck",
+    "test:unit": "NODE_ENV=test TS_NODE_PROJECT='tsconfig.test.json' ava",
+    "test:coverage": "nyc --reporter=lcov --reporter=text npm run test:unit --silent"
+  },
+  "devDependencies": {
+    "@alex-d/eslint-config": "2.2.0",
+    "@istanbuljs/nyc-config-typescript": "1.0.2",
+    "@rollup/plugin-typescript": "11.1.1",
+    "@types/node": "16.11.7",
+    "@typescript-eslint/eslint-plugin": "5.59.6",
+    "@typescript-eslint/parser": "5.59.6",
+    "ava": "5.2.0",
+    "eslint": "8.41.0",
+    "eslint-plugin-ava": "14.0.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-simple-import-sort": "10.0.0",
+    "npm-run-all": "4.1.5",
+    "nyc": "15.1.0",
+    "rollup": "3.22.0",
+    "rollup-plugin-dts": "5.3.0",
+    "source-map-support": "0.5.21",
+    "ts-node": "10.9.1",
+    "tsconfig-paths": "4.2.0",
+    "tslib": "2.5.2",
+    "typescript": "5.0.4"
   },
   "repository": {
     "type": "git",
@@ -17,35 +53,13 @@
   "bugs": {
     "url": "https://github.com/Alex-D/cookies-eu-banner/issues"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "del": "^4.1.1",
-    "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-header": "^2.0.7",
-    "gulp-jshint": "^2.1.0",
-    "gulp-load-plugins": "^1.6.0",
-    "gulp-newer": "^1.4.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-size": "^3.0.0",
-    "gulp-uglify": "^3.0.2",
-    "jshint-stylish": "^2.2.1",
-    "vinyl-paths": "^3.0.0"
-  },
-  "scripts": {
-    "start": "gulp",
-    "clean": "gulp clean",
-    "build": "gulp build",
-    "lint": "gulp lint",
-    "test": "gulp test"
-  },
-  "dependencies": {
-    "jshint": "^2.10.2"
-  },
+  "homepage": "http://alex-d.github.io/Cookies-EU-banner/",
+  "author": "Alex-D <contact@alex-d.fr> (https://alex-d.fr)",
   "keywords": [
     "cookies",
     "analytics",
     "rgpd",
     "gdpr"
-  ]
+  ],
+  "license": "MIT"
 }

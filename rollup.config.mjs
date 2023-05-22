@@ -1,26 +1,16 @@
 import rollupTypeScript from '@rollup/plugin-typescript'
+import terser from '@rollup/plugin-terser'
 
 export default {
 	input: 'src/index.ts',
 	output: [
 		{
-			file: 'dist/check-disk-space.cjs',
-			format: 'cjs',
-			exports: 'named',
-		},
-		{
-			file: 'dist/check-disk-space.mjs',
+			file: 'dist/cookies-eu-banner.mjs',
 			format: 'es',
 		},
 	],
 	plugins: [
 		rollupTypeScript(),
-	],
-	external: [
-		'child_process',
-		'fs',
-		'os',
-		'path',
-		'process',
+		terser(),
 	],
 }

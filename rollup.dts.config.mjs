@@ -1,13 +1,17 @@
 import dts from 'rollup-plugin-dts'
 
 import config from './rollup.config.mjs'
+import rollupTypeScript from "@rollup/plugin-typescript";
 
 config.output = [
 	{
-		file: 'dist/check-disk-space.d.ts',
+		file: 'dist/cookies-eu-banner.d.ts',
 		format: 'es',
 	},
 ]
-config.plugins.push(dts())
+config.plugins = [
+	rollupTypeScript(),
+	dts(),
+]
 
 export default config

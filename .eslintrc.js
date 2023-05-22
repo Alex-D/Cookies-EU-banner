@@ -5,7 +5,7 @@ module.exports = {
 		'@alex-d/eslint-config',
 	],
 	env: {
-		node: true,
+		browser: true,
 	},
 	parserOptions: {
 		project: './tsconfig.json',

@@ -1,4 +1,4 @@
-const createBanner = function (
+const createCookiesBanner = function (
 	htmlElements: {
 		bannerElement: HTMLElement
 		acceptButtonElement?: HTMLElement
@@ -52,7 +52,7 @@ const createBanner = function (
 			// Variables for minification optimization
 			const addClickListener = banner.addClickListener
 
-			bannerElement.classList.add(`${bannerClassPrefix}visible`)
+			bannerElement.style.display = ''
 
 			if (moreLinkElement !== undefined) {
 				addClickListener(moreLinkElement, function () {
@@ -185,6 +185,6 @@ const createBanner = function (
 	return banner
 }
 
-export default {
-	createBanner,
+export {
+	createCookiesBanner,
 }

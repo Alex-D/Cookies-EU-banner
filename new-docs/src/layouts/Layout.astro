@@ -1,0 +1,46 @@
+---
+export interface Props {
+	title: string;
+}
+
+const {title} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="description"
+				content="Cookies EU banner is a JavaScript class which manage display of banner to accept/reject cookies from tracking services like Google Analytics.">
+	<meta name="viewport" content="width=device-width"/>
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+	<title>{title}</title>
+</head>
+<body>
+<slot/>
+</body>
+</html>
+<style is:global>
+	html {
+		min-height: 100vh;
+		font-family: system-ui, sans-serif;
+		font-weight: 400;
+		background: #78350f linear-gradient(to bottom right, #7c2d12, #431407);
+		background: #78350f linear-gradient(to bottom right, #78350f, #451a03);
+		<!--background: #fed7aa linear-gradient(to bottom right, #fed7aa, #fdba74);-->
+		background-size: cover;
+	}
+
+	html,
+	body {
+		margin: 0;
+		padding: 0;
+		font-size: 16px;
+		color: #fef3c7;
+	}
+
+	code {
+		font-family: Jetbrains Mono, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+		Bitstream Vera Sans Mono, Courier New, monospace;
+	}
+</style>

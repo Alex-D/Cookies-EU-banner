@@ -1,4 +1,6 @@
-<h1 align="center">Cookies EU banner</h1>
+<h
+
+1 align="center">Cookies EU banner</h1>
 
 <p align="center">
     <a href="https://bundlephobia.com/result?p=cookies-eu-banner"><img src="https://img.shields.io/bundlephobia/minzip/cookies-eu-banner.svg?style=for-the-badge" alt="Minzipped size 1kb" /></a>

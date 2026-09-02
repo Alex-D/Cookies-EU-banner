@@ -1,0 +1,25 @@
+packages:
+  - .
+  - docs
+
+allowBuilds:
+  esbuild: true
+
+catalog:
+  "@types/node": ^26.4.1
+  astro: ^7.2.10
+  bumpp: ^12.2.0
+  typescript: npm:typescript-native-bridge@^6.0.3-bridge.15.tsgo.7.0.2
+  vite: npm:@voidzero-dev/vite-plus-core@0.3.0
+  vite-plus: 0.3.0
+
+catalogMode: strict
+
+overrides:
+  vite@*: "catalog:"
+
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"

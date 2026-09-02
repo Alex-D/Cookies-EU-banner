@@ -18,7 +18,10 @@
 	margin: 2px 0;
 	font-size: 13px;
 	font-weight: bold;
-	transition: background 0.07s, color 0.07s, border-color 0.07s;
+	transition:
+		background 0.07s,
+		color 0.07s,
+		border-color 0.07s;
 }
 
 #cookies-eu-more:hover,

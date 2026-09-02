@@ -1,26 +1,20 @@
 {
-  "$schema": "http://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "target": "esnext",
+    "lib": ["es2023", "dom"],
+    "moduleDetection": "force",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "types": ["node"],
     "strict": true,
-    "noImplicitAny": true,
-    "skipLibCheck": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "target": "ES2021",
-    "baseUrl": ".",
-    "paths": {
-      "@/src/*": [
-        "src/*"
-      ],
-      "@/test/*": [
-        "test/*"
-      ]
-    }
-  },
-  "include": [
-    "*.ts",
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "**.js"
-  ]
+    "noUnusedLocals": true,
+    "declaration": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true
+  }
 }

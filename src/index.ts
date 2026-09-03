@@ -49,7 +49,7 @@ const createCookiesBanner = function (config: {
 			"_gat",
 			"_gid",
 		],
-		botsUserAgentRegexp = /bot|crawler|spider|crawling/i,
+		botsUserAgentRegexp = /bot|crawler|spider|crawling|extended|meta-externalagent/i, // Includes AI bots
 		delayBeforeRemoveInMilliseconds = 0,
 	} = config;
 

@@ -5,10 +5,19 @@ type Prettify<T> = {
 } & {};
 
 type CookieEuBannerConfig = {
-	// HTML Elements
-	bannerElement: HTMLElement;
-	acceptButtonElement: HTMLElement;
-	rejectButtonElement: HTMLElement;
+	// HTML Element selectors
+	/**
+	 * Default: `#cookies-eu-banner-template`
+	 */
+	bannerTemplateSelector?: string;
+	/**
+	 * Default: `#cookies-eu-accept`
+	 */
+	acceptButtonSelector?: string;
+	/**
+	 * Default: `#cookies-eu-reject`
+	 */
+	rejectButtonSelector?: string;
 
 	// Hooks
 	/**
@@ -25,7 +34,7 @@ type CookieEuBannerConfig = {
 	 * Useful to trigger a transition.
 	 * See also: `delayBeforeRemove`
 	 */
-	onBeforeRemove?: () => void;
+	onBeforeRemove?: (bannerElement: HTMLElement) => void;
 
 	// Options
 	/**
@@ -37,10 +46,10 @@ type CookieEuBannerConfig = {
 
 const createCookiesBanner = function (config: CookieEuBannerConfig) {
 	const {
-		// HTML Elements
-		bannerElement,
-		acceptButtonElement,
-		rejectButtonElement,
+		// HTML Element selectors
+		bannerTemplateSelector,
+		acceptButtonSelector,
+		rejectButtonSelector,
 
 		// Hooks
 		onAccept,
@@ -54,13 +63,22 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		...headlessConfig
 	} = config;
 
+	const querySelector = <T extends Element = HTMLElement>(selector: string) =>
+		document.querySelector<T>(selector)!;
+
 	const listenersController = new AbortController();
 	const listenerOptions = { signal: listenersController.signal };
 
-	const showBanner = () => {
-		bannerElement.style.display = "";
+	let bannerElement: HTMLElement | undefined;
 
-		acceptButtonElement.addEventListener(
+	const showBanner = () => {
+		const bannerTemplateElement = querySelector<HTMLTemplateElement>(
+			bannerTemplateSelector ?? "#cookies-eu-banner-template",
+		);
+		bannerElement = bannerTemplateElement.content.firstElementChild!.cloneNode(true) as HTMLElement;
+		document.body.prepend(bannerElement);
+
+		querySelector(acceptButtonSelector ?? "#cookies-eu-accept").addEventListener(
 			"click",
 			() => {
 				headlessBanner.setConsent(true);
@@ -68,7 +86,7 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 			listenerOptions,
 		);
 
-		rejectButtonElement.addEventListener(
+		querySelector(rejectButtonSelector ?? "#cookies-eu-reject").addEventListener(
 			"click",
 			() => {
 				headlessBanner.setConsent(false);
@@ -78,12 +96,17 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 	};
 
 	const removeBanner = (delay: number = delayBeforeRemove) => {
+		if (bannerElement === undefined) {
+			return;
+		}
+
 		listenersController.abort(); // Remove all listeners
 
-		onBeforeRemove?.();
+		bannerElement.classList.add("cookies-eu-banner--before-remove");
+		onBeforeRemove?.(bannerElement);
 
 		setTimeout(() => {
-			bannerElement.remove();
+			bannerElement?.remove();
 		}, delay);
 	};
 
@@ -100,10 +123,8 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		onShowBanner: () => {
 			showBanner();
 		},
-		onRemoveBanner: () => {
-			removeBanner(0);
-		},
 	});
+	headlessBanner.init();
 
 	const bannerFunctions = {
 		/**

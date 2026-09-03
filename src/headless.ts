@@ -49,12 +49,6 @@ type HeadlessConfig = {
 	onShowBanner: () => void;
 
 	/**
-	 * Called when the user has already made a choice or is a bot.
-	 * The callback should remove the banner from the DOM.
-	 */
-	onRemoveBanner: () => void;
-
-	/**
 	 * Callback called when this user accepts or has already accepted.
 	 * This is where you launch your tracking scripts.
 	 */
@@ -70,7 +64,6 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 	const {
 		// Hooks
 		onShowBanner,
-		onRemoveBanner,
 		onAccept,
 		onReject,
 
@@ -93,6 +86,35 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 	} = config;
 
 	const headlessBanner = {
+		/**
+		 * Do checks (bots, DoNotTrack, consent) before creating the banner
+		 * Triggers `onAccept` or `onShowBanner` if relevant
+		 */
+		init: () => {
+			// Detect if the visitor is a bot or not
+			// Prevent for search engines take the cookie alert message as main content of the page
+			const isBot = botsUserAgentRegexp.test(navigator.userAgent);
+
+			// Check if DoNotTrack is activated (Deprecated, but it's almost free to implement it)
+			const hasDoNotTrackEnabled = navigator.doNotTrack === "1";
+
+			// Do nothing if it is a bot
+			// If DoNotTrack is activated, do nothing too
+			if (isBot || hasDoNotTrackEnabled || headlessBanner.hasConsent() === false) {
+				return;
+			}
+
+			// User has already consented to use cookies to tracking
+			if (headlessBanner.hasConsent() === true) {
+				// Launch user custom function
+				onAccept();
+				return;
+			}
+
+			// If it's not a bot, no DoNotTrack and not already accept, so show the banner
+			onShowBanner();
+		},
+
 		/**
 		 * Set consent cookie or localStorage
 		 */
@@ -163,33 +185,6 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 			document.cookie = `${name}=${commonSuffix}`;
 		},
 	};
-
-	// Init
-	(function () {
-		// Detect if the visitor is a bot or not
-		// Prevent for search engines take the cookie alert message as main content of the page
-		const isBot = botsUserAgentRegexp.test(navigator.userAgent);
-
-		// Check if DoNotTrack is activated (Deprecated, but it's almost free to implement it)
-		const hasDoNotTrackEnabled = navigator.doNotTrack === "1";
-
-		// Do nothing if it is a bot
-		// If DoNotTrack is activated, do nothing too
-		if (isBot || hasDoNotTrackEnabled || headlessBanner.hasConsent() === false) {
-			onRemoveBanner();
-			return;
-		}
-
-		// User has already consented to use cookies to tracking
-		if (headlessBanner.hasConsent() === true) {
-			// Launch user custom function
-			onAccept();
-			return;
-		}
-
-		// If it's not a bot, no DoNotTrack and not already accept, so show the banner
-		onShowBanner();
-	})();
 
 	return headlessBanner;
 };

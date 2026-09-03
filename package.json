@@ -22,7 +22,6 @@
     "dist"
   ],
   "type": "module",
-  "types": "./dist/cookies-eu-banner.d.ts",
   "exports": {
     ".": {
       "import": "./dist/cookies-eu-banner.js",

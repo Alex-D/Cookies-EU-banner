@@ -256,8 +256,9 @@ import Layout from "../layouts/Layout.astro";
 	document.querySelector<HTMLSpanElement>("#dnt-state")!.innerText = navigator.doNotTrack === "1" ? "enabled" : "disabled"
 
 	const consentCookieName = "demoConsent"
+	const bannerElement = document.querySelector<HTMLElement>("#cookies-eu-banner")!;
 	const cookiesBanner = createCookiesBanner({
-		bannerElement: document.querySelector("#cookies-eu-banner")!,
+		bannerElement,
 		acceptButtonElement: document.querySelector("#cookies-eu-accept")!,
 		rejectButtonElement: document.querySelector("#cookies-eu-reject")!,
 		onAccept: () => {
@@ -274,10 +275,18 @@ import Layout from "../layouts/Layout.astro";
 
 			*/
 
-			console.log("Create cookies!");
+			console.log("Run analytics script!");
+
+			updateCookiesEuState();
+		},
+		onReject: () => {
+			updateCookiesEuState();
+		},
+		onBeforeRemove: () => {
+			bannerElement.classList.add("cookies-eu-banner--before-remove");
 		},
 		consentCookieName,
-		delayBeforeRemoveInMilliseconds: 500,
+		delayBeforeRemove: 500,
 	});
 
 	function updateCookiesEuState() {
@@ -294,17 +303,12 @@ import Layout from "../layouts/Layout.astro";
 	}
 
 	updateCookiesEuState();
-	setInterval(updateCookiesEuState, 100);
 
 	document.querySelector("#custom-accept")!.addEventListener("click", function () {
 		cookiesBanner.setConsent(true);
-		cookiesBanner.remove();
-		updateCookiesEuState();
 	});
 	document.querySelector("#custom-reject")!.addEventListener("click", function () {
 		cookiesBanner.setConsent(false);
-		cookiesBanner.remove();
-		updateCookiesEuState();
 	});
 
 	document.querySelector("#custom-reset")!.addEventListener("click", function () {

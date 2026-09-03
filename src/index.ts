@@ -1,25 +1,41 @@
-const createCookiesBanner = function (config: {
+import { createHeadlessCookiesBanner, type HeadlessOptions } from "./headless.ts";
+
+type Prettify<T> = {
+	[K in keyof T]: T[K];
+} & {};
+
+type CookieEuBannerConfig = {
 	// HTML Elements
-	bannerElement?: HTMLElement;
-	acceptButtonElement?: HTMLElement;
-	rejectButtonElement?: HTMLElement;
+	bannerElement: HTMLElement;
+	acceptButtonElement: HTMLElement;
+	rejectButtonElement: HTMLElement;
 
 	// Hooks
+	/**
+	 * Callback called when this user accepts or has already accepted.
+	 * This is where you launch your tracking scripts.
+	 */
 	onAccept: () => void;
+	/**
+	 * Callback called when this user rejects or has already rejected.
+	 */
 	onReject?: () => void;
-	/** Must return false to disable default behavior, allowing to handle things manually */
-	onBeforeShow?: () => boolean;
-	/** Must return false to disable default behavior, allowing to handle things manually */
-	onBeforeRemove?: () => boolean;
+	/**
+	 * Called before removing the banner, at the beginning of the delay.
+	 * Useful to trigger a transition.
+	 * See also: `delayBeforeRemove`
+	 */
+	onBeforeRemove?: () => void;
 
 	// Options
-	useLocalStorage?: boolean;
-	consentCookieName?: string;
-	consentCookieTimeoutInMilliseconds?: number;
-	trackingCookieNames?: string[];
-	botsUserAgentRegexp?: RegExp;
-	delayBeforeRemoveInMilliseconds?: number;
-}) {
+	/**
+	 * Delay before removing the banner from the DOM in milliseconds.
+	 * See also: `onBeforeRemove`
+	 */
+	delayBeforeRemove?: number;
+} & HeadlessOptions;
+
+const createCookiesBanner = function (config: CookieEuBannerConfig) {
 	const {
 		// HTML Elements
 		bannerElement,
@@ -29,171 +45,83 @@ const createCookiesBanner = function (config: {
 		// Hooks
 		onAccept,
 		onReject,
-		onBeforeShow,
 		onBeforeRemove,
 
 		// Options
-		useLocalStorage = false,
-		consentCookieName = "hasConsent",
-		consentCookieTimeoutInMilliseconds = 31104000000, // 12 months in milliseconds
-		trackingCookieNames = [
-			"__utma",
-			"__utmb",
-			"__utmc",
-			"__utmt",
-			"__utmv",
-			"__utmz",
-			"_ga",
-			"_gat",
-			"_gid",
-		],
-		botsUserAgentRegexp = /bot|crawler|spider|crawling|extended|meta-externalagent/i, // Includes AI bots
-		delayBeforeRemoveInMilliseconds = 0,
-	} = config;
+		delayBeforeRemove = 0,
 
-	const isCookieSetTo = function (value: string) {
-		return (
-			document.cookie.indexOf(`${consentCookieName}="${value}"`) > -1 ||
-			localStorage.getItem(consentCookieName) === value
-		);
-	};
+		// Headless config
+		...headlessConfig
+	} = config;
 
 	const listenersController = new AbortController();
 	const listenerOptions = { signal: listenersController.signal };
 
-	const banner = {
+	const showBanner = () => {
+		bannerElement.style.display = "";
+
+		acceptButtonElement.addEventListener(
+			"click",
+			() => {
+				headlessBanner.setConsent(true);
+			},
+			listenerOptions,
+		);
+
+		rejectButtonElement.addEventListener(
+			"click",
+			() => {
+				headlessBanner.setConsent(false);
+			},
+			listenerOptions,
+		);
+	};
+
+	const removeBanner = (delay: number = delayBeforeRemove) => {
+		listenersController.abort(); // Remove all listeners
+
+		onBeforeRemove?.();
+
+		setTimeout(() => {
+			bannerElement.remove();
+		}, delay);
+	};
+
+	const headlessBanner = createHeadlessCookiesBanner({
+		...headlessConfig,
+		onAccept: () => {
+			removeBanner();
+			onAccept();
+		},
+		onReject: () => {
+			removeBanner();
+			onReject?.();
+		},
+		onShowBanner: () => {
+			showBanner();
+		},
+		onRemoveBanner: () => {
+			removeBanner(0);
+		},
+	});
+
+	const bannerFunctions = {
 		/**
 		 * Show the banner and bind listeners
 		 */
-		showBanner: function () {
-			if (onBeforeShow?.() !== false && bannerElement !== undefined) {
-				bannerElement.style.display = "";
-			}
-
-			if (acceptButtonElement !== undefined) {
-				acceptButtonElement.addEventListener(
-					"click",
-					() => {
-						banner.remove();
-						banner.setConsent(true);
-						onAccept();
-					},
-					listenerOptions,
-				);
-			}
-
-			if (rejectButtonElement !== undefined) {
-				rejectButtonElement.addEventListener(
-					"click",
-					() => {
-						banner.remove();
-						banner.setConsent(false);
-
-						// Delete existing tracking cookies
-						trackingCookieNames.map((trackingCookieName) =>
-							banner.deleteCookie(trackingCookieName),
-						);
-
-						onReject?.();
-					},
-					listenerOptions,
-				);
-			}
-		},
-
-		/**
-		 * Set consent cookie or localStorage
-		 */
-		setConsent: function (hasConsent: boolean) {
-			if (useLocalStorage) {
-				return localStorage.setItem(consentCookieName, hasConsent.toString());
-			}
-
-			this.setCookie(consentCookieName, hasConsent.toString());
-		},
-
-		/**
-		 * Check if the user already consents
-		 */
-		hasConsent: function () {
-			if (isCookieSetTo("true")) {
-				return true;
-			}
-
-			if (isCookieSetTo("false")) {
-				return false;
-			}
-
-			return null;
-		},
-
-		/**
-		 * Create/update cookie
-		 */
-		setCookie: function (name: string, value: string) {
-			const date = new Date();
-			date.setTime(date.getTime() + consentCookieTimeoutInMilliseconds);
-
-			document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/;secure;SameSite=Lax`;
-		},
-
-		/**
-		 * Delete cookie by changing expire
-		 */
-		deleteCookie: function (name: string) {
-			const hostname = document.location.hostname.replace(/^www\./, "");
-			const commonSuffix = "; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/";
-
-			document.cookie = `${name}=; domain=.${hostname}${commonSuffix}`;
-			document.cookie = `${name}=${commonSuffix}`;
-		},
+		showBanner,
 
 		/**
 		 * Remove the banner from DOM
-		 * @param delayInMilliseconds Delay before removing the banner
+		 * @param delay Delay before removing the banner
 		 */
-		remove: function (delayInMilliseconds: number = delayBeforeRemoveInMilliseconds) {
-			listenersController.abort(); // Remove all listeners
-
-			if (onBeforeRemove?.() === false || bannerElement === undefined) {
-				return;
-			}
-
-			setTimeout(() => {
-				bannerElement.remove();
-			}, delayInMilliseconds);
-		},
+		removeBanner,
 	};
 
-	// Init
-	(function () {
-		// Detect if the visitor is a bot or not
-		// Prevent for search engines take the cookie alert message as main content of the page
-		const isBot = botsUserAgentRegexp.test(navigator.userAgent);
-
-		// Check if DoNotTrack is activated (Deprecated, but it's almost free to implement it)
-		const hasDoNotTrackEnabled = navigator.doNotTrack === "1";
-
-		// Do nothing if it is a bot
-		// If DoNotTrack is activated, do nothing too
-		if (isBot || hasDoNotTrackEnabled || banner.hasConsent() === false) {
-			banner.remove(0);
-			onReject?.();
-			return false;
-		}
-
-		// User has already consented to use cookies to tracking
-		if (banner.hasConsent() === true) {
-			// Launch user custom function
-			onAccept();
-			return true;
-		}
-
-		// If it's not a bot, no DoNotTrack and not already accept, so show the banner
-		banner.showBanner();
-	})();
-
-	return banner;
+	return {
+		...bannerFunctions,
+		...headlessBanner,
+	} as Prettify<typeof bannerFunctions & ReturnType<typeof createHeadlessCookiesBanner>>;
 };
 
-export { createCookiesBanner };
+export { createCookiesBanner, type CookieEuBannerConfig };

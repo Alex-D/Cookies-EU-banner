@@ -1,17 +1,38 @@
 import { defineConfig } from "vite-plus";
 
+const OUTPUT_BASE_FILE_NAME = "cookies-eu-banner";
+
 export default defineConfig({
 	pack: [
+		// index
 		{
 			entry: {
-				"cookies-eu-banner": "src/index.ts",
+				[`${OUTPUT_BASE_FILE_NAME}`]: `src/index.ts`,
 			},
 			platform: "browser",
 			format: "esm",
 		},
 		{
 			entry: {
-				"cookies-eu-banner.min": "src/index.ts",
+				[`${OUTPUT_BASE_FILE_NAME}.min`]: `src/index.ts`,
+			},
+			minify: true,
+			dts: false,
+			platform: "browser",
+			format: "esm",
+		},
+
+		// headless
+		{
+			entry: {
+				[`${OUTPUT_BASE_FILE_NAME}.headless`]: `src/headless.ts`,
+			},
+			platform: "browser",
+			format: "esm",
+		},
+		{
+			entry: {
+				[`${OUTPUT_BASE_FILE_NAME}.headless.min`]: `src/headless.ts`,
 			},
 			minify: true,
 			dts: false,

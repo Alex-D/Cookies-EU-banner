@@ -3,7 +3,6 @@ const createCookiesBanner = function (config: {
 	bannerElement?: HTMLElement;
 	acceptButtonElement?: HTMLElement;
 	rejectButtonElement?: HTMLElement;
-	moreLinkElement?: HTMLElement;
 
 	// Hooks
 	onAccept: () => void;
@@ -26,7 +25,6 @@ const createCookiesBanner = function (config: {
 		bannerElement,
 		acceptButtonElement,
 		rejectButtonElement,
-		moreLinkElement,
 
 		// Hooks
 		onAccept,
@@ -70,16 +68,6 @@ const createCookiesBanner = function (config: {
 		showBanner: function () {
 			if (onBeforeShow?.() !== false && bannerElement !== undefined) {
 				bannerElement.style.display = "";
-			}
-
-			if (moreLinkElement !== undefined) {
-				moreLinkElement.addEventListener(
-					"click",
-					() => {
-						banner.deleteCookie(consentCookieName);
-					},
-					listenerOptions,
-				);
 			}
 
 			if (acceptButtonElement !== undefined) {

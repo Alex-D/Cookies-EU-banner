@@ -1,11 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Demo — Cookies EU banner">
 	<div id="cookies-eu-banner" style="display: none;">
 		<span>This is a very basic example of a cookie banner message.</span>
-		<a href="/demo/read-more" id="cookies-eu-more">Read more</a>
 		<button id="cookies-eu-reject">Reject</button>
 		<button id="cookies-eu-accept">Accept</button>
 	</div>
@@ -254,14 +253,13 @@ import Layout from "../../layouts/Layout.astro";
 <script>
 	import { createCookiesBanner } from "cookies-eu-banner"
 
-	document.getElementById("dnt-state")!.innerText = navigator.doNotTrack === "1" ? "enabled" : "disabled"
+	document.querySelector<HTMLSpanElement>("#dnt-state")!.innerText = navigator.doNotTrack === "1" ? "enabled" : "disabled"
 
 	const consentCookieName = "demoConsent"
 	const cookiesBanner = createCookiesBanner({
-		bannerElement: document.getElementById("cookies-eu-banner")!,
-		acceptButtonElement: document.getElementById("cookies-eu-accept")!,
-		rejectButtonElement: document.getElementById("cookies-eu-reject")!,
-		moreLinkElement: document.getElementById("cookies-eu-more")!,
+		bannerElement: document.querySelector("#cookies-eu-banner")!,
+		acceptButtonElement: document.querySelector("#cookies-eu-accept")!,
+		rejectButtonElement: document.querySelector("#cookies-eu-reject")!,
 		onAccept: () => {
 			/*
 			 * Example: your Google Analytics script
@@ -292,25 +290,24 @@ import Layout from "../../layouts/Layout.astro";
 			state = "❌ Rejected";
 		}
 
-		document.getElementById("cookies-eu-state")!.innerText = state;
+		document.querySelector<HTMLSpanElement>("#cookies-eu-state")!.innerText = state;
 	}
 
 	updateCookiesEuState();
 	setInterval(updateCookiesEuState, 100);
 
-	// Prefer use addEventListener
-	// For demo purpose I will use the CookiesEuBanner internal method
-	cookiesBanner.addClickListener(document.getElementById("custom-accept")!, function () {
+	document.querySelector("#custom-accept")!.addEventListener("click", function () {
 		cookiesBanner.setConsent(true);
 		cookiesBanner.remove();
 		updateCookiesEuState();
 	});
-	cookiesBanner.addClickListener(document.getElementById("custom-reject")!, function () {
+	document.querySelector("#custom-reject")!.addEventListener("click", function () {
 		cookiesBanner.setConsent(false);
 		cookiesBanner.remove();
 		updateCookiesEuState();
 	});
-	cookiesBanner.addClickListener(document.getElementById("custom-reset")!, function () {
+
+	document.querySelector("#custom-reset")!.addEventListener("click", function () {
 		cookiesBanner.deleteCookie(consentCookieName);
 		window.location.reload();
 	});

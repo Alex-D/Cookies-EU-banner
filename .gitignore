@@ -1,5 +1,7 @@
 ~$*
-/node_modules
+node_modules
 /dist
 /.idea
-/docs/node_modules
+/coverage
+/.vitest-attachments
+/tests/__screenshots__

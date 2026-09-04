@@ -1,4 +1,8 @@
-import { createHeadlessCookiesBanner, type HeadlessOptions } from "./headless.ts";
+import {
+	createHeadlessCookiesBanner,
+	DEFAULT_CONSENT_COOKIE_NAME,
+	type HeadlessOptions,
+} from "./headless.ts";
 
 type Prettify<T> = {
 	[K in keyof T]: T[K];
@@ -47,9 +51,9 @@ type CookieEuBannerConfig = {
 const createCookiesBanner = function (config: CookieEuBannerConfig) {
 	const {
 		// HTML Element selectors
-		bannerTemplateSelector,
-		acceptButtonSelector,
-		rejectButtonSelector,
+		bannerTemplateSelector = "#cookies-eu-banner-template",
+		acceptButtonSelector = "#cookies-eu-accept",
+		rejectButtonSelector = "#cookies-eu-reject",
 
 		// Hooks
 		onAccept,
@@ -63,33 +67,29 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		...headlessConfig
 	} = config;
 
-	const querySelector = <T extends Element = HTMLElement>(selector: string) =>
-		document.querySelector<T>(selector)!;
-
 	const listenersController = new AbortController();
 	const listenerOptions = { signal: listenersController.signal };
 
 	let bannerElement: HTMLElement | undefined;
 
 	const showBanner = () => {
-		const bannerTemplateElement = querySelector<HTMLTemplateElement>(
-			bannerTemplateSelector ?? "#cookies-eu-banner-template",
-		);
+		const bannerTemplateElement =
+			document.querySelector<HTMLTemplateElement>(bannerTemplateSelector)!;
 		bannerElement = bannerTemplateElement.content.firstElementChild!.cloneNode(true) as HTMLElement;
 		document.body.prepend(bannerElement);
 
-		querySelector(acceptButtonSelector ?? "#cookies-eu-accept").addEventListener(
+		bannerElement.querySelector(acceptButtonSelector)!.addEventListener(
 			"click",
 			() => {
-				headlessBanner.setConsent(true);
+				headlessBannerFunctions.setConsent(true);
 			},
 			listenerOptions,
 		);
 
-		querySelector(rejectButtonSelector ?? "#cookies-eu-reject").addEventListener(
+		bannerElement.querySelector(rejectButtonSelector)!.addEventListener(
 			"click",
 			() => {
-				headlessBanner.setConsent(false);
+				headlessBannerFunctions.setConsent(false);
 			},
 			listenerOptions,
 		);
@@ -110,21 +110,21 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		}, delay);
 	};
 
-	const headlessBanner = createHeadlessCookiesBanner({
+	const { init, ...headlessBannerFunctions } = createHeadlessCookiesBanner({
 		...headlessConfig,
 		onAccept: () => {
-			removeBanner();
 			onAccept();
+			removeBanner();
 		},
 		onReject: () => {
-			removeBanner();
 			onReject?.();
+			removeBanner();
 		},
 		onShowBanner: () => {
 			showBanner();
 		},
 	});
-	headlessBanner.init();
+	init();
 
 	const bannerFunctions = {
 		/**
@@ -141,8 +141,8 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 
 	return {
 		...bannerFunctions,
-		...headlessBanner,
-	} as Prettify<typeof bannerFunctions & ReturnType<typeof createHeadlessCookiesBanner>>;
+		...headlessBannerFunctions,
+	} as Prettify<typeof bannerFunctions & typeof headlessBannerFunctions>;
 };
 
-export { createCookiesBanner, type CookieEuBannerConfig };
+export { createCookiesBanner, DEFAULT_CONSENT_COOKIE_NAME, type CookieEuBannerConfig };

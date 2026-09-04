@@ -1,4 +1,5 @@
 import { defineConfig } from "vite-plus";
+import { playwright } from "vite-plus/test/browser-playwright";
 
 const OUTPUT_BASE_FILE_NAME = "cookies-eu-banner";
 
@@ -38,5 +39,17 @@ export default defineConfig({
 		jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
 		rules: { "vite-plus/prefer-vite-plus-imports": "error" },
 		options: { typeAware: true, typeCheck: true },
+	},
+	test: {
+		browser: {
+			enabled: true,
+			headless: true,
+			provider: playwright(),
+			instances: [{ browser: "chromium" }, { browser: "firefox" }, { browser: "webkit" }],
+		},
+		coverage: {
+			provider: "istanbul",
+			exclude: ["tests/utils/**"],
+		},
 	},
 });

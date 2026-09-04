@@ -7,8 +7,10 @@ allowBuilds:
 
 catalog:
   "@types/node": ^26.4.1
+  "@vitest/browser-playwright": ^4.1.11
+  "@vitest/coverage-istanbul": 4.1.11
   astro: ^7.2.10
-  bumpp: ^12.2.0
+  bumpp: ^12.3.0
   typescript: npm:typescript-native-bridge@^6.0.3-bridge.15.tsgo.7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@0.3.0
   vite-plus: 0.3.0

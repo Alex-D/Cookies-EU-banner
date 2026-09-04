@@ -1,3 +1,5 @@
+const DEFAULT_CONSENT_COOKIE_NAME = "hasConsent";
+
 type HeadlessOptions = {
 	/**
 	 * In enabled, stores the user consent in localStorage.
@@ -69,7 +71,7 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 
 		// Options
 		useLocalStorage = false,
-		consentCookieName = "hasConsent",
+		consentCookieName = DEFAULT_CONSENT_COOKIE_NAME,
 		consentCookieTimeout = 31104000000, // 12 months in milliseconds
 		trackingCookieNames = [
 			"__utma",
@@ -101,6 +103,7 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 			// Do nothing if it is a bot
 			// If DoNotTrack is activated, do nothing too
 			if (isBot || hasDoNotTrackEnabled || headlessBanner.hasConsent() === false) {
+				onReject();
 				return;
 			}
 
@@ -125,16 +128,17 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 				headlessBanner.setCookie(consentCookieName, hasConsent.toString());
 			}
 
-			if (hasConsent === true) {
+			if (hasConsent) {
 				onAccept();
-			} else {
-				// Delete existing tracking cookies
-				trackingCookieNames.forEach((trackingCookieName) =>
-					headlessBanner.deleteCookie(trackingCookieName),
-				);
-
-				onReject();
+				return;
 			}
+
+			// Delete existing tracking cookies
+			trackingCookieNames.forEach((trackingCookieName) =>
+				headlessBanner.deleteCookie(trackingCookieName),
+			);
+
+			onReject();
 		},
 
 		/**
@@ -189,4 +193,9 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 	return headlessBanner;
 };
 
-export { type HeadlessConfig, type HeadlessOptions, createHeadlessCookiesBanner };
+export {
+	type HeadlessConfig,
+	type HeadlessOptions,
+	createHeadlessCookiesBanner,
+	DEFAULT_CONSENT_COOKIE_NAME,
+};

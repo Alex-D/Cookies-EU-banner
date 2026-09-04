@@ -44,6 +44,8 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "bumpp": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",

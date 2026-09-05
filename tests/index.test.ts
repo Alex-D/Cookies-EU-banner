@@ -133,7 +133,7 @@ test.describe("init", () => {
 		});
 
 		expect(onAccept).not.toHaveBeenCalled();
-		expect(onReject).toHaveBeenCalled();
+		expect(onReject).toHaveBeenCalledOnce();
 		expectBannerToNotExists(bannerSelector);
 
 		expect(getCookie(DEFAULT_CONSENT_COOKIE_NAME)).toBe("false");
@@ -156,7 +156,7 @@ test.describe("Accept button", () => {
 
 		clickOnButton(acceptButtonSelector);
 
-		expect(onAccept).toHaveBeenCalled();
+		expect(onAccept).toHaveBeenCalledOnce();
 		expect(onReject).not.toHaveBeenCalled();
 
 		expect(getCookie(DEFAULT_CONSENT_COOKIE_NAME)).toBe("true");
@@ -197,7 +197,7 @@ test.describe("Reject button", () => {
 
 		clickOnButton(rejectButtonSelector);
 
-		expect(onReject).toHaveBeenCalled();
+		expect(onReject).toHaveBeenCalledOnce();
 		expect(onAccept).not.toHaveBeenCalled();
 
 		expect(getCookie(DEFAULT_CONSENT_COOKIE_NAME)).toBe("false");
@@ -265,7 +265,7 @@ test.describe("Custom selectors", () => {
 
 		clickOnButton(acceptButtonSelector);
 
-		expect(onAccept).toHaveBeenCalled();
+		expect(onAccept).toHaveBeenCalledOnce();
 
 		await vi.advanceTimersToNextTimerAsync();
 		expectBannerToNotExists(bannerSelector);
@@ -293,7 +293,7 @@ test.describe("Custom selectors", () => {
 		clickOnButton(rejectButtonSelector);
 
 		expect(onAccept).not.toHaveBeenCalled();
-		expect(onReject).toHaveBeenCalled();
+		expect(onReject).toHaveBeenCalledOnce();
 
 		await vi.advanceTimersToNextTimerAsync();
 		expectBannerToNotExists(bannerSelector);

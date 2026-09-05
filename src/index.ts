@@ -1,6 +1,7 @@
 import {
 	createHeadlessCookiesBanner,
 	DEFAULT_CONSENT_COOKIE_NAME,
+	DEFAULT_TRACKING_COOKIE_NAMES,
 	type HeadlessOptions,
 } from "./headless.ts";
 
@@ -145,4 +146,9 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 	} as Prettify<typeof bannerFunctions & typeof headlessBannerFunctions>;
 };
 
-export { createCookiesBanner, DEFAULT_CONSENT_COOKIE_NAME, type CookieEuBannerConfig };
+export {
+	createCookiesBanner,
+	DEFAULT_CONSENT_COOKIE_NAME,
+	DEFAULT_TRACKING_COOKIE_NAMES,
+	type CookieEuBannerConfig,
+};

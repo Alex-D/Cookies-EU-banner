@@ -205,6 +205,12 @@ In short:
    - if the user accepts, run your custom function and put a cookie to save this acceptance;
    - if the user declines, remove all Google Analytics cookies (see `trackingCookieNames` option) and put a cookie to save this rejection.
 
+## Technical choices
+
+### Why using `document.cookie` instead of CookieStore?
+
+Safari only supports `cookieStore.set()` in **https**, making it harder to use in local development for beginners.
+
 ## Contribute
 
 To contribute, you need [Vite+](https://viteplus.dev/guide/) and pnpm.

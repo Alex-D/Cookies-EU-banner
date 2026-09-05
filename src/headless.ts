@@ -1,4 +1,17 @@
+import { getProtocol } from "./getProtocol.ts";
+
 const DEFAULT_CONSENT_COOKIE_NAME = "hasConsent";
+const DEFAULT_TRACKING_COOKIE_NAMES = [
+	"__utma",
+	"__utmb",
+	"__utmc",
+	"__utmt",
+	"__utmv",
+	"__utmz",
+	"_ga",
+	"_gat",
+	"_gid",
+];
 
 type HeadlessOptions = {
 	/**
@@ -73,17 +86,7 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 		useLocalStorage = false,
 		consentCookieName = DEFAULT_CONSENT_COOKIE_NAME,
 		consentCookieTimeout = 31104000000, // 12 months in milliseconds
-		trackingCookieNames = [
-			"__utma",
-			"__utmb",
-			"__utmc",
-			"__utmt",
-			"__utmv",
-			"__utmz",
-			"_ga",
-			"_gat",
-			"_gid",
-		],
+		trackingCookieNames = DEFAULT_TRACKING_COOKIE_NAMES,
 		botsUserAgentRegexp = /bot|crawler|spider|crawling|preview|vkShare|extended|facebook|meta-/i, // Includes AI bots
 	} = config;
 
@@ -144,14 +147,18 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 		/**
 		 * Check if the user already consents
 		 */
-		hasConsent: function () {
-			switch (headlessBanner.getCookie(consentCookieName)) {
+		hasConsent: function (): boolean | undefined {
+			const consentValue = useLocalStorage
+				? localStorage.getItem(consentCookieName)
+				: headlessBanner.getCookie(consentCookieName);
+
+			switch (consentValue) {
 				case "true":
 					return true;
 				case "false":
 					return false;
 				default:
-					return null;
+					return undefined;
 			}
 		},
 
@@ -163,9 +170,9 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 			date.setTime(date.getTime() + consentCookieTimeout);
 
 			// Allows Safari to work in http too
-			const secure = document.location.protocol === "https:" ? "secure;" : "";
+			const secure = getProtocol() === "https:" ? "secure;" : "";
 
-			document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/${secure};SameSite=Lax`;
+			document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/;${secure}SameSite=Lax`;
 		},
 
 		/**
@@ -198,4 +205,5 @@ export {
 	type HeadlessOptions,
 	createHeadlessCookiesBanner,
 	DEFAULT_CONSENT_COOKIE_NAME,
+	DEFAULT_TRACKING_COOKIE_NAMES,
 };

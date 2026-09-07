@@ -17,12 +17,7 @@ jobs:
           cache: true
       - run: vp install
 
-      - name: Resolve Playwright version
-        id: playwright-version
-        run: echo "version=$(vp exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
-
-      - name: Install Playwright browsers and system dependencies
-        run: vp exec playwright install --with-deps --only-shell
+      - uses: ./.github/actions/install-playwright
 
       - run: vp run build
       - run: vp check
@@ -39,11 +34,6 @@ jobs:
           node-version: "24"
           cache: true
 
-      - name: Resolve Playwright version
-        id: playwright-version
-        run: echo "version=$(vp exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
-
-      - name: Install Playwright browsers and system dependencies
-        run: vp exec playwright install --with-deps --only-shell
+      - uses: ./.github/actions/install-playwright
 
       - run: vp run test:dist

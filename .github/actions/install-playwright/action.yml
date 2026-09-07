@@ -18,9 +18,9 @@ runs:
     - name: Install Playwright browsers and system dependencies
       if: steps.playwright-cache.outputs.cache-hit != 'true'
       shell: sh
-      run: vpx playwright install --with-deps
+      run: pnpm exec playwright install --with-deps --only-shell
 
     - name: Only install OS dependencies for browsers
       if: steps.playwright-cache.outputs.cache-hit == 'true'
       shell: sh
-      run: vpx playwright install-deps
+      run: pnpm exec playwright install-deps

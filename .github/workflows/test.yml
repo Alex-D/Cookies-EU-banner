@@ -17,25 +17,9 @@ jobs:
           cache: true
       - run: vp install
 
-      - name: Resolve Playwright version
-        id: playwright-version
-        run: echo "version=$(vp pm ls playwright --depth 1 | grep -oE 'playwright@[0-9]+\.[0-9]+\.[0-9]+' | head -1 | cut -d@ -f2)" >> "$GITHUB_OUTPUT"
+      - uses: ./.github/actions/install-playwright
 
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
-
-      - name: Install Playwright browsers and system dependencies
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: vpx playwright install --with-deps --only-shell
-
-      - name: Only install OS dependencies for browsers
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: vpx playwright install-deps
-
+      - run: vp build
       - run: vp check
       - run: vp test --coverage
 
@@ -50,6 +34,7 @@ jobs:
           node-version: "24"
           cache: true
       - run: vp install
-      - name: Install Playwright Browsers
-        run: vpx playwright install --with-deps --only-shell
+
+      - uses: ./.github/actions/install-playwright
+
       - run: vp run test:dist

@@ -16,6 +16,8 @@ jobs:
           node-version: "24"
           cache: true
       - run: vp install
+      - name: Install Playwright Browsers
+        run: vpx playwright install --with-deps --only-shell
       - run: vp check
       - run: vp test --coverage
 
@@ -30,4 +32,6 @@ jobs:
           node-version: "24"
           cache: true
       - run: vp install
+      - name: Install Playwright Browsers
+        run: vpx playwright install --with-deps --only-shell
       - run: vp run test:dist

@@ -17,6 +17,8 @@ catalog:
 
 catalogMode: strict
 
+linkWorkspacePackages: true
+
 overrides:
   vite@*: "catalog:"
 

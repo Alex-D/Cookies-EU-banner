@@ -33,7 +33,7 @@ It is a GDPR-compliant way to get cookie consent from visitors.
 ### Features
 
 - Do Not Track detection, using `navigator.doNotTrack`
-- Disables banner when visitor is a bot: prevents SEO Engines to confuse your cookie advert message with the main content of your pages
+- Disables banner when the visitor is a bot: prevents SEO Engines from confusing your cookie advert message with the main content of your pages
 - Respects GDPR
 - Fully typed, since it's written in TypeScript
 - [Offers a headless version](#advanced-headless)
@@ -46,7 +46,7 @@ Insert the banner at the end of the `<body>` element, using a `<template>` with 
 
 ```html
 <template id="cookies-eu-banner-template">
-	<div>
+	<div id="cookies-eu-banner">
 		By continuing to visit this site, you accept the use of cookies by Google Analytics for
 		statistical purposes.
 		<button id="cookies-eu-reject">Reject</button>
@@ -59,19 +59,38 @@ Insert the banner at the end of the `<body>` element, using a `<template>` with 
 
 Choose one of these options:
 
+- [Using a build step](#using-a-build-step)
 - Using a CDN:
   - [UMD build, the good old `<script src="..."`](#cdn-or-local-copy-umd-build-import-via-script-src)
   - [ESM build, import via `<script type="module">`](#cdn-or-local-copy-es-module-build-esm)
-- [Using a build step](#using-a-build-step)
+
+#### Using a build step
+
+| Package manager | Command                                |
+| --------------- | -------------------------------------- |
+| Vite+           | `vp add cookies-eu-banner`             |
+| pnpm            | `pnpm add cookies-eu-banner`           |
+| npm             | `npm install cookies-eu-banner --save` |
+| yarn            | `yarn add cookies-eu-banner`           |
+
+```js
+import { createCookiesBanner } from "cookies-eu-banner";
+
+createCookiesBanner({
+	onAccept: () => {
+		// Your code to launch when the user accepts cookies
+	},
+});
+```
 
 #### CDN or local copy: UMD build (import via `<script src="...">`)
 
-This will expose `CookiesEuBanner` as a global, allowing you to call the `createCookiesBanner` function like this:
+This will expose `CookiesEuBanner` as global, allowing you to call the `createCookiesBanner` function like this:
 
 ```html
 <script src="https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.umd.js"></script>
 <!--
-Or is you have downloaded the package, you can import it locally instead:
+Or if you have downloaded the package, you can import it locally instead:
 <script src="./your-path/cookies-eu-banner.umd.js"></script>
 -->
 <script>
@@ -100,25 +119,6 @@ Or is you have downloaded the package, you can import it locally instead:
 </script>
 ```
 
-#### Using a build step
-
-| Package manager | Command                                |
-| --------------- | -------------------------------------- |
-| Vite+           | `vp add cookies-eu-banner`             |
-| pnpm            | `pnpm add cookies-eu-banner`           |
-| npm             | `npm install cookies-eu-banner --save` |
-| yarn            | `yarn add cookies-eu-banner`           |
-
-```js
-import { createCookiesBanner } from "cookies-eu-banner";
-
-createCookiesBanner({
-	onAccept: () => {
-		// Your code to launch when the user accepts cookies
-	},
-});
-```
-
 ### Advanced: Headless
 
 As an alternative, you can take the full control over the UI side. Get the Cookies EU Banner's core logic: you can use your classes, your framework, ...
@@ -132,6 +132,7 @@ A simple example of what you can do:
 	// import { createHeadlessCookiesBanner } from "https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.headless.js";
 
 	const listenersController = new AbortController();
+	/** @type HTMLDivElement */
 	const bannerElement = document.querySelector("#my-banner");
 
 	const cookiesBanner = createHeadlessCookiesBanner({
@@ -195,12 +196,12 @@ A simple example of what you can do:
 
 ## How does it work?
 
-For a detailed explanation, see comments in the main file: [src/headless.ts](src/headless.ts).
+For a detailed explanation, see comments in the main files: [src/index.ts](src/index.ts) and [src/headless.ts](src/headless.ts).
 
 In short:
 
 1. Hide the banner from bots, clients who have DoNotTrack activated, and users who have already declined;
-2. Runs your custom function if user has already accepted;
+2. Runs your custom function if the user has already accepted;
 3. Shows the banner, then:
    - if the user accepts, run your custom function and put a cookie to save this acceptance;
    - if the user declines, remove all Google Analytics cookies (see `trackingCookieNames` option) and put a cookie to save this rejection.
@@ -213,7 +214,7 @@ Safari only supports `cookieStore.set()` in **https**, making it harder to use i
 
 ## Contribute
 
-To contribute, you need [Vite+](https://viteplus.dev/guide/) and pnpm.
+To contribute, you need [Vite+](https://viteplus.dev/guide/).
 Then, in the Cookies EU banner folder, run these commands:
 
 ```console
@@ -223,9 +224,9 @@ vp run dev
 vp run dev:all
 ```
 
-The first line install all dependencies.
-The second line builds the min file and watch for changes to rebuild it on the fly.
+The first line installs all dependencies.
+The second line builds the min file and watches for changes to rebuild it on the fly.
 
 ## Supported browsers
 
-All browsers released since 2015, desktop/mobile: Edge, Firefox, Chrome, Safari, Opera, ...
+All baseline browsers, desktop/mobile: Edge, Firefox, Chrome, Safari, Opera, ...

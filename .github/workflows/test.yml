@@ -19,7 +19,7 @@ jobs:
 
       - uses: ./.github/actions/install-playwright
 
-      - run: vp build
+      - run: vp run build
       - run: vp check
       - run: vp test --coverage
 

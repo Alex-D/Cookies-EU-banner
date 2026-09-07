@@ -75,7 +75,7 @@ type HeadlessConfig = {
 	onReject: () => void;
 } & HeadlessOptions;
 
-const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
+const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 	const {
 		// Hooks
 		onShowBanner,
@@ -124,7 +124,7 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 		/**
 		 * Set consent cookie or localStorage
 		 */
-		setConsent: function (hasConsent: boolean) {
+		setConsent: (hasConsent: boolean) => {
 			if (useLocalStorage) {
 				localStorage.setItem(consentCookieName, hasConsent.toString());
 			} else {
@@ -147,7 +147,7 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 		/**
 		 * Check if the user already consents
 		 */
-		hasConsent: function (): boolean | undefined {
+		hasConsent: (): boolean | undefined => {
 			const consentValue = useLocalStorage
 				? localStorage.getItem(consentCookieName)
 				: headlessBanner.getCookie(consentCookieName);
@@ -165,7 +165,7 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 		/**
 		 * Create/update cookie
 		 */
-		setCookie: function (name: string, value: string): void {
+		setCookie: (name: string, value: string): void => {
 			const date = new Date();
 			date.setTime(date.getTime() + consentCookieTimeout);
 
@@ -178,7 +178,7 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 		/**
 		 * Get cookie value
 		 */
-		getCookie: function (name: string): string | undefined {
+		getCookie: (name: string): string | undefined => {
 			return document.cookie
 				.split(";")
 				.find((row) => row.trim().startsWith(`${name}=`))
@@ -188,7 +188,7 @@ const createHeadlessCookiesBanner = function (config: HeadlessConfig) {
 		/**
 		 * Delete cookie by changing expire
 		 */
-		deleteCookie: function (name: string) {
+		deleteCookie: (name: string) => {
 			const hostname = document.location.hostname.replace(/^www\./, "");
 			const commonSuffix = "; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/";
 

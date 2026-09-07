@@ -6,8 +6,7 @@ test.afterEach(() => {
 });
 
 const loadGlobalScriptInPage = () => {
-	// @ts-ignore
-	expect(CookiesEuBanner).toBeUndefined();
+	expect(globalThis.CookiesEuBanner).toBeUndefined();
 
 	return new Promise<void>((resolve) => {
 		const scriptTag = document.createElement("script");
@@ -66,39 +65,32 @@ test.describe("cookies-eu-banner.global", () => {
 	test("Registers CookiesEuBanner on globalThis", async () => {
 		await loadGlobalScriptInPage();
 
-		// @ts-ignore
-		expect(CookiesEuBanner).toBeDefined();
+		expect(globalThis.CookiesEuBanner).toBeDefined();
 	});
 
 	test("Exposes CookiesEuBanner.createCookiesBanner", async () => {
 		await loadGlobalScriptInPage();
 
-		// @ts-ignore
-		expect(CookiesEuBanner.createCookiesBanner).toBeTypeOf("function");
+		expect(globalThis.CookiesEuBanner.createCookiesBanner).toBeTypeOf("function");
 	});
 
 	test("Exposes CookiesEuBanner.createHeadlessCookiesBanner", async () => {
 		await loadGlobalScriptInPage();
 
-		// @ts-ignore
-		expect(CookiesEuBanner.createHeadlessCookiesBanner).toBeTypeOf("function");
+		expect(globalThis.CookiesEuBanner.createHeadlessCookiesBanner).toBeTypeOf("function");
 	});
 
 	test("Exposes CookiesEuBanner.DEFAULT_CONSENT_COOKIE_NAME", async () => {
 		await loadGlobalScriptInPage();
 
-		// @ts-ignore
-		expect(CookiesEuBanner.DEFAULT_CONSENT_COOKIE_NAME).toBeTypeOf("string");
+		expect(globalThis.CookiesEuBanner.DEFAULT_CONSENT_COOKIE_NAME).toBeTypeOf("string");
 	});
 
 	test("Exposes CookiesEuBanner.DEFAULT_TRACKING_COOKIE_NAMES", async () => {
 		await loadGlobalScriptInPage();
 
-		// @ts-ignore
-		expect(CookiesEuBanner.DEFAULT_TRACKING_COOKIE_NAMES).toBeTypeOf("object");
-		// @ts-ignore
-		expect(CookiesEuBanner.DEFAULT_TRACKING_COOKIE_NAMES.length).toBeGreaterThan(1);
-		// @ts-ignore
-		expect(CookiesEuBanner.DEFAULT_TRACKING_COOKIE_NAMES[0]).toBeTypeOf("string");
+		expect(globalThis.CookiesEuBanner.DEFAULT_TRACKING_COOKIE_NAMES).toBeTypeOf("object");
+		expect(globalThis.CookiesEuBanner.DEFAULT_TRACKING_COOKIE_NAMES.length).toBeGreaterThan(1);
+		expect(globalThis.CookiesEuBanner.DEFAULT_TRACKING_COOKIE_NAMES[0]).toBeTypeOf("string");
 	});
 });

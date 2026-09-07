@@ -132,7 +132,7 @@ A simple example of what you can do:
 	// import { createHeadlessCookiesBanner } from "https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.headless.js";
 
 	const listenersController = new AbortController();
-	/** @type HTMLDivElement */
+	/** @type HTMLElement */
 	const bannerElement = document.querySelector("#my-banner");
 
 	const cookiesBanner = createHeadlessCookiesBanner({

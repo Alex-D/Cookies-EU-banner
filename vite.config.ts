@@ -1,4 +1,4 @@
-import { defineConfig } from "vite-plus";
+import { defineConfig, defaultExclude } from "vite-plus";
 import { playwright } from "vite-plus/test/browser-playwright";
 
 const OUTPUT_BASE_FILE_NAME = "cookies-eu-banner";
@@ -21,14 +21,15 @@ export default defineConfig({
 
 		{
 			entry: {
-				[OUTPUT_BASE_FILE_NAME]: `src/index.umd.ts`,
+				[OUTPUT_BASE_FILE_NAME]: `src/index.global.ts`,
 			},
 			minify: true,
-			dts: false,
+			dts: true,
 			platform: "browser",
-			format: "umd",
+			format: "iife",
+			globalName: "CookiesEuBanner",
 			outputOptions: {
-				name: "CookiesEuBanner",
+				entryFileNames: "[name].global.js",
 			},
 		},
 	],
@@ -48,9 +49,22 @@ export default defineConfig({
 			provider: playwright(),
 			instances: [{ browser: "chromium" }, { browser: "firefox" }, { browser: "webkit" }],
 		},
+		include: ["tests/**/*.test.ts"],
+		exclude: [...defaultExclude, "tests/dist.test.ts"],
 		coverage: {
 			provider: "istanbul",
-			exclude: ["tests/utils/**"],
+			thresholds: {
+				100: true,
+			},
+			include: ["src/**/*.ts"],
+		},
+	},
+	run: {
+		tasks: {
+			"test:dist": {
+				command: "vp test --config vite.dist.config.ts",
+				dependsOn: ["build"],
+			},
 		},
 	},
 });

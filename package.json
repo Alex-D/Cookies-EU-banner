@@ -22,6 +22,8 @@
     "dist"
   ],
   "type": "module",
+  "unpkg": "./dist/cookies-eu-banner.global.js",
+  "jsdelivr": "./dist/cookies-eu-banner.global.js",
   "exports": {
     ".": {
       "import": "./dist/cookies-eu-banner.js",

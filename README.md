@@ -61,7 +61,7 @@ Choose one of these options:
 
 - [Using a build step](#using-a-build-step)
 - Using a CDN:
-  - [UMD build, the good old `<script src="..."`](#cdn-or-local-copy-umd-build-import-via-script-src)
+  - [Global build, the good old `<script src="..."`](#cdn-or-local-copy-global-build-import-via-script-src)
   - [ESM build, import via `<script type="module">`](#cdn-or-local-copy-es-module-build-esm)
 
 #### Using a build step
@@ -83,15 +83,15 @@ createCookiesBanner({
 });
 ```
 
-#### CDN or local copy: UMD build (import via `<script src="...">`)
+#### CDN or local copy: Global build (import via `<script src="...">`)
 
 This will expose `CookiesEuBanner` as global, allowing you to call the `createCookiesBanner` function like this:
 
 ```html
-<script src="https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.umd.js"></script>
+<script src="https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.global.js"></script>
 <!--
 Or if you have downloaded the package, you can import it locally instead:
-<script src="./your-path/cookies-eu-banner.umd.js"></script>
+<script src="./your-path/cookies-eu-banner.global.js"></script>
 -->
 <script>
 	CookiesEuBanner.createCookiesBanner({
@@ -182,10 +182,10 @@ A simple example of what you can do:
 </script>
 ```
 
-#### Headless using UMD
+#### Headless using Global
 
 ```html
-<script src="https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.umd.js"></script>
+<script src="https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.global.js"></script>
 <script>
 	const cookiesBanner = CookiesEuBanner.createHeadlessCookiesBanner({
 		// ...

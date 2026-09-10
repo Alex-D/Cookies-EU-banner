@@ -1,0 +1,271 @@
+---
+import { getProjects, getSocials } from "../collectionLoaders.ts";
+
+import Icon from './Icon.astro';
+
+const socials = await getSocials();
+const openSourceProjects = await getProjects();
+
+const formatSocialWhy = (why: string | undefined) => {
+	return why?.replaceAll(/~~(.*)~~/g, '<span class="footer-link-why--hidden-on-mobile">$1</span>');
+}
+---
+
+<footer id="footer" tabindex="-1" class="footer">
+	<div class="footer-content">
+		<div class="footer__section">
+			<div class="footer__section-title">Made by</div>
+			<div class="footer__fullname">
+				<span>Alexandre</span> <span class="footer__name">Demode</span>
+			</div>
+		</div>
+
+		<nav class="footer__section" aria-labelledby="footer-projects-title">
+			<div class="footer__section-title" id="footer-projects-title">Other Open Source projects</div>
+			<ul>
+				{openSourceProjects.map((project) => (
+					<li>
+						<a href={project.data.url ?? project.data.githubUrl}>
+							<Icon name={project.data.icon ?? "social/github"}/>
+							{project.data.name}
+						</a>
+						<span class="footer-link-dots"></span>
+						<span class="footer-link-why">{project.data.tagline}</span>
+					</li>
+				))}
+			</ul>
+		</nav>
+
+		<nav class="footer__section" aria-labelledby="footer-social-title">
+			<div class="footer__section-title" id="footer-social-title">On the Internet</div>
+			<ul>
+				<li>
+					<a href="https://alex-d.fr">
+						<Icon name="ui/website"/>
+						Website
+					</a>
+					<span class="footer-link-dots"></span>
+					<span class="footer-link-why">learn more about me</span>
+				</li>
+				{socials.map((social) => (
+					<li>
+						<a href={social.data.url}>
+							<Icon name={`socials/${social.id}`}/>
+							{social.data.displayName}
+						</a>
+						{social.data.why &&
+							<span class="footer-link-dots"></span>
+							<span class="footer-link-why" set:html={formatSocialWhy(social.data.why)}/>
+						}
+					</li>
+				))}
+			</ul>
+		</nav>
+	</div>
+</footer>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables";
+
+	@function repeatChar($char, $times) {
+		$content: "";
+
+		@for $i from 1 through $times {
+			$content: $content + $char;
+		}
+		@return $content;
+	}
+
+	.footer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: light-dark(var(--color-primary-800), var(--color-primary-200));
+		background: var(--color-border);
+		font-size: 1.4rem;
+		overflow: hidden;
+
+		ul,
+		li {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		li {
+			display: flex;
+			padding-top: 1rem;
+
+			&:has(.footer-link-why) {
+				display: grid;
+				grid-template-columns: max-content auto max-content;
+				gap: 0 0.5rem;
+
+				.footer-link-dots {
+					position: relative;
+					text-wrap: nowrap;
+					overflow: hidden;
+					word-wrap: break-word;
+					opacity: 0.5;
+
+					&::after {
+						position: absolute;
+						content: repeatChar(".", 150);
+						letter-spacing: 0.5rem;
+						user-select: none;
+						pointer-events: none;
+						text-align: right;
+					}
+				}
+			}
+		}
+
+		a {
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			width: fit-content;
+			color: inherit;
+			text-decoration: none;
+			white-space: nowrap;
+			transition: color 0.15s ease-in-out;
+			will-change: transform;
+
+			[data-icon] {
+				flex-shrink: 0;
+				font-size: 1.5em;
+			}
+
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: -2px;
+				left: -5%;
+				display: block;
+				width: 110%;
+				height: 1.2em;
+				background-color: light-dark(var(--color-primary-300), var(--color-primary-900));
+				transform: rotate(calc(0.5 * var(--rotation-angle))) scaleX(0);
+				transform-origin: left;
+				transition: transform 0.15s ease-out;
+				will-change: transform;
+				z-index: -1;
+			}
+
+			&:hover,
+			&:focus-visible {
+				color: light-dark(var(--color-primary-950), var(--color-primary-100));
+
+				&::after {
+					transform: rotate(calc(0.5 * var(--rotation-angle))) scaleX(1);
+				}
+			}
+		}
+	}
+
+	.footer-link-why--hidden-on-mobile {
+		display: none;
+	}
+
+	.footer-content {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-row-gap: 3.2rem;
+		grid-column-gap: 12.8rem;
+		width: 100%;
+		max-width: variables.maxWidth();
+		padding: 4.8rem 2.4rem;
+
+		@media (min-width: #{variables.$breakpoint-desktop}) {
+			padding-inline: 0;
+		}
+	}
+
+	.footer__section {
+		&-title {
+			margin-top: 0.2rem;
+			margin-bottom: 0.5em;
+			color: light-dark(var(--color-primary-800), var(--color-primary-300));
+			font-family: var(--font-family-monospace);
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+	}
+
+	.footer__fullname {
+		margin-top: -1rem;
+		font-family: var(--font-family-title);
+		font-size: 2.4rem;
+
+		.footer__name {
+			color: light-dark(var(--color-primary-700), var(--color-primary-300));
+		}
+	}
+
+
+	@media (max-width: #{variables.$breakpoint-large-mobile}) {
+		.footer a {
+			font-weight: bold;
+		}
+
+		.footer li:has(.footer-link-why) {
+			grid-template-columns: max-content;
+			padding-bottom: 0.4rem;
+
+			.footer-link-why {
+				margin-top: -0.6rem;
+				padding-left: 2.7rem;
+			}
+		}
+	}
+
+	@media (min-width: #{variables.$breakpoint-medium-desktop}) {
+		.footer {
+			font-size: 1.6rem;
+		}
+
+		.footer-content {
+			grid-template-columns: max-content 1.5fr 1.2fr;
+			grid-column-gap: 4.8rem;
+		}
+
+		.footer-link-why--hidden-on-mobile {
+			display: initial;
+		}
+	}
+</style>
+
+<script>
+	const footer = document.querySelector<HTMLDivElement>('#footer')!;
+	const footerContent = footer.querySelector<HTMLDivElement>('.footer-content')!;
+
+	let isParallaxUpdating = false;
+
+	const updateFooterParallax = () => {
+		const rect = footer.getBoundingClientRect();
+		const viewportHeight = window.innerHeight;
+
+		const progress = Math.min(Math.max(0, viewportHeight - rect.top) / rect.height, 1);
+
+		footerContent.style.transform = `translateY(${(1 - progress) * 40}%)`;
+
+		isParallaxUpdating = false;
+	};
+
+	const onScroll = () => {
+		if (isParallaxUpdating) {
+			return
+		}
+
+		window.requestAnimationFrame(updateFooterParallax);
+		isParallaxUpdating = true;
+	};
+
+	requestIdleCallback(() => {
+		window.addEventListener('scroll', onScroll, {passive: true});
+		window.addEventListener('resize', onScroll, {passive: true});
+
+		updateFooterParallax();
+	});
+</script>

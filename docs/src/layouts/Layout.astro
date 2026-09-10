@@ -1,4 +1,12 @@
 ---
+import { Font } from "astro:assets";
+
+import Footer from "../components/Footer.astro";
+import Head from "../components/Head.astro";
+import Header from "../components/Header.astro";
+import IconSpritesheet from "../components/IconSpritesheet.astro";
+import '../assets/styles/index.scss';
+
 export interface Props {
 	title: string;
 }
@@ -8,37 +16,41 @@ const {title} = Astro.props;
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8"/>
-	<meta name="description"
-				content="Cookies EU banner is a JavaScript library to manage the display of a banner to accept/reject cookies from tracking services like Google Analytics.">
-	<meta name="viewport" content="width=device-width"/>
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-	<title>{title}</title>
-</head>
+<Head
+	title={title}
+	description="Cookies EU banner is a JavaScript library to manage the display of a banner to accept/reject cookies from tracking services like Google Analytics."
+>
+	<Font cssVariable="--font-uni-neue" preload />
+	<Font cssVariable="--font-jetbrains-mono" preload />
+	<Font cssVariable="--font-nexa-text" preload />
+</Head>
 <body>
-<slot/>
+<script>
+	document.body.classList.add('js');
+
+	// Safari polyfill
+	window.requestIdleCallback ??= (callback) => {
+		return window.setTimeout(() => callback({
+			didTimeout: false,
+			timeRemaining: () => 0,
+		}), 0);
+	}
+</script>
+<IconSpritesheet>
+	<div class="m-header-and-main">
+		<Header/>
+		<main>
+			<slot/>
+		</main>
+	</div>
+	<Footer/>
+</IconSpritesheet>
+{import.meta.env.DEV && <style>
+	@media (max-width: 700px) {
+		astro-dev-toolbar {
+			display: none;
+		}
+	}
+</style>}
 </body>
 </html>
-<style is:global>
-	html {
-		min-height: 100vh;
-		font-family: system-ui, sans-serif;
-		font-weight: 400;
-		background: #78350f linear-gradient(to bottom right, #7c2d12, #431407);
-		background-size: cover;
-	}
-
-	html,
-	body {
-		margin: 0;
-		padding: 0;
-		font-size: 16px;
-		color: #fef3c7;
-	}
-
-	code {
-		font-family: Jetbrains Mono, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-		Bitstream Vera Sans Mono, Courier New, monospace;
-	}
-</style>

@@ -1,263 +1,108 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import BannerTemplate from "../components/BannerTemplate.astro";
+import Button from "../components/Button.astro";
 ---
 
-<Layout title="Demo — Cookies EU banner">
-	<main>
-		<h1 class="title">Cookies EU banner</h1>
-		<h2 class="subtitle-tag">Demo</h2>
-		<ul class="links">
-			<li><a href="../">Back to website</a></li>
-			<li><a href="https://github.com/Alex-D/Cookies-EU-Banner">Cookies EU Banner on GitHub</a></li>
-		</ul>
+<Layout title="Demo — Cookies EU banner, A 1kb vanilla JS script to manage consent cookie banner">
+	<section class="m-section m-section--demo">
+		<h2 class="m-section__title">Demo</h2>
 
 		<p>
-			<em>DoNotTrack</em> is currently <strong id="dnt-state"></strong>
+			You should see the banner at the bottom of your screen, and can use the reset button below anytime.
 		</p>
 
-		<section class="demo-box">
-			<p>
-				Current consent state <br>
-				<span id="cookies-eu-state"></span>
-			</p>
-			<div class="demo-box__buttons">
-				<button id="custom-accept">Accept</button>
-				<button id="custom-reject">Reject</button>
-				<div class="break"/>
-				<button id="custom-reset">Reset</button>
+		<div class="demo__blocks">
+			<div class="demo__state">
+				<h3 class="m-section__subtitle">State</h3>
+
+				<dl>
+					<dt>Cookie value</dt>
+					<dd id="cookie-value">&nbsp;</dd>
+
+					<dt>Consent state</dt>
+					<dd id="cookies-eu-state">&nbsp;</dd>
+
+					<dt>DoNotTrack</dt>
+					<dd id="dnt-state">&nbsp;</dd>
+				</dl>
 			</div>
-		</section>
 
-		<p>
-			You can do some custom buttons to accept/reject anywhere with some JS (see in script tag at the bottom).
-		</p>
-	</main>
+			<div class="demo__custom-controls">
+				<h3 class="m-section__subtitle">Custom controls</h3>
 
-	<template id="cookies-eu-banner-template">
-		<div class="cookies-eu-banner">
-			<span>This is a very basic example of a cookie banner message.</span>
-			<button id="cookies-eu-reject">Reject</button>
-			<button id="cookies-eu-accept">Accept</button>
+				<div class="demo__buttons">
+					<Button secondary={true} id="custom-accept">Accept</Button>
+					<Button secondary={true} id="custom-reject">Reject</Button>
+					<Button secondary={true} id="custom-reset">Reset the demo</Button>
+				</div>
+			</div>
 		</div>
-	</template>
+	</section>
+
+	<BannerTemplate />
 </Layout>
 
-<style>
-	body {
-		text-align: center;
-	}
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables.scss";
 
-	a {
-		color: #fff7ed;
-		padding: 3px 0;
-		text-underline-offset: 2px;
-	}
+	.demo__blocks {
+		margin-top: 2.4rem;
 
-	.gggrainy-svg {
-		display: none;
-	}
-
-	main {
-		margin: 100px auto;
-		padding: 0 30px;
-		max-width: 900px;
-	}
-
-	.cookies-eu-banner {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		display: flex;
-		max-width: 800px;
-		background: #92400e;
-		color: #fef3c7;
-		margin: 12px auto;
-		padding: 6px;
-		font-size: 16px;
-		text-align: center;
-		border-radius: 12px;
-		box-shadow: 6px 0 12px #7c2d12, 0 0 4px #7c2d12;
-		transform: translateY(0);
-		transition: transform 500ms;
-		animation: bannerIn 200ms;
-	}
-
-	@keyframes bannerIn {
-		from {
-			transform: translateY(-200%);
-		}
-		to {
-			transform: translateY(0);
+		@media (min-width: #{variables.$breakpoint-desktop}) {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
 		}
 	}
 
-	.cookies-eu-banner.cookies-eu-banner--before-remove {
-		transform: translateY(-200%);
+	.demo__state {
+		dl {
+			padding-block: 1.6rem 2.4rem;
+		}
+
+		dt {
+			margin-bottom: -0.25em;
+		}
+
+		dd {
+			font-family: var(--font-family-title);
+			font-weight: bold;
+			margin-bottom: 1.2rem;
+		}
+
+		@media (min-width: #{variables.$breakpoint-large-mobile}) {
+			dl {
+				display: flex;
+				flex-flow: column wrap;
+				box-sizing: content-box;
+				max-height: 4em;
+			}
+
+			dd {
+				min-height: 2em;
+				margin-bottom: unset;
+			}
+		}
 	}
 
-	.cookies-eu-banner span {
-		padding: 8px 8px 8px 16px;
-	}
-
-	#cookies-eu-accept,
-	#cookies-eu-reject {
-		text-decoration: none;
-		border: 0;
-		border-bottom: 2px solid;
-		border-radius: 6px;
-		cursor: pointer;
-		padding: 6px 16px 4px;
-		margin: 2px 3px;
-		font-size: 16px;
-		transition: background 150ms, transform 150ms;
-	}
-
-	#cookies-eu-accept:active,
-	#cookies-eu-reject:active {
-		transform: translateY(2px);
-		transition: transform 0ms;
-	}
-
-	#cookies-eu-more {
-		padding: 8px 0;
-	}
-
-	#cookies-eu-accept {
-		color: #78350f;
-		background: #fef3c7;
-		border-color: #fcd34d;
-	}
-
-	#cookies-eu-accept:hover {
-		background-color: #fff;
-	}
-
-	#cookies-eu-reject {
-		margin-left: auto;
-		color: #fef3c7;
-		background: #78350f;
-		border-color: #78350f;
-	}
-
-	#cookies-eu-reject:hover {
-		background-color: #451a03;
-	}
-
-	.title {
-		display: inline-block;
-		font-weight: 700;
-		margin-bottom: 0;
-		font-size: 60px;
-		background: #fffbeb linear-gradient(to bottom right, white, #fffbeb);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-	}
-
-	.subtitle-tag {
-		display: inline-block;
-		padding: 6px 12px;
-		font-size: 14px;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-		text-indent: 0.5px;
-		color: #451a03;
-		background: #fffbeb linear-gradient(to bottom right, #fffbeb, #fef3c7);
-		border-radius: 6px;
-		transform: translate(10px, -30px);
-	}
-
-	.links {
-		line-height: 24px;
-		text-align: center;
-		padding: 0;
-		list-style: none;
-	}
-
-	.demo-box {
-		max-width: 300px;
-		background: #431407;
-		color: #431407;
-		background: #fdba74 linear-gradient(to bottom right, #fed7aa, #fdba74);
-		background: #fdba74;
-		background-image: url("/images/grainy-background.svg"), linear-gradient(to bottom right, #fef3c7, #fdba74);
-		background-size: auto auto;
-		padding: 30px;
-		margin: 30px auto;
-		border-radius: 12px;
-	}
-
-	.demo-box p:first-child {
-		margin-top: 0;
-	}
-
-	.demo-box__buttons {
-		display: flex;
-		flex-wrap: wrap;
-		max-width: 400px;
-		margin: 30px auto 0;
-	}
-
-	.demo-box__buttons button {
-		flex-grow: 1;
-		font-size: 16px;
-		padding: 12px 24px 9px;
-		background: #ddd;
-		border: 0;
-		border-bottom: 3px solid;
-		border-radius: 6px;
-		margin: 0 4px;
-		transition: transform 150ms;
-	}
-
-	.demo-box__buttons .break {
-		flex-basis: 100%;
-		height: 6px;
-	}
-
-	#custom-accept {
-		color: #365314;
-		background: #ecfccb;
-		border-color: #bef264;
-	}
-
-	#custom-reject {
-		color: #450a0a;
-		background: #fee2e2;
-		border-color: #fca5a5;
+	.demo__buttons {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.8rem;
+		margin-top: 1.6rem;
 	}
 
 	#custom-reset {
-		color: #451a03;
-		background: #fef3c7;
-		border-color: #fcd34d;
-	}
-
-	.demo-box__buttons button:hover {
-		background: white !important;
-	}
-
-	.demo-box__buttons button:active {
-		transform: translateY(2px);
-		transition: transform 0ms;
-	}
-
-	#cookies-eu-state {
-		display: block;
-		height: 20px;
-		text-indent: -6px;
-		font-weight: bold;
-		margin-top: 3px;
+		grid-column: span 2;
 	}
 </style>
 
 <script>
-	import { createCookiesBanner } from "cookies-eu-banner"
+	import { createCookiesBanner } from "cookies-eu-banner";
 
-	document.querySelector<HTMLSpanElement>("#dnt-state")!.innerText = navigator.doNotTrack === "1" ? "enabled" : "disabled"
+	document.querySelector<HTMLSpanElement>("#dnt-state")!.innerText = navigator.doNotTrack === "1" ? "Enabled" : "Disabled";
 
-	const consentCookieName = "demoConsent"
+	const consentCookieName = "demoConsent";
 	const cookiesBanner = createCookiesBanner({
 		consentCookieName,
 		onAccept: () => {
@@ -275,30 +120,37 @@ import Layout from "../layouts/Layout.astro";
 
 	function updateCookiesEuState() {
 		setTimeout(() => {
-			const hasConsent = cookiesBanner.hasConsent()
-			let state = "❔ Nor accepted nor rejected";
+			// Cookie value
+			const cookieValue = cookiesBanner.getCookie(consentCookieName);
+			document.querySelector<HTMLSpanElement>("#cookie-value")!.innerText = cookieValue ? `"${cookieValue}"` : "undefined";
 
+			// Has consent
+			const hasConsent = cookiesBanner.hasConsent();
+
+			let state = "No choice";
 			if (hasConsent === true) {
-				state = "✅ Accepted";
+				state = "Accepted";
 			} else if (hasConsent === false) {
-				state = "❌ Rejected";
+				state = "Rejected";
 			}
 
 			document.querySelector<HTMLSpanElement>("#cookies-eu-state")!.innerText = state;
-		}, 0)
+		}, 0);
 	}
 
 	updateCookiesEuState();
 
-	document.querySelector("#custom-accept")!.addEventListener("click", function () {
+	document.querySelector("#custom-accept")!.addEventListener("click", () => {
 		cookiesBanner.setConsent(true);
 	});
-	document.querySelector("#custom-reject")!.addEventListener("click", function () {
+	document.querySelector("#custom-reject")!.addEventListener("click", () => {
 		cookiesBanner.setConsent(false);
 	});
 
-	document.querySelector("#custom-reset")!.addEventListener("click", function () {
+	document.querySelector("#custom-reset")!.addEventListener("click", async () => {
 		cookiesBanner.deleteCookie(consentCookieName);
-		window.location.reload();
+		await cookiesBanner.removeBanner(0);
+		cookiesBanner.showBanner();
+		updateCookiesEuState();
 	});
 </script>

@@ -1,0 +1,67 @@
+---
+type Props = {
+	secondary?: boolean;
+	class?: string;
+} & Omit<HTMLAttributes<"button">, "class">
+
+const {
+	secondary,
+	class: classNames,
+	...htmlAttributes
+} = Astro.props;
+
+const classList: Record<string, boolean> = {
+	"c-button--secondary": secondary,
+};
+classNames?.split(" ").forEach((className) => {
+	classList[className] = true
+});
+---
+
+<button
+	class="c-button"
+	class:list={classList}
+	{...htmlAttributes}
+>
+	<slot/>
+</button>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables.scss";
+
+	.c-button {
+		$button-border-bottom-width: 0.2rem;
+
+		cursor: pointer;
+		padding: 1.2rem 2.4rem #{1.2rem - $button-border-bottom-width};
+		border: 0;
+		color: light-dark(var(--color-primary-50), var(--color-primary-800));
+		background-color: light-dark(var(--color-primary-700), var(--color-primary-200));
+		border-bottom: $button-border-bottom-width solid light-dark(var(--color-primary-800), var(--color-primary-400));
+		@include variables.squircle(variables.$border-radius-s);
+		transition: background-color 150ms, transform 150ms;
+
+		&:hover,
+		&:focus-visible {
+			background-color: light-dark(var(--color-primary-600), var(--color-primary-50));
+			border-bottom-color: light-dark(var(--color-primary-700), var(--color-primary-100));
+		}
+
+		&:active {
+			transform: translateY(0.2rem);
+			transition: transform 0ms;
+		}
+
+		&--secondary {
+			color: light-dark(var(--color-primary-800), var(--color-primary-100));
+			background-color: light-dark(var(--color-primary-100), var(--color-primary-800));
+			border-bottom-color: light-dark(var(--color-primary-200), var(--color-primary-900));
+
+			&:hover,
+			&:focus-visible {
+				background-color: light-dark(color-mix(in oklch, var(--color-primary-50), white 50%), var(--color-primary-700));
+				border-bottom-color: light-dark(var(--color-primary-100), var(--color-primary-900));
+			}
+		}
+	}
+</style>

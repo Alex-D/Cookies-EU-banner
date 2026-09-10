@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=../../../.astro/collections/projects.schema.json
+
+order: 1
+
+name: Trumbowyg
+tagline: lightweight visual editor (WYSIWYG)
+vanity: 4000+ ★
+url: https://alex-d.github.io/Trumbowyg
+icon: ui/pen

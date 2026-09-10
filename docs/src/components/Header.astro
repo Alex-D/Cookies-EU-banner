@@ -1,0 +1,54 @@
+---
+
+---
+
+<header class="c-header">
+	<h1 class="c-header__title">Cookies EU Banner</h1>
+
+	<nav class="c-header__nav">
+		<ul>
+			<li><a>Get started</a></li>
+			<li><a>Demo</a></li>
+			<li><a>GitHub</a></li>
+		</ul>
+	</nav>
+</header>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables.scss";
+
+	.c-header {
+		max-width: #{variables.maxWidth()};
+		margin-inline: auto;
+		padding-top: 3.2rem;
+		padding-inline: 3.2rem;
+		display: flex;
+		flex-direction: column;
+
+		@media (min-width: #{variables.$breakpoint-desktop}) {
+			flex-direction: row;
+			justify-content: space-between;
+		}
+	}
+
+	.c-header__title {
+		display: inline-block;
+		font-size: 3.2rem;
+	}
+
+	.c-header__nav {
+		display: flex;
+
+		ul {
+			display: flex;
+			flex-direction: row;
+			gap: 2.4rem;
+			margin-block: auto;
+		}
+
+		a {
+			display: inline-block;
+			height: 100%;
+		}
+	}
+</style>

@@ -1,0 +1,36 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	preloadImages?: string[];
+	enableIndexing?: boolean;
+}
+
+const {
+	title,
+	description,
+	preloadImages,
+} = Astro.props;
+
+const titleDevPrefix = import.meta.env.DEV ? '[DEV] ' : '';
+
+const baseUrl = import.meta.env.BASE_URL;
+const canonicalUrl = Astro.url.href
+	.replace(/\/?$/, '/')
+	.replace('http://', 'https://');
+---
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="icon" type="image/svg+xml" href={baseUrl + "favicon.svg"}/>
+	{preloadImages?.map((imageUrl) => (
+		<link rel="preload" fetchpriority="high" as="image" href={baseUrl + imageUrl}/>
+	))}
+	<meta name="canonical" content={canonicalUrl}/>
+	<meta name="description" content={description}/>
+
+	<title>{titleDevPrefix + title}</title>
+
+	<slot/>
+</head>

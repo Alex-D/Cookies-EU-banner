@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=../../../.astro/collections/projects.schema.json
+
+order: 5
+
+name: Monitoror
+tagline: unified monitoring wallboard
+vanity: 4500+ ★
+url: https://monitoror.com
+icon: ui/monitoror

@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=../../../.astro/collections/projects.schema.json
+
+order: 30
+
+name: dotfiles
+tagline: my WSL2 & macOS config
+vanity: 200+ ★
+githubUrl: https://github.com/Alex-D/dotfiles

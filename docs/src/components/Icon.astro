@@ -1,0 +1,37 @@
+---
+import { getHash as getIconSpriteHash } from "@alex-d/components/pages/icons.svg.ts";
+import { usedIconNames } from "../utils/usedIconNames.ts";
+import { iconFileNameToIconId } from "../utils/iconsToSpritesheet.ts";
+
+interface Props extends astroHTML.JSX.HTMLAttributes {
+	name: string;
+	title?: string;
+}
+
+const {
+	name,
+	title,
+	...attributes
+} = Astro.props;
+
+const iconId = iconFileNameToIconId(name);
+usedIconNames.add(name);
+
+const ariaImgRole: astroHTML.JSX.AriaRole = "img"
+const accessibilityProps =
+	title
+		? {role: ariaImgRole, "aria-label": title}
+		: {"aria-hidden": true};
+
+const combinedAttributes = {...attributes, ...accessibilityProps};
+---
+
+<svg
+	width="1em"
+	height="1em"
+	data-icon
+	{...combinedAttributes}
+>
+	<use xlink:href={`#${iconId}`}/>
+</svg>
+

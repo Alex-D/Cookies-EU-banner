@@ -1,0 +1,51 @@
+@use "base/reset";
+
+@use "base/variables";
+
+@use "base/typography";
+
+html {
+	background: var(--color-border);
+}
+
+body {
+	padding: 6px;
+	display: flex;
+	flex-direction: column;
+}
+
+.m-header-and-main {
+	flex-grow: 1;
+	padding-block: 6px;
+	color: var(--color-text);
+	background: var(--color-page-background);
+
+	@include variables.squircle(variables.$border-radius-m);
+}
+
+.m-section {
+	position: relative;
+	max-width: #{variables.maxWidth()};
+	margin-block: 3.2rem;
+	margin-inline: auto;
+	padding: 3.2rem;
+	background-color: light-dark(var(--color-primary-50), var(--color-primary-950));
+	@include variables.squircle(variables.$border-radius-xl);
+	overflow: hidden;
+
+	p {
+		font-size: 1.8rem;
+	}
+}
+
+.m-section__title {
+	font-size: 4rem;
+}
+
+.m-section__subtitle {
+	font-size: 2.4rem;
+}
+
+::selection {
+	background-color: color-mix(currentColor, transparent 75%);
+}

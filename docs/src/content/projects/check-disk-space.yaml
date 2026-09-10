@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=../../../.astro/collections/projects.schema.json
+
+order: 10
+
+name: check-disk-space
+tagline: light multi-platform disk space checker
+githubUrl: https://github.com/Alex-D/check-disk-space

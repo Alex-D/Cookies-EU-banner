@@ -13,6 +13,7 @@
     "cookies-eu-banner": "workspace:*"
   },
   "devDependencies": {
-    "astro": "catalog:"
+    "astro": "catalog:",
+    "sass": "catalog:"
   }
 }

@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../.astro/collections/socials.schema.json
+
+github:
+  displayName: GitHub
+  url: https://github.com/Alex-D
+  why: discover all my dev projects
+
+soundcloud:
+  displayName: SoundCloud
+  url: https://soundcloud.com/alexandredemode
+  why: listen to my music ~~and songs~~
+
+bluesky:
+  displayName: Bluesky
+  url: https://bsky.app/profile/alex-d.fr
+  why: ~~keep in touch and~~ get some news

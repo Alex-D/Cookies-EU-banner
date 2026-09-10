@@ -1,0 +1,94 @@
+// Width
+$max-width: 1200px;
+@function maxWidth($margin-inline: 0) {
+	@return min($max-width + $margin-inline, calc(100vw - var(--body-gutters)));
+}
+
+@mixin squircle($border-radius: 8px) {
+	border-radius: $border-radius;
+
+	@supports (corner-shape: squircle) {
+		border-radius: 2 * $border-radius;
+		corner-shape: squircle;
+	}
+}
+
+// Radius
+$border-radius-xs: 8px;
+$border-radius-s: 12px;
+$border-radius-m: 16px;
+$border-radius-l: 24px;
+$border-radius-xl: 32px;
+
+// Breakpoints
+$breakpoint-small-mobile: 345px;
+$breakpoint-large-mobile: 600px;
+$breakpoint-desktop: 1000px;
+$breakpoint-medium-desktop: 1250px;
+
+:root {
+	color-scheme: light dark;
+
+	// Body
+	--body-gutters: 12px; // X + 12 (6 + 6 for chocolate border)
+
+	// Colors
+	--color-chocolate-50: #fde9de;
+	--color-chocolate-100: #f9d4bd;
+	--color-chocolate-200: #f4be9d;
+	--color-chocolate-300: #eea97e;
+	--color-chocolate-400: #e6945f;
+	--color-chocolate-500: #dc7e40;
+	--color-chocolate-600: #d2691e;
+	--color-chocolate-700: #a5541c;
+	--color-chocolate-800: #7a4018;
+	--color-chocolate-900: #512c14;
+	--color-chocolate-950: #2c1a0d;
+
+	// Semantic colors
+	--color-primary-50: var(--color-chocolate-50);
+	--color-primary-100: var(--color-chocolate-100);
+	--color-primary-200: var(--color-chocolate-200);
+	--color-primary-300: var(--color-chocolate-300);
+	--color-primary-400: var(--color-chocolate-400);
+	--color-primary-500: var(--color-chocolate-500);
+	--color-primary-600: var(--color-chocolate-600);
+	--color-primary-700: var(--color-chocolate-700);
+	--color-primary-800: var(--color-chocolate-800);
+	--color-primary-900: var(--color-chocolate-900);
+	--color-primary-950: var(--color-chocolate-950);
+
+	--color-border: light-dark(var(--color-primary-200), var(--color-primary-800));
+	--color-page-background: var(--color-border);
+	--color-text: light-dark(var(--color-primary-800), var(--color-primary-100));
+	--color-gradient-from: light-dark(var(--color-primary-200), var(--color-primary-800));
+	--color-gradient-to: light-dark(var(--color-primary-300), var(--color-primary-900));
+	--color-gradient: linear-gradient(
+		to bottom right,
+		var(--color-gradient-from),
+		var(--color-gradient-to)
+	);
+
+	// Radius
+	--border-radius-xs: #{$border-radius-xs};
+	--border-radius-s: #{$border-radius-s};
+	--border-radius-m: #{$border-radius-m};
+	--border-radius-l: #{$border-radius-l};
+	--border-radius-xl: #{$border-radius-xl};
+
+	// Angles
+	--rotation-angle: -6deg;
+
+	// Shadows
+	--text-shadow: 0.3rem 0.3rem 0 light-dark(var(--color-primary-200), var(--color-primary-950));
+
+	// Desktop
+	@media (min-width: #{$breakpoint-desktop}) {
+		--body-gutters: 76px; // X + 12 (6 + 6 for chocolate border)
+		--color-page-background: light-dark(var(--color-primary-100), var(--color-primary-900));
+
+		main {
+			--color-border: light-dark(var(--color-primary-600), var(--color-primary-400));
+		}
+	}
+}

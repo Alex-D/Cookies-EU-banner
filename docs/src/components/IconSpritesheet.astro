@@ -1,0 +1,32 @@
+---
+import { usedIconNames } from "../utils/usedIconNames.ts";
+import { iconsToSpritesheet } from "../utils/iconsToSpritesheet.ts";
+
+const iconFiles: Record<string, string> = import.meta.glob("../assets/icons/**/*.svg", {
+	eager: true,
+	import: "default",
+	query: "?raw",
+});
+
+const iconPathToName = (iconPath: string) => iconPath.replace('../assets/icons/', '').replace('.svg', '');
+
+const defaultSlotHTML = await Astro.slots.render("default");
+
+const spritesheetIconFiles = Object.fromEntries(
+	Object.entries(iconFiles).filter(([iconPath]) => usedIconNames.has(iconPathToName(iconPath)))
+);
+
+const spritesheet = iconsToSpritesheet(spritesheetIconFiles);
+---
+
+<Fragment set:html={defaultSlotHTML} />
+<Fragment set:html={spritesheet} />
+
+<style is:global>
+	svg:has(symbol) {
+		width: 0;
+		height: 0;
+		overflow: hidden;
+		visibility: hidden;
+	}
+</style>

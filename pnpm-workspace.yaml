@@ -3,6 +3,7 @@ packages:
   - docs
 
 allowBuilds:
+  "@parcel/watcher": true
   esbuild: true
 
 catalog:
@@ -12,6 +13,7 @@ catalog:
   astro: ^7.3.1
   bumpp: ^12.3.0
   playwright: ^1.63.0
+  sass: ^1.103.1
   typescript: npm:typescript-native-bridge@^6.0.3-bridge.16.tsgo.7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@0.3.1
   vite-plus: 0.3.1

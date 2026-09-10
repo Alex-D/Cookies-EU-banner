@@ -1,0 +1,42 @@
+:root {
+	font-size: 62.5%; // Keep the website scaled based on the user preferences, but 1rem = 10px is the default
+
+	--font-family-text: var(--font-nexa-text), sans-serif;
+	--font-family-title: var(--font-uni-neue), sans-serif;
+	--font-family-monospace: var(--font-jetbrains-mono), monospace;
+}
+
+body {
+	font-family: var(--font-family-text);
+	font-size: 1.6rem;
+}
+
+/* Add accessible line-height */
+body,
+p,
+blockquote,
+div,
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: calc(1em + 0.9rem);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 700;
+	line-height: calc(1em + 0.25rem);
+	font-family: var(--font-family-title);
+}
+
+p {
+	padding-block: 1.5rem;
+}

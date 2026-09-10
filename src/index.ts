@@ -68,16 +68,22 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		...headlessConfig
 	} = config;
 
-	const listenersController = new AbortController();
-	const listenerOptions = { signal: listenersController.signal };
-
 	let bannerElement: HTMLElement | undefined;
+	let listenersController: AbortController;
 
 	const showBanner = () => {
+		// Banner is already shown
+		if (bannerElement !== undefined) {
+			return;
+		}
+
 		const bannerTemplateElement =
 			document.querySelector<HTMLTemplateElement>(bannerTemplateSelector)!;
 		bannerElement = bannerTemplateElement.content.firstElementChild!.cloneNode(true) as HTMLElement;
 		document.body.prepend(bannerElement);
+
+		listenersController = new AbortController();
+		const listenerOptions = { signal: listenersController.signal };
 
 		bannerElement.querySelector(acceptButtonSelector)!.addEventListener(
 			"click",
@@ -96,7 +102,7 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		);
 	};
 
-	const removeBanner = (delay: number = delayBeforeRemove) => {
+	const removeBanner = async (delay: number = delayBeforeRemove) => {
 		if (bannerElement === undefined) {
 			return;
 		}
@@ -106,20 +112,24 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		bannerElement.classList.add("cookies-eu-banner--before-remove");
 		onBeforeRemove?.(bannerElement);
 
-		setTimeout(() => {
-			bannerElement?.remove();
-		}, delay);
+		return new Promise<void>((resolve) => {
+			setTimeout(() => {
+				bannerElement?.remove();
+				bannerElement = undefined;
+				resolve();
+			}, delay);
+		});
 	};
 
 	const { init, ...headlessBannerFunctions } = createHeadlessCookiesBanner({
 		...headlessConfig,
 		onAccept: () => {
 			onAccept();
-			removeBanner();
+			void removeBanner();
 		},
 		onReject: () => {
 			onReject?.();
-			removeBanner();
+			void removeBanner();
 		},
 		onShowBanner: () => {
 			showBanner();

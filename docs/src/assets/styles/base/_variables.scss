@@ -30,7 +30,9 @@ $breakpoint-medium-desktop: 1250px;
 	color-scheme: light dark;
 
 	// Body
-	--body-gutters: 12px; // X + 12 (6 + 6 for chocolate border)
+	--body-border-width: 6px;
+	--_body-gutters-base: 0;
+	--body-gutters: calc(var(--_body-gutters-base) + var(--body-border-width) * 2);
 
 	// Colors
 	--color-chocolate-50: #fde9de;
@@ -61,6 +63,10 @@ $breakpoint-medium-desktop: 1250px;
 	--color-border: light-dark(var(--color-primary-200), var(--color-primary-800));
 	--color-page-background: var(--color-border);
 	--color-text: light-dark(var(--color-primary-800), var(--color-primary-100));
+	--color-text-emphasis: light-dark(
+		color-mix(in oklch, var(--color-primary-800), var(--color-primary-900)),
+		color-mix(in oklch, var(--color-primary-50), var(--color-primary-100))
+	);
 	--color-gradient-from: light-dark(var(--color-primary-200), var(--color-primary-800));
 	--color-gradient-to: light-dark(var(--color-primary-300), var(--color-primary-900));
 	--color-gradient: linear-gradient(
@@ -84,7 +90,7 @@ $breakpoint-medium-desktop: 1250px;
 
 	// Desktop
 	@media (min-width: #{$breakpoint-desktop}) {
-		--body-gutters: 76px; // X + 12 (6 + 6 for chocolate border)
+		--_body-gutters-base: 64px;
 		--color-page-background: light-dark(var(--color-primary-100), var(--color-primary-900));
 
 		main {

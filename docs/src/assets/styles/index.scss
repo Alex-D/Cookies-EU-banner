@@ -16,7 +16,6 @@ body {
 
 .m-header-and-main {
 	flex-grow: 1;
-	padding-block: 6px;
 	color: var(--color-text);
 	background: var(--color-page-background);
 
@@ -28,10 +27,14 @@ body {
 	max-width: #{variables.maxWidth()};
 	margin-block: 3.2rem;
 	margin-inline: auto;
-	padding: 3.2rem;
+	padding: 3.2rem 1.6rem;
 	background-color: light-dark(var(--color-primary-50), var(--color-primary-950));
 	@include variables.squircle(variables.$border-radius-xl);
 	overflow: hidden;
+
+	@media (min-width: #{variables.$breakpoint-desktop}) {
+		padding-inline: 3.2rem;
+	}
 
 	p {
 		font-size: 1.8rem;
@@ -39,7 +42,13 @@ body {
 }
 
 .m-section__title {
-	font-size: 4rem;
+	font-size: 3.2rem;
+	text-align: center;
+
+	@media (min-width: #{variables.$breakpoint-desktop}) {
+		font-size: 4rem;
+		text-align: left;
+	}
 }
 
 .m-section__subtitle {

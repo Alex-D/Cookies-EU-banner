@@ -1,15 +1,55 @@
 ---
+import { Image } from 'astro:assets';
 
+import Icon from "./Icon.astro";
+import mascot from "../assets/images/cookies-eu-banner-mascot.png";
+
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <header class="c-header">
-	<h1 class="c-header__title">Cookies EU Banner</h1>
+	<h1 class="c-header__title">
+		<a href={baseUrl}>
+			<Image
+				src={mascot}
+				alt=""
+				width="72"
+				densities={[1, 2]}
+				class="c-header__mascot"
+				aria-hidden="true"
+				loading="eager"
+				fetchpriority="high"
+			/>
+			<span class="c-header__title-parts">
+				<span>Cookies</span> <span>EU</span> <span>Banner</span>
+			</span>
+		</a>
+	</h1>
 
 	<nav class="c-header__nav">
 		<ul>
-			<li><a>Get started</a></li>
-			<li><a>Demo</a></li>
-			<li><a>GitHub</a></li>
+			<li>
+				<a href={baseUrl + "api/"}>
+					<Icon name="ui/documentation"/>
+					Documentation
+				</a>
+			</li>
+			<li>
+				<a href={baseUrl + "demo/"}>
+					<Icon name="ui/demo"/>
+					Demo
+				</a>
+			</li>
+			<li>
+				<a href="https://github.com/Alex-D/Cookies-EU-Banner/">
+					<Icon name="social/github"/>
+					GitHub
+					<span class="github-stars">
+						<span id="github-stars-count">450</span>
+						<Icon name="ui/star"/>
+					</span>
+				</a>
+			</li>
 		</ul>
 	</nav>
 </header>
@@ -18,37 +58,158 @@
 	@use "../assets/styles/base/variables.scss";
 
 	.c-header {
+		--header-padding-top: 2rem;
+
+		position: relative;
 		max-width: #{variables.maxWidth()};
 		margin-inline: auto;
-		padding-top: 3.2rem;
-		padding-inline: 3.2rem;
+		padding-top: var(--header-padding-top);
+		padding-inline: 1.6rem;
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 
 		@media (min-width: #{variables.$breakpoint-desktop}) {
 			flex-direction: row;
 			justify-content: space-between;
+			padding-inline: 3.2rem;
+			padding-bottom: calc(var(--header-padding-top) + var(--body-border-width));
+			background-color: var(--color-border);
+			@include variables.squircle(variables.$border-radius-xl);
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+
+			&::before,
+			&::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				right: 100%;
+				width: variables.$border-radius-m * 2;
+				aspect-ratio: 1;
+				border-top-right-radius: variables.$border-radius-m;
+				box-shadow: #{variables.$border-radius-m} -#{variables.$border-radius-m} 0 #{variables.$border-radius-m} var(--color-border);
+				pointer-events: none;
+
+				@supports (corner-shape: squircle) {
+					border-top-right-radius: #{variables.$border-radius-m * 2};
+					corner-shape: squircle;
+				}
+			}
+
+			&::after {
+				left: 100%;
+				scale: -1 1;
+			}
 		}
 	}
 
 	.c-header__title {
-		display: inline-block;
+		display: inline-flex;
 		font-size: 3.2rem;
+		align-items: center;
+
+		a {
+			display: flex;
+			align-items: center;
+			gap: 1.6rem;
+			color: inherit;
+			text-decoration: none;
+		}
+
+		&-parts {
+			display: flex;
+			flex-direction: column;
+			line-height: 0.8;
+		}
+	}
+
+	.c-header__mascot {
+		margin-block: -3.2rem;
 	}
 
 	.c-header__nav {
 		display: flex;
+		font-size: 1.8rem;
 
 		ul {
 			display: flex;
 			flex-direction: row;
-			gap: 2.4rem;
-			margin-block: auto;
+			flex-wrap: wrap;
+			justify-content: center;
+			margin-block: 2.4rem 0;
+
+			@media (min-width: variables.$breakpoint-desktop) {
+				flex-direction: row;
+				gap: 2.4rem;
+				margin-block: auto;
+			}
 		}
 
 		a {
-			display: inline-block;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
 			height: 100%;
+			color: var(--color-text-emphasis);
+			text-decoration: none;
+			padding: 0.8rem 1.6rem;
+			@include variables.squircle(variables.$border-radius-s);
+			transition: background-color 150ms;
+
+			&:hover,
+			&:focus-visible {
+				background: var(--color-page-background);
+			}
+
+			> [data-icon] {
+				font-size: 1.2em;
+				margin-left: -0.2rem;
+			}
 		}
 	}
+
+	.github-stars {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		margin-left: 0.6rem;
+		margin-right: -0.8rem;
+		font-size: 0.8em;
+		padding-inline: 0.6rem 0.4rem;
+		background-color: light-dark(var(--color-primary-300), var(--color-primary-700));
+		@include variables.squircle(variables.$border-radius-xs);
+	}
 </style>
+
+<script>
+	// Update stars count
+	requestIdleCallback(() => {
+		const githubStarsElement = document.querySelector("#github-stars-count");
+
+		if (githubStarsElement === null) {
+			return;
+		}
+
+		function setStarsCount(stars) {
+			githubStarsElement.innerText = stars;
+		}
+
+		const date = new Date();
+		const starsKey = 'stars_' + date.getDay() + '_' + date.getMonth() + '_' + date.getFullYear();
+		const stars = localStorage.getItem(starsKey);
+		if (stars) {
+			setStarsCount(stars);
+			return;
+		}
+
+		fetch('https://api.github.com/repos/Alex-D/Cookies-EU-banner').then((response) => {
+			response.json().then((body) => {
+				const stars = body.stargazers_count;
+				localStorage.clear();
+				localStorage.setItem(starsKey, stars);
+				setStarsCount(stars);
+			});
+		});
+	});
+</script>

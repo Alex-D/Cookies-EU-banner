@@ -1,0 +1,41 @@
+@use "./variables";
+
+:root {
+	--astro-code-foreground: light-dark(var(--color-chocolate-900), var(--color-chocolate-100));
+	--astro-code-background: light-dark(var(--color-chocolate-50), var(--color-chocolate-900));
+	--astro-code-token-constant: light-dark(var(--color-chocolate-800), var(--color-chocolate-100));
+	--astro-code-token-string: light-dark(var(--color-chocolate-950), var(--color-chocolate-50));
+	--astro-code-token-comment: light-dark(var(--color-chocolate-500), var(--color-chocolate-500));
+	--astro-code-token-keyword: light-dark(var(--color-chocolate-600), var(--color-chocolate-300));
+	--astro-code-token-parameter: light-dark(var(--color-chocolate-950), var(--color-chocolate-50));
+	--astro-code-token-function: light-dark(var(--color-chocolate-700), var(--color-chocolate-300));
+	--astro-code-token-string-expression: light-dark(
+		var(--color-chocolate-950),
+		var(--color-chocolate-50)
+	);
+	--astro-code-token-punctuation: light-dark(
+		var(--color-chocolate-700),
+		var(--color-chocolate-300)
+	);
+	--astro-code-token-link: light-dark(var(--color-chocolate-900), var(--color-chocolate-100));
+}
+
+span[style*="comment"] {
+	font-style: italic;
+}
+
+pre,
+code {
+	tab-size: 2ch;
+	font-size: 1.4rem;
+	line-height: 1.5;
+	font-family: var(--font-family-monospace);
+
+	@media (min-width: variables.$breakpoint-desktop) {
+		font-size: inherit;
+	}
+}
+
+.astro-code {
+	margin-block-start: 2em;
+}

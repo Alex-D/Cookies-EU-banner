@@ -141,7 +141,7 @@ const baseUrl = import.meta.env.BASE_URL;
 
 			@media (min-width: variables.$breakpoint-desktop) {
 				flex-direction: row;
-				gap: 2.4rem;
+				gap: 1.6rem;
 				margin-block: auto;
 			}
 		}
@@ -159,7 +159,10 @@ const baseUrl = import.meta.env.BASE_URL;
 
 			&:hover,
 			&:focus-visible {
-				background: var(--color-page-background);
+				background-color: light-dark(var(--color-primary-100), var(--color-primary-900));
+				@media (min-width: variables.$breakpoint-desktop) {
+					background-color: var(--color-page-background);
+				}
 			}
 
 			> [data-icon] {

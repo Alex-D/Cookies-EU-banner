@@ -1,11 +1,42 @@
 ---
+
 import Layout from "../layouts/Layout.astro";
 import BannerTemplate from "../components/BannerTemplate.astro";
 import Button from "../components/Button.astro";
+import Code from "../components/Code.astro";
+
+const demoCode = `
+import { createCookiesBanner } from "cookies-eu-banner";
+
+const consentCookieName = "demoConsent";
+const cookiesBanner = createCookiesBanner({
+	consentCookieName,
+	onAccept: () => {
+		console.log("Run analytics script!");
+	},
+
+	// Manage the transition before removing the banner
+	delayBeforeRemove: 500,
+});
+
+
+// Custom controls
+document.querySelector("#custom-accept").addEventListener("click", () => {
+	cookiesBanner.setConsent(true);
+});
+document.querySelector("#custom-reject").addEventListener("click", () => {
+	cookiesBanner.setConsent(false);
+});
+document.querySelector("#custom-reset").addEventListener("click", async () => {
+	cookiesBanner.deleteCookie(consentCookieName);
+	await cookiesBanner.removeBanner(0);
+	cookiesBanner.showBanner();
+});
+`;
 ---
 
 <Layout title="Demo — Cookies EU banner, A 1kb vanilla JS script to manage consent cookie banner">
-	<section class="m-section m-section--demo">
+	<section class="m-section">
 		<h2 class="m-section__title">Demo</h2>
 
 		<p>
@@ -38,6 +69,11 @@ import Button from "../components/Button.astro";
 				</div>
 			</div>
 		</div>
+	</section>
+	<section class="m-section">
+		<h2 class="m-section__title">The code</h2>
+
+		<Code code={demoCode}/>
 	</section>
 
 	<BannerTemplate />

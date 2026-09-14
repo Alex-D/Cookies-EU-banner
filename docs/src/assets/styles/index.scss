@@ -4,6 +4,8 @@
 
 @use "base/typography";
 
+@use "base/code";
+
 html {
 	background: var(--color-border);
 }
@@ -28,7 +30,7 @@ body {
 	margin-block: 3.2rem;
 	margin-inline: auto;
 	padding: 3.2rem 1.6rem;
-	background-color: light-dark(var(--color-primary-50), var(--color-primary-950));
+	background-color: light-dark(var(--color-primary-50), var(--color-primary-900));
 	@include variables.squircle(variables.$border-radius-xl);
 	overflow: hidden;
 

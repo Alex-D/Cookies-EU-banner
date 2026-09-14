@@ -69,6 +69,12 @@ export default defineConfig({
 		assets: "assets",
 	},
 
+	markdown: {
+		shikiConfig: {
+			theme: "css-variables",
+		},
+	},
+
 	vite: {
 		css: {
 			preprocessorOptions: {

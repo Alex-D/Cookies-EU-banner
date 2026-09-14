@@ -1,0 +1,18 @@
+---
+import { Code } from 'astro:components';
+
+type Props = Omit<ComponentProps<typeof Code>, 'theme'>;
+
+const {
+	code,
+	lang = "js",
+	...props
+} = Astro.props;
+---
+
+<Code
+	code={code.trim()}
+	lang={lang}
+	theme="css-variables"
+	{...props}
+/>

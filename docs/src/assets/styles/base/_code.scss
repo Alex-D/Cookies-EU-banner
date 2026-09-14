@@ -3,9 +3,9 @@
 :root {
 	--astro-code-foreground: light-dark(var(--color-chocolate-900), var(--color-chocolate-100));
 	--astro-code-background: light-dark(var(--color-chocolate-50), var(--color-chocolate-900));
-	--astro-code-token-constant: light-dark(var(--color-chocolate-800), var(--color-chocolate-100));
+	--astro-code-token-constant: light-dark(#7f41dc, #dccafb);
 	--astro-code-token-string: light-dark(var(--color-chocolate-950), var(--color-chocolate-50));
-	--astro-code-token-comment: light-dark(var(--color-chocolate-500), var(--color-chocolate-500));
+	--astro-code-token-comment: var(--color-chocolate-500);
 	--astro-code-token-keyword: light-dark(var(--color-chocolate-600), var(--color-chocolate-300));
 	--astro-code-token-parameter: light-dark(var(--color-chocolate-950), var(--color-chocolate-50));
 	--astro-code-token-function: light-dark(var(--color-chocolate-700), var(--color-chocolate-300));

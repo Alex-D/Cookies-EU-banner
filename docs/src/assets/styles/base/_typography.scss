@@ -16,13 +16,7 @@ body,
 p,
 blockquote,
 div,
-ul,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+ul {
 	line-height: calc(1em + 0.9rem);
 }
 
@@ -35,8 +29,25 @@ h6 {
 	font-weight: 700;
 	line-height: calc(1em + 0.25rem);
 	font-family: var(--font-family-title);
+
+	&:not(:first-child) {
+		margin-top: 3.2rem;
+	}
 }
 
-p {
-	padding-block: 1.5rem;
+.astro-code,
+p,
+ul,
+table {
+	margin-top: 1.6rem;
+}
+
+th {
+	padding-right: 3.2rem;
+	text-align: left;
+}
+
+.m-section a {
+	color: var(--color-link);
+	text-underline-offset: 2px;
 }

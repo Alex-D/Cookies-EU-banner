@@ -60,6 +60,9 @@ $breakpoint-medium-desktop: 1250px;
 	--color-primary-900: var(--color-chocolate-900);
 	--color-primary-950: var(--color-chocolate-950);
 
+	--color-complementary: light-dark(#7f41dc, #dccafb);
+	--color-link: light-dark(#1c6da6, #9fd4f4);
+
 	--color-border: light-dark(var(--color-primary-200), var(--color-primary-800));
 	--color-page-background: var(--color-border);
 	--color-text: light-dark(var(--color-primary-800), var(--color-primary-100));

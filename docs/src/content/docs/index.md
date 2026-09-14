@@ -1,0 +1,18 @@
+---
+title: Introduction
+---
+
+# Introduction
+
+Cookies EU banner manage display of a banner which allows user to accept or reject cookies from tracking services like Google Analytics.
+It is a GDPR-compliant way to get cookie consent from visitors.
+
+- [Try Cookies EU banner demo in action](../demo/)
+
+# Features
+
+- Disables banner when the visitor is a bot: prevents SEO Engines from confusing your cookie advert message with the main content of your pages
+- Respects GDPR
+- Fully typed, since it's written in TypeScript
+- [Offers a headless version](./headless/)
+- Do Not Track detection, using `navigator.doNotTrack`

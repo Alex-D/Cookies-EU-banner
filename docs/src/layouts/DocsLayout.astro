@@ -1,0 +1,56 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+
+import type { Collection } from "../content.config.ts";
+import Layout from "./Layout.astro";
+import DocsSidebar from "../components/DocsSidebar.astro";
+
+type Props = {
+	doc: CollectionEntry<Collection.DOCS>
+}
+
+const {
+	doc
+} = Astro.props;
+
+const {
+	title,
+} = doc.data;
+const {Content} = await render(doc);
+---
+
+<Layout
+	title={`${title} — Cookies EU banner`}
+>
+	<div class="docs-layout">
+		<DocsSidebar />
+		<section class="m-section">
+			<Content/>
+		</section>
+	</div>
+</Layout>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables";
+
+	.docs-layout {
+		display: grid;
+		max-width: #{variables.maxWidth()};
+		margin-inline: auto;
+		margin-block: 3.2rem;
+		gap: 1.6rem;
+
+		> * {
+			margin: 0;
+		}
+
+		.m-section {
+			max-width: 100%;
+		}
+
+		@media (min-width: #{variables.$breakpoint-desktop}) {
+			grid-template-columns: 30rem auto;
+			gap: 3.2rem;
+		}
+	}
+</style>

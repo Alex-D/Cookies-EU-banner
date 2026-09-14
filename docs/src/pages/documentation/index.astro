@@ -1,0 +1,10 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import { getDoc } from "../../collectionLoaders.ts";
+
+const docHome = await getDoc("docs");
+---
+
+<DocsLayout
+	doc={docHome}
+/>

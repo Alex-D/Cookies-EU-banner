@@ -2,8 +2,11 @@
 
 :root {
 	--astro-code-foreground: light-dark(var(--color-chocolate-900), var(--color-chocolate-100));
-	--astro-code-background: light-dark(var(--color-chocolate-50), var(--color-chocolate-900));
-	--astro-code-token-constant: light-dark(#7f41dc, #dccafb);
+	--astro-code-background: light-dark(
+		color-mix(in oklch, var(--color-primary-50), white),
+		color-mix(in oklch, var(--color-primary-950), black)
+	);
+	--astro-code-token-constant: var(--color-complementary);
 	--astro-code-token-string: light-dark(var(--color-chocolate-950), var(--color-chocolate-50));
 	--astro-code-token-comment: var(--color-chocolate-500);
 	--astro-code-token-keyword: light-dark(var(--color-chocolate-600), var(--color-chocolate-300));
@@ -26,16 +29,28 @@ span[style*="comment"] {
 
 pre,
 code {
+	font-family: var(--font-family-monospace);
+}
+
+pre,
+pre code {
 	tab-size: 2ch;
 	font-size: 1.4rem;
 	line-height: 1.5;
-	font-family: var(--font-family-monospace);
 
 	@media (min-width: variables.$breakpoint-desktop) {
-		font-size: inherit;
+		font-size: 1.6rem;
 	}
 }
 
 .astro-code {
-	margin-block-start: 2em;
+	padding: 1em;
+	@include variables.squircle(variables.$border-radius-m);
+	max-width: 100%;
+}
+
+:not(.astro-code) > code {
+	padding-inline: 0.4em;
+	border-radius: variables.$border-radius-xs;
+	background-color: var(--astro-code-background);
 }

@@ -1,0 +1,20 @@
+---
+import { render } from "astro:content";
+
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import { getDocs } from "../../collectionLoaders.ts";
+
+export async function getStaticPaths() {
+	const docs = await getDocs();
+	return docs.map((doc) => ({
+		params: {id: doc.id.replace(/docs\/\w+\//, '')},
+		props: {doc},
+	}));
+}
+
+const {doc} = Astro.props;
+---
+
+<DocsLayout
+	doc={doc}
+/>

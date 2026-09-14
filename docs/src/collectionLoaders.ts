@@ -15,6 +15,14 @@ function filterDrafts<T extends { data: { isDraft?: boolean } }>(item: T): boole
  * Collection Loaders
  */
 
+export async function getDocs() {
+	return (await getCollection(Collection.DOCS, filterDrafts)).sort(sortByOrder);
+}
+
+export async function getDoc(id: string) {
+	return getEntry(Collection.DOCS, id);
+}
+
 export async function getProjects() {
 	return (await getCollection(Collection.PROJECTS, filterDrafts)).sort(sortByOrder);
 }

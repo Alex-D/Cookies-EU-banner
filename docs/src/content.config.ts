@@ -5,6 +5,7 @@ import { z } from "astro/zod";
 import { defineCollection } from "astro:content";
 
 export enum Collection {
+	DOCS = "docs",
 	PROJECTS = "projects",
 	SOCIALS = "socials",
 }
@@ -12,6 +13,21 @@ export enum Collection {
 const base = path.resolve(import.meta.dirname + "/content");
 
 export const collections = {
+	[Collection.DOCS]: defineCollection({
+		loader: glob({
+			pattern: "docs/**/*.md",
+			base,
+		}),
+		schema: () =>
+			z.object({
+				isDraft: z.boolean().optional(),
+
+				order: z.number().optional().default(1000),
+
+				title: z.string(),
+			}),
+	}),
+
 	[Collection.PROJECTS]: defineCollection({
 		loader: glob({
 			pattern: "projects/*.yaml",

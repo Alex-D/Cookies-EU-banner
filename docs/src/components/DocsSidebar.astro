@@ -1,0 +1,96 @@
+---
+import { getDocs } from "../collectionLoaders.ts";
+const docs = await getDocs();
+
+const guides = docs.filter((doc) => doc.id.includes("guide"));
+const reference = docs.filter((doc) => doc.id.includes("reference"));
+const rootDocs = docs.filter((doc) => !guides.includes(doc) && !reference.includes(doc));
+
+const baseUrl = import.meta.env.BASE_URL;
+function docToLink(doc) {
+	return {
+		title: doc.data.title,
+		href: baseUrl + "documentation" + doc.id.replace(/docs\/\w+\//, '/').replace('docs', '') + '/',
+	};
+}
+
+const linksByCategory: {
+	title?: string;
+	links: {
+		title: string;
+		href: string;
+	}[];
+}[] = [
+	{
+		links: rootDocs.map((doc) => docToLink(doc)),
+	},
+	{
+		title: "Guides",
+		links: guides.map((doc) => docToLink(doc)),
+	},
+	{
+		title: "Reference",
+		links: reference.map((doc) => docToLink(doc)),
+	},
+];
+---
+
+<aside class="doc-sidebar">
+	{
+		linksByCategory.map((linkCategory) => (
+			<div class="doc-sidebar__category" class:list={{"doc-sidebar__category-with-title": linkCategory.title}}>
+				{linkCategory.title && <h3>{linkCategory.title}</h3>}
+				<ul>{
+					linkCategory.links.map((link) => (
+						<li>
+							<a
+								href={link.href}
+								class:list={{"is-current": link.href === Astro.url.pathname}}
+							>
+								{link.title}
+							</a>
+						</li>
+					))
+				}</ul>
+			</div>
+		))
+	}
+</aside>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables";
+
+	.doc-sidebar {
+		margin-block: 3.2rem;
+		padding-inline: 1.6rem;
+		/*background: var(--color-bac);*/
+		@include variables.squircle(variables.$border-radius-xl);
+
+		ul {
+			list-style: none;
+			padding-left: 0;
+			margin: 0 0 1.6rem;
+		}
+
+		.doc-sidebar__category-with-title ul {
+			padding-left: 1.6rem;
+			margin-top: 0.4rem;
+		}
+
+		a {
+			display: block;
+			padding-block: 0.2rem;
+			margin-left: -0.8rem;
+			padding-left: 0.8rem;
+			color: var(--color-text);
+			text-decoration: none;
+
+			&.is-current {
+				font-weight: bold;
+				color: var(--color-page-background);
+				background-color: var(--color-text);
+				border-radius: variables.$border-radius-xs;
+			}
+		}
+	}
+</style>

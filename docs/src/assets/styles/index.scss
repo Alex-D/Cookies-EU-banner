@@ -37,10 +37,6 @@ body {
 	@media (min-width: #{variables.$breakpoint-desktop}) {
 		padding-inline: 3.2rem;
 	}
-
-	p {
-		font-size: 1.8rem;
-	}
 }
 
 .m-section__title {

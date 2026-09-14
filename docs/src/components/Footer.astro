@@ -1,7 +1,10 @@
 ---
+import { Image } from "astro:assets";
 import { getProjects, getSocials } from "../collectionLoaders.ts";
 
 import Icon from './Icon.astro';
+
+import favicon from "../assets/images/favicon.png";
 
 const socials = await getSocials();
 const openSourceProjects = await getProjects();
@@ -18,6 +21,7 @@ const formatSocialWhy = (why: string | undefined) => {
 			<div class="footer__fullname">
 				<span>Alexandre</span> <span class="footer__name">Demode</span>
 			</div>
+			<Image src={favicon} alt="" width="48"/>
 		</div>
 
 		<nav class="footer__section" aria-labelledby="footer-projects-title">
@@ -196,12 +200,26 @@ const formatSocialWhy = (why: string | undefined) => {
 	}
 
 	.footer__fullname {
-		margin-top: -1rem;
+		margin-top: -0.5rem;
 		font-family: var(--font-family-title);
 		font-size: 2.4rem;
+		line-height: 1;
 
 		.footer__name {
 			color: light-dark(var(--color-primary-700), var(--color-primary-300));
+		}
+	}
+
+	.footer__section--made-by {
+		display: grid;
+		grid-auto-flow: column;
+		grid-template-rows: 1fr auto;
+		grid-template-columns: 1fr 48px;
+		column-gap: 2.4rem;
+
+		img {
+			grid-row: span 2;
+			margin: auto 0 auto auto;
 		}
 	}
 
@@ -254,6 +272,14 @@ const formatSocialWhy = (why: string | undefined) => {
 
 		.footer__section--made-by {
 			grid-column: unset;
+
+			grid-auto-flow: row;
+			grid-template-columns: auto;
+			grid-template-rows: auto auto 1fr;
+
+			img {
+				margin: auto 0 0;
+			}
 		}
 	}
 </style>

@@ -23,7 +23,7 @@ const canonicalUrl = Astro.url.href
 <head>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="icon" type="image/svg+xml" href={baseUrl + "favicon.svg"}/>
+	<link rel="icon" type="image/png" href={baseUrl + "favicon.png"}/>
 	{preloadImages?.map((imageUrl) => (
 		<link rel="preload" fetchpriority="high" as="image" href={baseUrl + imageUrl}/>
 	))}

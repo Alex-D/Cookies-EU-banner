@@ -61,7 +61,7 @@ Choose one of these options:
 
 - [Using a build step](#using-a-build-step)
 - Using a CDN:
-  - [Global build, the good old `<script src="..."`](#cdn-or-local-copy-global-build-import-via-script-src)
+  - [Global build, the good old `<script src="...">`](#cdn-or-local-copy-global-build-import-via-script-src)
   - [ESM build, import via `<script type="module">`](#cdn-or-local-copy-es-module-build-esm)
 
 #### Using a build step
@@ -121,7 +121,7 @@ Or if you have downloaded the package, you can import it locally instead:
 
 ### Advanced: Headless
 
-As an alternative, you can take the full control over the UI side. Get the Cookies EU Banner's core logic: you can use your classes, your framework, ...
+As an alternative, you can take the full control over the UI side while using the Cookies EU Banner's core logic: you can use your classes, your framework, ...
 
 A simple example of what you can do:
 
@@ -177,8 +177,8 @@ A simple example of what you can do:
 		},
 	});
 
-	// You get the control of when to launch the init
-	cookiesBanner.init();
+	// You get the control of when to launch the banner
+	cookiesBanner.checkConsentAndShowBanner();
 </script>
 ```
 
@@ -190,7 +190,7 @@ A simple example of what you can do:
 	const cookiesBanner = CookiesEuBanner.createHeadlessCookiesBanner({
 		// ...
 	});
-	cookiesBanner.init();
+	cookiesBanner.checkConsentAndShowBanner();
 </script>
 ```
 

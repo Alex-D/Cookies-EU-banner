@@ -15,7 +15,7 @@ const base = path.resolve(import.meta.dirname + "/content");
 export const collections = {
 	[Collection.DOCS]: defineCollection({
 		loader: glob({
-			pattern: "docs/**/*.md",
+			pattern: "docs/**/[^_]*.mdx",
 			base,
 		}),
 		schema: () =>

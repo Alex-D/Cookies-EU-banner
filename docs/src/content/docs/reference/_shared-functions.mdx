@@ -1,0 +1,40 @@
+### `setConsent()`
+
+**Type:** `(hasConsent: boolean) => void`
+
+- `hasConsent`: the new consent value to set in the cookie or the localStorage.
+
+### `hasConsent()`
+
+**Type:** `() => boolean | undefined`
+
+Retrieve the current user consent status from cookie or localStorage.
+
+- `true`: user has accepted
+- `false`: user has rejected
+- `undefined`: no choice made yet, or has expired
+
+### `setCookie()`
+
+**Type:** `(name: string, value: string) => void`
+
+Helper to set a cookie value.
+
+- `name`: the cookie name
+- `value`: the value to save in the cookie
+
+### `getCookie()`
+
+**Type:** `(name: string) => string | undefined`
+
+Helper to get a cookie value.
+
+- `name`: the cookie name
+
+### `deleteCookie()`
+
+**Type:** `(name: string) => void`
+
+Helper to delete a cookie.
+
+- `name`: the cookie name

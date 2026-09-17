@@ -10,6 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "catalog:",
+    "@astrojs/mdx": "catalog:",
     "cookies-eu-banner": "workspace:*"
   },
   "devDependencies": {

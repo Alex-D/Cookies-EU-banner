@@ -1,0 +1,55 @@
+---
+title: "cookies-eu-banner/headless"
+---
+
+import { Content as HeadlessOptions } from "./_headless-options.mdx";
+import { Content as SharedFunctions } from "./_shared-functions.mdx";
+import { Content as SharedConsts } from "./_shared-consts.mdx";
+
+# `cookies-eu-banner/headless` reference
+
+## `createHeadlessCookiesBanner()`
+
+**Type:** `(config: HeadlessConfig) => HeadlessBanner`
+
+### Configuration `HeadlessConfig`
+
+#### `onShowBanner()`
+
+**Type:** `() => void` <br/>
+**Required**
+
+Called when the banner should be shown.
+
+Which means that the visitor is not a bot and has not made a choice yet.
+
+#### `onAccept()`
+
+**Type:** `() => void` <br/>
+**Required**
+
+The callback that will be called when the user accepts or has already accepted.
+This is where you launch your scripts (tracking, player, etc.).
+
+#### `onReject()`
+
+**Type:** `() => void` <br/>
+**Required**
+
+The callback that will be called when the user rejects or has already rejected.
+
+<HeadlessOptions />
+
+## The `HeadlessBanner` instance
+
+### `checkConsentAndShowBanner()`
+
+**Type:** `() => void`
+
+Do checks (bots, DoNotTrack, consent) before creating the banner.
+
+Triggers `onAccept`, `onReject` or `onShowBanner` when relevant.
+
+<SharedFunctions />
+
+<SharedConsts />

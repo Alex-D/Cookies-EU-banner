@@ -1,0 +1,12 @@
+<div class="c-card-grid">
+	<slot />
+</div>
+
+<style lang="scss" is:global>
+	.c-card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 1.6rem;
+		margin-top: 3.2rem;
+	}
+</style>

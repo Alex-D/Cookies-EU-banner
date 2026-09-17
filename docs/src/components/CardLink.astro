@@ -1,0 +1,95 @@
+---
+import Icon from "./Icon.astro";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = {
+	icon: string;
+} & HTMLAttributes<"a">;
+
+const {
+	icon,
+	...attrs
+} = Astro.props;
+---
+
+<a
+	{...attrs}
+	class="c-card-link"
+>
+	<div class="c-card-link__icon">
+		<Icon name="ui/cookie" class="c-card-link__icon-background" />
+		<Icon name={icon} class="c-card-link__icon-foreground" />
+	</div>
+	<slot />
+</a>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables.scss";
+
+	a.c-card-link {
+		display: flex;
+		gap: 1.2rem;
+		align-items: center;
+		--link-shadow-color: light-dark(var(--color-primary-200), var(--color-primary-900));
+		padding: 0.8rem 1.2rem;
+		border: 0;
+		font-size: 2rem;
+		font-weight: bold;
+		font-family: var(--font-family-title);
+		color: light-dark(var(--color-primary-800), var(--color-primary-100));
+		background-color: light-dark(var(--color-primary-100), var(--color-primary-800));
+		box-shadow: 0 2px 0 var(--link-shadow-color);
+		text-box-trim: trim-end;
+		text-decoration: none;
+		@include variables.squircle(variables.$border-radius-s);
+		transition: background-color 150ms, transform 150ms;
+
+		&:hover,
+		&:focus-visible {
+			background-color: light-dark(color-mix(in oklch, var(--color-primary-50), white 50%), var(--color-primary-700));
+			--link-shadow-color: light-dark(var(--color-primary-100), var(--color-primary-900));
+		}
+
+		&:active {
+			transform: translateY(0.2rem);
+			transition: transform 0ms;
+			--link-shadow-color: transparent;
+		}
+
+
+		&:hover,
+		&:focus-visible {
+			.c-card-link__icon {
+				&-background {
+					rotate: 30deg;
+					scale: 1.1;
+				}
+
+				&-foreground {
+					rotate: -8deg;
+					scale: 1.5;
+				}
+			}
+		}
+	}
+
+	.c-card-link__icon {
+		position: relative;
+
+		&-background {
+			font-size: 6.4rem;
+			color: var(--link-shadow-color);
+			transition: color 150ms, rotate 1000ms ease-out, scale 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+
+		&-foreground {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			translate: -50% -50%;
+			font-size: 2.4rem;
+			transition: color 150ms, rotate 300ms, scale 300ms;
+			transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+	}
+</style>

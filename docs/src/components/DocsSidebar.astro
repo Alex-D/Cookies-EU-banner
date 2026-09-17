@@ -61,9 +61,7 @@ const linksByCategory: {
 	@use "../assets/styles/base/variables";
 
 	.doc-sidebar {
-		margin-block: 3.2rem;
 		padding-inline: 1.6rem;
-		/*background: var(--color-bac);*/
 		@include variables.squircle(variables.$border-radius-xl);
 
 		ul {
@@ -84,12 +82,20 @@ const linksByCategory: {
 			padding-left: 0.8rem;
 			color: var(--color-text);
 			text-decoration: none;
+			border-radius: variables.$border-radius-xs;
+			transition: background-color 150ms;
 
 			&.is-current {
 				font-weight: bold;
 				color: var(--color-page-background);
 				background-color: var(--color-text);
-				border-radius: variables.$border-radius-xs;
+			}
+
+			&:not(.is-current) {
+				&:hover,
+				&:focus-visible {
+					background-color: light-dark(var(--color-primary-50), var(--color-primary-900));
+				}
 			}
 		}
 	}

@@ -1,10 +1,33 @@
 ---
-import DocsLayout from "../../layouts/DocsLayout.astro";
 import { getDoc } from "../../collectionLoaders.ts";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import CardLink from "../../components/CardLink.astro";
+import CardGrid from "../../components/CardGrid.astro";
 
 const docHome = await getDoc("docs");
 ---
 
 <DocsLayout
 	doc={docHome}
-/>
+>
+	<CardGrid>
+		<CardLink
+			href="./get-started/"
+			icon="ui/documentation"
+		>
+			Get Started
+		</CardLink>
+		<CardLink
+			href="../demo/"
+			icon="ui/demo"
+		>
+			Demo
+		</CardLink>
+		<CardLink
+			href="../#donate"
+			icon="ui/star"
+		>
+			Donate
+		</CardLink>
+	</CardGrid>
+</DocsLayout>

@@ -1,0 +1,35 @@
+#### `useLocalStorage`
+
+**Type:** `boolean` <br/>
+**Default**: `false`
+
+If enabled, stores the user consent in localStorage.
+
+#### `consentCookieName`
+
+**Type:** `string` <br/>
+**Default**: [`DEFAULT_CONSENT_COOKIE_NAME`](#default_consent_cookie_name)
+
+The name of the cookie or the localStorage key.
+
+#### `consentCookieTimeout`
+
+**Type:** `number` <br/>
+**Default**: `31104000000` (12 months)
+
+The timeout in milliseconds for the consent cookie.
+
+#### `trackingCookieNames`
+
+**Type:** `string[]` <br/>
+**Default**: [`DEFAULT_TRACKING_COOKIE_NAMES`](#default_tracking_cookie_names)
+
+List of tracking cookies to remove when the user rejects cookies.
+
+#### `botsUserAgentRegexp`
+
+**Type:** `RegExp` <br/>
+**Default**: `/bot|crawler|spider|crawling|preview|vkShare|extended|facebook|meta-/i`
+
+A way to detect bots, crawlers, AI agents, and other non-human visitors.
+This prevents the banner from being shown to bots (in screenshots, etc.).

@@ -1,10 +1,13 @@
 import path from "node:path";
 
+import mdx from "@astrojs/mdx";
 import { defineConfig, fontProviders } from "astro/config";
 
 import { WEBSITE_DOMAIN } from "./configConsts.mjs";
 
 export default defineConfig({
+	integrations: [mdx()],
+
 	fonts: [
 		{
 			provider: fontProviders.local(),
@@ -36,6 +39,16 @@ export default defineConfig({
 							),
 						],
 						weight: "normal",
+						style: "normal",
+					},
+					{
+						src: [
+							path.join(
+								import.meta.url,
+								"../src/assets/fonts/jetbrains-mono/JetBrainsMono-ExtraBold.woff2",
+							),
+						],
+						weight: 800,
 						style: "normal",
 					},
 				],

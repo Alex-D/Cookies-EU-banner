@@ -7,6 +7,8 @@ allowBuilds:
   esbuild: true
 
 catalog:
+  "@astrojs/markdown-satteri": ^0.4.1
+  "@astrojs/mdx": ^8.0.1
   "@types/node": ^26.5.0
   "@vitest/browser-playwright": ^4.1.11
   "@vitest/coverage-istanbul": 4.1.11
@@ -15,25 +17,14 @@ catalog:
   playwright: ^1.63.0
   sass: ^1.103.1
   sharp: ^0.35.4
+  subset-font: ^2.7.0
   typescript: npm:typescript-native-bridge@^6.0.3-bridge.16.tsgo.7.0.2
-  vite: npm:@voidzero-dev/vite-plus-core@0.3.1
-  vite-plus: 0.3.1
+  vite: npm:@voidzero-dev/vite-plus-core@0.3.2
+  vite-plus: 0.3.2
 
 catalogMode: strict
 
 linkWorkspacePackages: true
-
-minimumReleaseAgeExclude:
-  - "@voidzero-dev/vite-plus-core@0.3.1"
-  - "@voidzero-dev/vite-plus-darwin-arm64@0.3.1"
-  - "@voidzero-dev/vite-plus-darwin-x64@0.3.1"
-  - "@voidzero-dev/vite-plus-linux-arm64-gnu@0.3.1"
-  - "@voidzero-dev/vite-plus-linux-arm64-musl@0.3.1"
-  - "@voidzero-dev/vite-plus-linux-x64-gnu@0.3.1"
-  - "@voidzero-dev/vite-plus-linux-x64-musl@0.3.1"
-  - "@voidzero-dev/vite-plus-win32-arm64-msvc@0.3.1"
-  - "@voidzero-dev/vite-plus-win32-x64-msvc@0.3.1"
-  - vite-plus@0.3.1
 
 overrides:
   vite@*: "catalog:"

@@ -1,0 +1,16 @@
+import { DEFAULT_CONSENT_COOKIE_NAME, DEFAULT_TRACKING_COOKIE_NAMES } from "cookies-eu-banner";
+import { arrayToString } from "../../../utils/arrayToString.ts";
+
+## `DEFAULT_CONSENT_COOKIE_NAME`
+
+**Type:** `string` <br/>
+**Value:** <code>{'"' + DEFAULT_CONSENT_COOKIE_NAME + '"'}</code>
+
+The default cookie (or localStorage key) used to store the consent.
+
+## `DEFAULT_TRACKING_COOKIE_NAMES`
+
+**Type:** `string[]` <br/>
+**Value:** <code>{arrayToString(DEFAULT_TRACKING_COOKIE_NAMES)}</code>
+
+The list of cookie names that must be removed when the user rejects consent.

@@ -121,7 +121,7 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		});
 	};
 
-	const { init, ...headlessBannerFunctions } = createHeadlessCookiesBanner({
+	const { checkConsentAndShowBanner, ...headlessBannerFunctions } = createHeadlessCookiesBanner({
 		...headlessConfig,
 		onAccept: () => {
 			onAccept();
@@ -135,7 +135,7 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 			showBanner();
 		},
 	});
-	init();
+	checkConsentAndShowBanner();
 
 	const bannerFunctions = {
 		/**

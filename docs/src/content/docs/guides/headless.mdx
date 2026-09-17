@@ -1,0 +1,118 @@
+---
+title: Headless
+---
+
+# Headless
+
+In some cases, you may want to get the full control over the UI side and still benefit from the core logic.
+
+That's what the headless version is for: use your own framework, classes, structure, events, ...
+
+Note that the `cookies-eu-banner`'s `createCookiesBanner()` relies underneath on the headless functions.
+
+See all the options and reference of [`cookies-eu-banner/headless`](../cookies-eu-banner-headless/).
+
+## Import
+
+### Using a build step
+
+```js
+import { createHeadlessCookiesBanner } from "cookies-eu-banner/headless";
+```
+
+### CDN or local copy: Global build (import via `<script src="...">`)
+
+This will expose `CookiesEuBanner` as global, allowing you to call the `createHeadlessCookiesBanner` function like this:
+
+```html
+<script src="https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.global.js"></script>
+<!--
+Or if you have downloaded the package, you can import it locally instead:
+<script src="./your-path/cookies-eu-banner.global.js"></script>
+-->
+<script>
+	const cookiesBanner = CookiesEuBanner.createHeadlessCookiesBanner({
+		// ...
+	});
+	cookiesBanner.checkConsentAndShowBanner();
+</script>
+```
+
+### CDN or local copy: ES Module build (ESM)
+
+```html
+<script type="module">
+	import { createHeadlessCookiesBanner } from "https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.headless.js";
+
+	// Or if you have downloaded the package, you can import it locally instead:
+	// import { createHeadlessCookiesBanner } from "./your-path/cookies-eu-banner.headless.js";
+
+	const cookiesBanner = createHeadlessCookiesBanner({
+		// ...
+	});
+	cookiesBanner.checkConsentAndShowBanner();
+</script>
+```
+
+## Example
+
+```html
+<div id="my-banner">
+	<button id="my-accept-button">Accept</button>
+	<button id="my-reject-button">Reject</button>
+</div>
+<script type="module">
+	import { createHeadlessCookiesBanner } from "cookies-eu-banner/headless";
+	// or from CDN
+	// import { createHeadlessCookiesBanner } from "https://unpkg.com/cookies-eu-banner@^3/dist/cookies-eu-banner.headless.js";
+
+	const listenersController = new AbortController();
+	/** @type HTMLElement */
+	const bannerElement = document.querySelector("#my-banner");
+
+	const cookiesBanner = createHeadlessCookiesBanner({
+		showBanner: () => {
+			// Create or bind to the banner
+
+			// Example
+			bannerElement.style.display = "block";
+			bannerElement.ariaHidden = "false";
+
+			document.querySelector("#my-accept-button").addEventListener(
+				"click",
+				() => {
+					cookiesBanner.setConsent(true);
+				},
+				{ signal: listenersController.signal },
+			);
+
+			document.querySelector("#my-reject-button").addEventListener(
+				"click",
+				() => {
+					cookiesBanner.setConsent(false);
+				},
+				{ signal: listenersController.signal },
+			);
+		},
+		onAccept: () => {
+			// Your code to launch when the user accepts cookies
+
+			// Your code to hide/remove the banner
+			bannerElement.remove();
+
+			listenersController.abort(); // Remember to remove listeners
+		},
+		onReject: () => {
+			// Your code to launch when the user rejects cookies
+
+			// Your code to hide/remove the banner
+			bannerElement.remove();
+
+			listenersController.abort(); // Remember to remove listeners
+		},
+	});
+
+	// You get the control of when to launch the banner
+	cookiesBanner.checkConsentAndShowBanner();
+</script>
+```

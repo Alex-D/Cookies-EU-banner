@@ -54,7 +54,7 @@ const initHeadless = ({
 		}),
 		{ spy: true },
 	);
-	headlessCookiesBanner.init();
+	headlessCookiesBanner.checkConsentAndShowBanner();
 
 	return {
 		onShowBanner,
@@ -64,12 +64,12 @@ const initHeadless = ({
 	};
 };
 
-test.describe("init", () => {
+test.describe("checkConsentAndShowBanner", () => {
 	test("Ensure DEFAULT_CONSENT_COOKIE_NAME has not changed", () => {
 		expect(DEFAULT_CONSENT_COOKIE_NAME).toEqual("hasConsent");
 	});
 
-	test("Calls onShowBanner on init when no cookie is set for normal user", () => {
+	test("Calls onShowBanner when no cookie is set for normal user", () => {
 		const { onShowBanner, onAccept, onReject, headlessCookiesBanner } = initHeadless();
 
 		expect(onShowBanner).toHaveBeenCalledOnce();

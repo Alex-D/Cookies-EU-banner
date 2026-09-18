@@ -4,10 +4,12 @@ import type { HTMLAttributes } from "astro/types";
 
 type Props = {
 	icon: string;
+	secondary?: boolean;
 } & HTMLAttributes<"a">;
 
 const {
 	icon,
+	secondary = false,
 	...attrs
 } = Astro.props;
 ---
@@ -15,6 +17,9 @@ const {
 <a
 	{...attrs}
 	class="c-card-link"
+	class:list={{
+		"c-card-link--secondary": secondary,
+	}}
 >
 	<div class="c-card-link__icon">
 		<Icon name="ui/cookie" class="c-card-link__icon-background" />
@@ -30,14 +35,14 @@ const {
 		display: flex;
 		gap: 1.2rem;
 		align-items: center;
-		--link-shadow-color: light-dark(var(--color-primary-200), var(--color-primary-900));
-		padding: 0.8rem 1.2rem;
+		--link-shadow-color: light-dark(var(--color-primary-200), var(--color-primary-800));
+		padding: 0.8rem 2.4rem 0.8rem 1.2rem;
 		border: 0;
 		font-size: 2rem;
 		font-weight: bold;
 		font-family: var(--font-family-title);
-		color: light-dark(var(--color-primary-800), var(--color-primary-100));
-		background-color: light-dark(var(--color-primary-100), var(--color-primary-800));
+		color: light-dark(var(--color-primary-800), var(--color-primary-50));
+		background-color: light-dark(var(--color-primary-100), var(--color-primary-700));
 		box-shadow: 0 2px 0 var(--link-shadow-color);
 		text-box-trim: trim-end;
 		text-decoration: none;
@@ -46,16 +51,14 @@ const {
 
 		&:hover,
 		&:focus-visible {
-			background-color: light-dark(color-mix(in oklch, var(--color-primary-50), white 50%), var(--color-primary-700));
-			--link-shadow-color: light-dark(var(--color-primary-100), var(--color-primary-900));
+			background-color: light-dark(color-mix(in oklch, var(--color-primary-50), white 50%), var(--color-primary-600));
+			--link-shadow-color: light-dark(var(--color-primary-100), var(--color-primary-800));
 		}
 
 		&:active {
 			transform: translateY(0.2rem);
 			transition: transform 0ms;
-			--link-shadow-color: transparent;
 		}
-
 
 		&:hover,
 		&:focus-visible {
@@ -69,6 +72,18 @@ const {
 					rotate: -8deg;
 					scale: 1.5;
 				}
+			}
+		}
+
+		&--secondary {
+			color: light-dark(var(--color-primary-800), var(--color-primary-100));
+			background-color: light-dark(var(--color-primary-100), var(--color-primary-800));
+			--link-shadow-color: light-dark(var(--color-primary-200), var(--color-primary-900));
+
+			&:hover,
+			&:focus-visible {
+				background-color: light-dark(color-mix(in oklch, var(--color-primary-50), white 50%), var(--color-primary-700));
+				--link-shadow-color: light-dark(var(--color-primary-100), var(--color-primary-900));
 			}
 		}
 	}

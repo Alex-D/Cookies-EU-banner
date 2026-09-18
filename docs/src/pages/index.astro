@@ -1,12 +1,126 @@
 ---
+import { Image } from "astro:assets";
+
 import Layout from '../layouts/Layout.astro';
+import Icon from "../components/Icon.astro";
+import VerticalCard from "../components/VerticalCard.astro";
+
+import mascot from "../assets/images/cookies-eu-banner-mascot.png";
+import CardLink from "../components/CardLink.astro";
 ---
 
-<Layout title="Cookies EU banner, A 1kb vanilla JS script to manage consent cookie banner">
-	<section class="m-section">
-		<h1>Cookies EU Banner</h1>
+<Layout
+	title="Cookies EU Banner, A 1kb vanilla JS script to manage consent cookie banner"
+	showHeaderMascot={false}
+>
+	<section class="m-hero">
+		<Image
+			src={mascot}
+			alt=""
+			width="200"
+			densities={[1, 2]}
+			class="m-hero-title-mascot"
+			aria-hidden="true"
+			loading="eager"
+			fetchpriority="high"
+		/>
+		<h1 class="m-hero-title">Cookies EU Banner</h1>
+		<h2 class="m-hero-tagline">
+			A 1kb vanilla JavaScript library managing cookies consent banner.
+		</h2>
+
+		<div class="m-hero__links">
+			<CardLink
+				href="./documentation/get-started/"
+				icon="ui/documentation"
+			>
+				Get started
+			</CardLink>
+			<CardLink
+				href="./demo/"
+				icon="ui/demo"
+				secondary
+			>
+				Try it live
+			</CardLink>
+		</div>
+	</section>
+
+	<section class="m-section home-vertical-cards">
+		<VerticalCard
+			icon="ui/compliant"
+			title="GDPR compliant"
+		>
+			This library matches requirements of European Commission and CNIL.
+		</VerticalCard>
+		<VerticalCard
+			icon="ui/optimization"
+			title="Lightweight & Simple"
+		>
+			Just 1kb of vanilla JavaScript.
+			You can apply any style you want on this banner.
+		</VerticalCard>
+		<VerticalCard
+			icon="ui/stars-ai"
+			title="Optimized for SEO & AI"
+		>
+			The banner is only shown to human users:
+			it will not appear in the description of any of your pages.
+		</VerticalCard>
 	</section>
 </Layout>
 
-<style>
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables.scss";
+
+	.m-hero {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		max-width: 60rem;
+		margin: 6.4rem auto 3.2rem;
+	}
+
+	.m-hero-title-mascot {
+		margin-bottom: -1.8rem;
+	}
+
+	.m-hero-title {
+		font-size: 1.8rem;
+
+		@media (min-width: variables.$breakpoint-desktop) {
+ 			font-size: 2.4rem;
+		}
+	}
+
+	.m-hero-tagline {
+		font-size: 2.4rem;
+		color: light-dark(var(--color-primary-800), var(--color-primary-200));
+		margin-top: 0.5em !important;
+
+		@media (min-width: variables.$breakpoint-desktop) {
+			font-size: 3.2rem;
+		}
+	}
+
+	.m-hero__links {
+		display: flex;
+		flex-direction: column;
+		gap: 1.6rem;
+		margin-block: 3.2rem;
+
+		@media (min-width: #{variables.$breakpoint-desktop}) {
+			flex-direction: row;
+			gap: 3.2rem;
+		}
+	}
+
+	.home-vertical-cards {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: 4.8rem 3.2rem;
+		background: none !important;
+		padding-inline: 0;
+	}
 </style>

@@ -1,0 +1,70 @@
+---
+import Icon from "./Icon.astro";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = {
+	icon: string;
+	title: string;
+} & HTMLAttributes<"div">
+
+const {
+	icon,
+	title,
+	...attrs
+} = Astro.props
+---
+
+<div class="c-vertical-card" {...attrs}>
+	<div class="c-vertical-card__icon">
+		<Icon name="ui/cookie" class="c-vertical-card__icon-background" />
+		<Icon name={icon} class="c-vertical-card__icon-foreground" />
+	</div>
+	<h3 class="c-vertical-card__title">
+		{title}
+	</h3>
+
+	<p>
+		<slot/>
+	</p>
+</div>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables.scss";
+
+	.c-vertical-card {
+		display: flex;
+		flex-direction: column;
+		background-color: light-dark(var(--color-primary-50), var(--color-primary-950));
+		padding: 3.2rem;
+		@include variables.squircle(variables.$border-radius-xl);
+
+		&__title {
+			font-size: 2.4rem;
+		}
+
+		p {
+			margin-top: 1.2rem;
+			font-size: 1.8rem;
+		}
+	}
+
+	.c-vertical-card__icon {
+		position: relative;
+		margin: -6.4rem 0 -1em -0.4rem;
+		width: max-content;
+
+		&-background {
+			font-size: 6.4rem;
+			color: light-dark(var(--color-primary-600), var(--color-primary-800));
+		}
+
+		&-foreground {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			translate: -50% -50%;
+			font-size: 3.2rem;
+			color: var(--color-text-emphasis);
+		}
+	}
+</style>

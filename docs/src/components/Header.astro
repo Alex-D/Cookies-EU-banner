@@ -4,27 +4,36 @@ import { Image } from 'astro:assets';
 import Icon from "./Icon.astro";
 import mascot from "../assets/images/cookies-eu-banner-mascot.png";
 
+type Props = {
+	showMascot?: boolean,
+}
+
+const {
+	showMascot = true,
+} = Astro.props
+
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <header class="c-header">
-	<h1 class="c-header__title">
-		<a href={baseUrl}>
-			<Image
-				src={mascot}
-				alt=""
-				width="72"
-				densities={[1, 2]}
-				class="c-header__mascot"
-				aria-hidden="true"
-				loading="eager"
-				fetchpriority="high"
-			/>
-			<span class="c-header__title-parts">
-				<span>Cookies</span> <span>EU</span> <span>Banner</span>
-			</span>
-		</a>
-	</h1>
+	<a
+		href={baseUrl}
+		class="c-header__title"
+	>
+		{showMascot && <Image
+			src={mascot}
+			alt=""
+			width="72"
+			densities={[1, 2]}
+			class="c-header__mascot"
+			aria-hidden="true"
+			loading="eager"
+			fetchpriority="high"
+		/>}
+		<span class="c-header__title-parts">
+			<span>Cookies</span> <span>EU</span> <span>Banner</span>
+		</span>
+	</a>
 
 	<nav class="c-header__nav">
 		<ul>
@@ -105,17 +114,13 @@ const baseUrl = import.meta.env.BASE_URL;
 	}
 
 	.c-header__title {
-		display: inline-flex;
-		font-size: 3.2rem;
+		display: flex;
 		align-items: center;
-
-		a {
-			display: flex;
-			align-items: center;
-			gap: 1.6rem;
-			color: inherit;
-			text-decoration: none;
-		}
+		gap: 1.6rem;
+		font-family: var(--font-family-title);
+		font-size: 3.2rem;
+		color: inherit;
+		text-decoration: none;
 
 		&-parts {
 			display: flex;

@@ -38,13 +38,19 @@ const baseUrl = import.meta.env.BASE_URL;
 	<nav class="c-header__nav">
 		<ul>
 			<li>
-				<a href={baseUrl + "documentation/"}>
+				<a
+					href={baseUrl + "documentation/"}
+					class:list={{"is-current": Astro.url.pathname.startsWith(baseUrl + "documentation/")}}
+				>
 					<Icon name="ui/documentation"/>
 					Documentation
 				</a>
 			</li>
 			<li>
-				<a href={baseUrl + "demo/"}>
+				<a
+					href={baseUrl + "demo/"}
+					class:list={{"is-current": Astro.url.pathname.startsWith(baseUrl + "demo/")}}
+				>
 					<Icon name="ui/demo"/>
 					Demo
 				</a>
@@ -153,6 +159,7 @@ const baseUrl = import.meta.env.BASE_URL;
 		}
 
 		a {
+			position: relative;
 			display: inline-flex;
 			align-items: center;
 			gap: 0.5rem;
@@ -174,6 +181,20 @@ const baseUrl = import.meta.env.BASE_URL;
 			> [data-icon] {
 				font-size: 1.2em;
 				margin-left: -0.2rem;
+			}
+
+			&.is-current {
+				&::before {
+					content: "";
+					position: absolute;
+					left: 50%;
+					bottom: 0;
+					background: currentColor;
+					width: calc(100% - 3.2rem);
+					height: 0.2rem;
+					translate: -50% 0;
+					opacity: 0.25;
+				}
 			}
 		}
 	}

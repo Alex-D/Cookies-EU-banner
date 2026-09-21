@@ -47,7 +47,7 @@ th {
 	text-align: left;
 }
 
-.m-section a {
+.m-section a:not([class]) {
 	color: var(--color-link);
 	text-underline-offset: 3px;
 	text-decoration-thickness: 1.5px;

@@ -140,6 +140,36 @@ test.describe("init", () => {
 	});
 });
 
+test.describe("Show banner", () => {
+	test
+		.override("bannerSelector", ".custom-banner-selector")
+		.override("bannerTemplateSelector", ".custom-banner-template-selector")
+		.override("acceptButtonSelector", ".custom-accept-button-selector")
+		.override("rejectButtonSelector", ".custom-reject-button-selector");
+
+	test("Add the banner to the top of the body only once", ({
+		bannerSelector,
+		bannerTemplateSelector,
+		acceptButtonSelector,
+		rejectButtonSelector,
+	}) => {
+		const onAccept = vi.fn();
+
+		const banner = createCookiesBanner({
+			bannerTemplateSelector,
+			acceptButtonSelector,
+			rejectButtonSelector,
+			onAccept,
+		});
+
+		banner.showBanner();
+
+		expectBannerAsBodyFirstChild(bannerSelector);
+
+		expect(document.querySelectorAll(bannerSelector).length).toBe(1);
+	});
+});
+
 test.describe("Accept button", () => {
 	test("Triggers onAccept and set the cookie when the user clicks on Accept", ({
 		acceptButtonSelector,

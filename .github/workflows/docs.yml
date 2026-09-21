@@ -15,12 +15,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
-        uses: actions/checkout@v7
-      - name: Install, build, and upload your site
-        uses: withastro/action@v6
+      - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
+
+      - uses: voidzero-dev/setup-vp@v1.21.0
         with:
-          path: docs
+          node-version: "24"
+          cache: true
+
+      - run: vp install
+
+      - run: vp run -r build
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+        with:
+          path: docs/dist/
+          include-hidden-files: true
 
   deploy:
     needs: build

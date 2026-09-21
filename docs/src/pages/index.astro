@@ -86,6 +86,30 @@ import CardLink from "../components/CardLink.astro";
 			See <a href="./documentation/headless/">Headless documentation</a>.
 		</VerticalCard>
 	</section>
+
+	<section id="donate" class="m-section m-donate">
+		<h3 class="m-donate__title">Support the project</h3>
+		<p>
+			Cookies EU banner is an MIT-licensed open source project and completely free to use.
+			You can thank me or support it's ongoing development by making a donation.
+		</p>
+		<div class="m-donate__links">
+			<CardLink
+				href="https://www.patreon.com/alexandredemode"
+				icon="socials/patreon"
+				secondary
+			>
+				Be a sponsor on Patreon
+			</CardLink>
+			<CardLink
+				href="https://www.paypal.me/demodealexandre/20eur"
+				icon="socials/paypal"
+				secondary
+			>
+				Donate via PayPal
+			</CardLink>
+		</div>
+	</section>
 </Layout>
 
 <style lang="scss" is:global>
@@ -141,11 +165,6 @@ import CardLink from "../components/CardLink.astro";
 		padding-inline: 0;
 		padding-bottom: 0;
 
-		@media (max-width: variables.$breakpoint-desktop - 1) {
-			--_body-gutters-base: 32px;
-			--body-gutters: calc(var(--_body-gutters-base) + var(--body-border-width) * 2);
-		}
-
 		@media (min-width: variables.$breakpoint-desktop) {
 			grid-template-columns: repeat(6, 1fr);
 			.c-vertical-card {
@@ -156,6 +175,34 @@ import CardLink from "../components/CardLink.astro";
 					grid-column: span 3;
 				}
 			}
+		}
+	}
+
+	.m-donate {
+		max-width: min(60rem, variables.maxWidth());
+		margin-top: 12.8rem;
+
+		@media (min-width: variables.$breakpoint-desktop) {
+			margin-bottom: 6.4rem;
+		}
+
+		&__title {
+			font-size: 3.2rem;
+		}
+
+		&__links {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+			gap: 2.4rem;
+			margin-top: 2.4rem;
+		}
+	}
+
+	.home-vertical-cards,
+	.m-donate {
+		@media (max-width: variables.$breakpoint-desktop - 1) {
+			--_body-gutters-base: 32px;
+			--body-gutters: calc(var(--_body-gutters-base) + var(--body-border-width) * 2);
 		}
 	}
 </style>

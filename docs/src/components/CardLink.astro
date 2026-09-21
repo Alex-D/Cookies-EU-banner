@@ -42,7 +42,7 @@ const {
 		font-weight: bold;
 		font-family: var(--font-family-title);
 		color: light-dark(var(--color-primary-800), var(--color-primary-50));
-		background-color: light-dark(var(--color-primary-100), var(--color-primary-700));
+		background-color: light-dark(var(--color-primary-50), var(--color-primary-700));
 		box-shadow: 0 2px 0 var(--link-shadow-color);
 		text-box-trim: trim-end;
 		text-decoration: none;
@@ -65,19 +65,19 @@ const {
 			.c-card-link__icon {
 				&-background {
 					rotate: 30deg;
-					scale: 1.1;
+					scale: 1.15;
 				}
 
 				&-foreground {
 					rotate: -8deg;
-					scale: 1.5;
+					scale: 1.4;
 				}
 			}
 		}
 
 		&--secondary {
 			color: light-dark(var(--color-primary-800), var(--color-primary-100));
-			background-color: light-dark(var(--color-primary-100), var(--color-primary-800));
+			background-color: light-dark(color-mix(var(--color-primary-50), var(--color-primary-100)), var(--color-primary-800));
 			--link-shadow-color: light-dark(var(--color-primary-200), var(--color-primary-900));
 
 			&:hover,
@@ -102,7 +102,7 @@ const {
 			top: 50%;
 			left: 50%;
 			translate: -50% -50%;
-			font-size: 2.4rem;
+			font-size: 3.2rem;
 			transition: color 150ms, rotate 300ms, scale 300ms;
 			transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 		}

@@ -49,5 +49,12 @@ th {
 
 .m-section a {
 	color: var(--color-link);
-	text-underline-offset: 2px;
+	text-underline-offset: 3px;
+	text-decoration-thickness: 1.5px;
+	text-decoration-color: color-mix(currentColor 25%, transparent);
+
+	&:hover {
+		text-decoration-color: currentColor;
+		text-decoration-thickness: 2px;
+	}
 }

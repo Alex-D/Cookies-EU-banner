@@ -20,6 +20,7 @@ body {
 	flex-grow: 1;
 	color: var(--color-text);
 	background: var(--color-page-background);
+	overflow: hidden;
 
 	@include variables.squircle(variables.$border-radius-m);
 }

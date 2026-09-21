@@ -71,45 +71,46 @@ const baseUrl = import.meta.env.BASE_URL;
 
 		position: relative;
 		max-width: #{variables.maxWidth()};
-		margin-inline: auto;
-		padding-top: var(--header-padding-top);
+		margin-inline: 2.8rem;
+		padding-block: var(--header-padding-top);
 		padding-inline: 1.6rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		background-color: var(--color-border);
+		@include variables.squircle(variables.$border-radius-xl);
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 100%;
+			width: variables.$border-radius-m * 2;
+			aspect-ratio: 1;
+			border-top-right-radius: variables.$border-radius-m;
+			box-shadow: #{variables.$border-radius-m} -#{variables.$border-radius-m} 0 #{variables.$border-radius-m} var(--color-border);
+			pointer-events: none;
+
+			@supports (corner-shape: squircle) {
+				border-top-right-radius: #{variables.$border-radius-m * 2};
+				corner-shape: squircle;
+			}
+		}
+
+		&::after {
+			left: 100%;
+			scale: -1 1;
+		}
 
 		@media (min-width: #{variables.$breakpoint-desktop}) {
 			flex-direction: row;
 			justify-content: space-between;
+			margin-inline: auto;
 			padding-inline: 3.2rem;
 			padding-bottom: calc(var(--header-padding-top) + var(--body-border-width));
-			background-color: var(--color-border);
-			@include variables.squircle(variables.$border-radius-xl);
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-
-			&::before,
-			&::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				right: 100%;
-				width: variables.$border-radius-m * 2;
-				aspect-ratio: 1;
-				border-top-right-radius: variables.$border-radius-m;
-				box-shadow: #{variables.$border-radius-m} -#{variables.$border-radius-m} 0 #{variables.$border-radius-m} var(--color-border);
-				pointer-events: none;
-
-				@supports (corner-shape: squircle) {
-					border-top-right-radius: #{variables.$border-radius-m * 2};
-					corner-shape: squircle;
-				}
-			}
-
-			&::after {
-				left: 100%;
-				scale: -1 1;
-			}
 		}
 	}
 

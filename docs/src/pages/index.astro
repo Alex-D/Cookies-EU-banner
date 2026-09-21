@@ -53,6 +53,7 @@ import CardLink from "../components/CardLink.astro";
 		>
 			This library matches requirements of European Commission and CNIL.
 		</VerticalCard>
+
 		<VerticalCard
 			icon="ui/optimization"
 			title="Lightweight & Simple"
@@ -60,12 +61,29 @@ import CardLink from "../components/CardLink.astro";
 			Just 1kb of vanilla JavaScript.
 			You can apply any style you want on this banner.
 		</VerticalCard>
+
 		<VerticalCard
 			icon="ui/stars-ai"
 			title="Optimized for SEO & AI"
 		>
 			The banner is only shown to human users:
 			it will not appear in the description of any of your pages.
+		</VerticalCard>
+
+		<VerticalCard
+			icon="ui/code"
+			title="Fully typed"
+		>
+			The library is shipped with types included. <br>
+			Written in TypeScript.
+		</VerticalCard>
+
+		<VerticalCard
+			icon="ui/software"
+			title="Headless alternative"
+		>
+			Go beyond the default UI implementation using direct access to the core logic.
+			See <a href="./documentation/headless/">Headless documentation</a>.
 		</VerticalCard>
 	</section>
 </Layout>
@@ -118,9 +136,26 @@ import CardLink from "../components/CardLink.astro";
 
 	.home-vertical-cards {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: 4.8rem 3.2rem;
+		gap: 3.2rem;
 		background: none !important;
 		padding-inline: 0;
+		padding-bottom: 0;
+
+		@media (max-width: variables.$breakpoint-desktop - 1) {
+			--_body-gutters-base: 32px;
+			--body-gutters: calc(var(--_body-gutters-base) + var(--body-border-width) * 2);
+		}
+
+		@media (min-width: variables.$breakpoint-desktop) {
+			grid-template-columns: repeat(6, 1fr);
+			.c-vertical-card {
+				grid-column: span 2;
+
+				&:nth-child(4),
+				&:nth-child(5) {
+					grid-column: span 3;
+				}
+			}
+		}
 	}
 </style>

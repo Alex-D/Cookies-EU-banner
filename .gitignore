@@ -5,3 +5,4 @@ node_modules
 /coverage
 /.vitest-attachments
 /tests/__screenshots__
+.vitest/

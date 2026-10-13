@@ -10,8 +10,8 @@ catalog:
   "@astrojs/markdown-satteri": ^0.4.1
   "@astrojs/mdx": ^8.0.1
   "@types/node": ^26.6.2
-  "@vitest/browser-playwright": 5.0.1
-  "@vitest/coverage-istanbul": 5.0.1
+  "@vitest/browser-playwright": 5.0.3
+  "@vitest/coverage-istanbul": 5.0.3
   astro: ^7.3.3
   bumpp: ^12.3.0
   playwright: ^1.63.0
@@ -19,9 +19,9 @@ catalog:
   sharp: ^0.35.4
   subset-font: ^2.7.0
   typescript: npm:typescript-native-bridge@^6.0.3-bridge.17.tsgo.7.0.2
-  vite: npm:@voidzero-dev/vite-plus-core@1.0.0
-  vite-plus: 1.0.0
-  vitest: 5.0.1
+  vite: npm:@voidzero-dev/vite-plus-core@1.1.0
+  vite-plus: 1.1.0
+  vitest: 5.0.3
 
 catalogMode: strict
 

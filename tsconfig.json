@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["es2023", "dom"],
+    "lib": ["ES2023", "DOM"],
     "moduleDetection": "force",
     "module": "nodenext",
     "moduleResolution": "nodenext",

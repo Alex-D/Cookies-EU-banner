@@ -13,7 +13,7 @@ const DEFAULT_TRACKING_COOKIE_NAMES = [
 	"_gid",
 ];
 
-type HeadlessOptions = {
+type HeadlessConfig = {
 	/**
 	 * If enabled, stores the user consent in localStorage.
 	 * Default: false
@@ -56,32 +56,34 @@ type HeadlessOptions = {
 	botsUserAgentRegexp?: RegExp;
 };
 
-type HeadlessConfig = {
-	/**
-	 * Called when the banner should be shown,
-	 * which means that the visitor is not a bot and has not made a choice yet.
-	 */
-	onShowBanner: () => void;
-
-	/**
-	 * Callback called when this user accepts or has already accepted.
-	 * This is where you launch your tracking scripts.
-	 */
-	onAccept: () => void;
-
-	/**
-	 * Callback called when this user rejects or has already rejected.
-	 */
-	onReject: () => void;
-} & HeadlessOptions;
+type CookiesEuBannerState = {
+	mustShowBanner: boolean;
+	hasConsent: boolean | undefined;
+};
 
 const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
-	const {
-		// Hooks
-		onShowBanner,
-		onAccept,
-		onReject,
+	let state: CookiesEuBannerState = {
+		mustShowBanner: false,
+		hasConsent: undefined,
+	};
+	const listeners = new Set<() => void>();
+	function setState(patch: Partial<CookiesEuBannerState>) {
+		let hasChanged = false;
+		for (const key of Object.keys(patch) as (keyof CookiesEuBannerState)[]) {
+			if (state[key] !== patch[key]) {
+				hasChanged = true;
+				break;
+			}
+		}
+		if (!hasChanged) {
+			return;
+		}
 
+		state = { ...state, ...patch };
+		listeners.forEach((listener) => listener());
+	}
+
+	const {
 		// Options
 		useLocalStorage = false,
 		consentCookieName = DEFAULT_CONSENT_COOKIE_NAME,
@@ -91,6 +93,24 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 	} = config;
 
 	const headlessBanner = {
+		/**
+		 * Retrieve the current banner state
+		 */
+		getState: () => {
+			return state;
+		},
+
+		/**
+		 * Subscribe to state change
+		 * @param listener Callback
+		 */
+		subscribe(listener: () => void) {
+			listeners.add(listener);
+			return () => {
+				return listeners.delete(listener);
+			};
+		},
+
 		/**
 		 * Do checks (bots, DoNotTrack, consent) before creating the banner
 		 * Triggers `onAccept`, `onReject` or `onShowBanner` when relevant
@@ -104,17 +124,29 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 			const hasDoNotTrackEnabled = navigator.doNotTrack === "1";
 
 			if (isBot || hasDoNotTrackEnabled || headlessBanner.hasConsent() === false) {
-				onReject();
+				setState({
+					hasConsent: false,
+				});
 				return;
 			}
 
 			if (headlessBanner.hasConsent() === true) {
-				onAccept();
+				setState({
+					hasConsent: true,
+				});
 				return;
 			}
 
 			// If it's not a bot, no DoNotTrack and not already accept, so show the banner
-			onShowBanner();
+			setState({
+				mustShowBanner: true,
+			});
+		},
+
+		deleteTrackingCookies: () => {
+			trackingCookieNames.forEach((trackingCookieName) =>
+				headlessBanner.deleteCookie(trackingCookieName),
+			);
 		},
 
 		/**
@@ -127,17 +159,29 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 				headlessBanner.setCookie(consentCookieName, hasConsent.toString());
 			}
 
-			if (hasConsent) {
-				onAccept();
-				return;
+			if (!hasConsent) {
+				headlessBanner.deleteTrackingCookies();
 			}
 
-			// Delete existing tracking cookies
-			trackingCookieNames.forEach((trackingCookieName) =>
-				headlessBanner.deleteCookie(trackingCookieName),
-			);
+			setState({
+				mustShowBanner: false,
+				hasConsent,
+			});
+		},
 
-			onReject();
+		resetConsent: () => {
+			if (useLocalStorage) {
+				localStorage.removeItem(consentCookieName);
+			} else {
+				headlessBanner.deleteCookie(consentCookieName);
+			}
+
+			headlessBanner.deleteTrackingCookies();
+
+			setState({
+				mustShowBanner: true,
+				hasConsent: undefined,
+			});
 		},
 
 		/**
@@ -197,8 +241,8 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 };
 
 export {
+	type CookiesEuBannerState,
 	type HeadlessConfig,
-	type HeadlessOptions,
 	createHeadlessCookiesBanner,
 	DEFAULT_CONSENT_COOKIE_NAME,
 	DEFAULT_TRACKING_COOKIE_NAMES,

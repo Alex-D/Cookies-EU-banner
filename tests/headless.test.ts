@@ -7,7 +7,7 @@ import {
 	createHeadlessCookiesBanner,
 	DEFAULT_CONSENT_COOKIE_NAME,
 	DEFAULT_TRACKING_COOKIE_NAMES,
-	type HeadlessOptions,
+	type HeadlessConfig,
 } from "../src/headless.ts";
 
 import { getProtocol } from "../src/getProtocol.ts";
@@ -27,39 +27,34 @@ test.afterEach(() => {
 const initHeadless = ({
 	cookieName = DEFAULT_CONSENT_COOKIE_NAME,
 	initialConsentValue,
-	headlessOptions = {},
+	headlessConfig = {},
 }: {
 	cookieName?: string;
 	initialConsentValue?: string | undefined;
-	headlessOptions?: HeadlessOptions;
+	headlessConfig?: HeadlessConfig;
 } = {}) => {
 	if (initialConsentValue !== undefined) {
-		if (headlessOptions?.useLocalStorage) {
+		if (headlessConfig?.useLocalStorage) {
 			localStorage.setItem(cookieName, initialConsentValue);
 		} else {
 			setCookie(cookieName, initialConsentValue);
 		}
 	}
 
-	const onShowBanner = vi.fn();
-	const onAccept = vi.fn();
-	const onReject = vi.fn();
+	const listener = vi.fn();
 
 	const headlessCookiesBanner = vi.mockObject(
 		createHeadlessCookiesBanner({
-			onShowBanner,
-			onAccept,
-			onReject,
-			...headlessOptions,
+			...headlessConfig,
 		}),
 		{ spy: true },
 	);
+	const unsubscribe = headlessCookiesBanner.subscribe(listener);
 	headlessCookiesBanner.checkConsentAndShowBanner();
 
 	return {
-		onShowBanner,
-		onAccept,
-		onReject,
+		listener,
+		unsubscribe,
 		headlessCookiesBanner,
 	};
 };
@@ -69,13 +64,15 @@ test.describe("checkConsentAndShowBanner", () => {
 		expect(DEFAULT_CONSENT_COOKIE_NAME).toEqual("hasConsent");
 	});
 
-	test("Calls onShowBanner when no cookie is set for normal user", () => {
-		const { onShowBanner, onAccept, onReject, headlessCookiesBanner } = initHeadless();
+	test("Updates state and call listeners when no cookie is set for normal user", () => {
+		const { listener, headlessCookiesBanner } = initHeadless();
 
-		expect(onShowBanner).toHaveBeenCalledOnce();
+		expect(listener).toHaveBeenCalledOnce();
 
-		expect(onAccept).not.toHaveBeenCalled();
-		expect(onReject).not.toHaveBeenCalled();
+		expect(headlessCookiesBanner.getState()).toStrictEqual({
+			mustShowBanner: true,
+			hasConsent: undefined,
+		});
 
 		expect(headlessCookiesBanner.setConsent).not.toHaveBeenCalled();
 		expect(headlessCookiesBanner.setCookie).not.toHaveBeenCalled();
@@ -90,9 +87,9 @@ test.describe("checkConsentAndShowBanner", () => {
 		{
 			case: "its a custom bot",
 			beforeInit: () => vi.stubGlobal("navigator", { userAgent: "Alien" }),
-			headlessOptions: {
+			headlessConfig: {
 				botsUserAgentRegexp: /alien/i,
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 		{
 			case: "do not track is enabled",
@@ -105,23 +102,25 @@ test.describe("checkConsentAndShowBanner", () => {
 		{
 			case: "user has already rejected using localStorage",
 			initialConsentValue: "false",
-			headlessOptions: {
+			headlessConfig: {
 				useLocalStorage: true,
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 	])(
-		"Call onReject and not onShowBanner when $case",
-		async ({ beforeInit, initialConsentValue, headlessOptions = {} }) => {
+		"Updates the state and call listeners when $case",
+		({ beforeInit, initialConsentValue, headlessConfig = {} }) => {
 			beforeInit?.();
-			const { onShowBanner, onAccept, onReject, headlessCookiesBanner } = initHeadless({
+			const { listener, headlessCookiesBanner } = initHeadless({
 				initialConsentValue,
-				headlessOptions,
+				headlessConfig,
 			});
 
-			expect(onAccept).not.toHaveBeenCalled();
-			expect(onReject).toHaveBeenCalledOnce();
+			expect(listener).toHaveBeenCalledOnce();
 
-			expect(onShowBanner).not.toHaveBeenCalled();
+			expect(headlessCookiesBanner.getState()).toStrictEqual({
+				mustShowBanner: false,
+				hasConsent: false,
+			});
 
 			expect(headlessCookiesBanner.setConsent).not.toHaveBeenCalled();
 			expect(headlessCookiesBanner.setCookie).not.toHaveBeenCalled();
@@ -137,22 +136,24 @@ test.describe("checkConsentAndShowBanner", () => {
 		{
 			storageMode: "localStorage",
 			initialConsentValue: "true",
-			headlessOptions: {
+			headlessConfig: {
 				useLocalStorage: true,
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 	])(
-		"Call onAccept and not onShowBanner when user has already accepted using $storageMode",
-		async ({ initialConsentValue, headlessOptions = {} }) => {
-			const { onShowBanner, onAccept, onReject, headlessCookiesBanner } = initHeadless({
+		"Updates the state and call listeners when user has already accepted using $storageMode",
+		({ initialConsentValue, headlessConfig = {} }) => {
+			const { listener, headlessCookiesBanner } = initHeadless({
 				initialConsentValue,
-				...headlessOptions,
+				...headlessConfig,
 			});
 
-			expect(onAccept).toHaveBeenCalledOnce();
-			expect(onReject).not.toHaveBeenCalled();
+			expect(listener).toHaveBeenCalledOnce();
 
-			expect(onShowBanner).not.toHaveBeenCalled();
+			expect(headlessCookiesBanner.getState()).toStrictEqual({
+				mustShowBanner: false,
+				hasConsent: true,
+			});
 
 			expect(headlessCookiesBanner.setConsent).not.toHaveBeenCalled();
 			expect(headlessCookiesBanner.setCookie).not.toHaveBeenCalled();
@@ -165,51 +166,51 @@ test.describe("setConsent", () => {
 	const storageModeMatrix = [
 		{
 			storageMode: "cookie",
-			headlessOptions: {} as HeadlessOptions,
+			headlessConfig: {} as HeadlessConfig,
 		},
 		{
 			storageMode: "localStorage",
-			headlessOptions: {
+			headlessConfig: {
 				useLocalStorage: true,
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 	];
 
 	const cookieConsentNameMatrix = [
-		...storageModeMatrix.map(({ storageMode, headlessOptions }) => {
+		...storageModeMatrix.map(({ storageMode, headlessConfig }) => {
 			return {
 				storageMode,
 				cookieConsentName: "default",
-				headlessOptions,
+				headlessConfig,
 			};
 		}),
-		...storageModeMatrix.map(({ storageMode, headlessOptions }) => {
+		...storageModeMatrix.map(({ storageMode, headlessConfig }) => {
 			return {
 				storageMode,
 				cookieConsentName: "custom",
-				headlessOptions: {
-					...headlessOptions,
+				headlessConfig: {
+					...headlessConfig,
 					consentCookieName: "customConsentName",
-				} as HeadlessOptions,
+				} as HeadlessConfig,
 			};
 		}),
 	];
 
 	const consentValueMatrix = [
-		...cookieConsentNameMatrix.map(({ storageMode, cookieConsentName, headlessOptions }) => {
+		...cookieConsentNameMatrix.map(({ storageMode, cookieConsentName, headlessConfig }) => {
 			return {
 				storageMode,
 				cookieConsentName,
-				headlessOptions,
+				headlessConfig,
 				hasConsent: true,
 				expectedValue: "true",
 			};
 		}),
-		...cookieConsentNameMatrix.map(({ storageMode, cookieConsentName, headlessOptions }) => {
+		...cookieConsentNameMatrix.map(({ storageMode, cookieConsentName, headlessConfig }) => {
 			return {
 				storageMode,
 				cookieConsentName,
-				headlessOptions,
+				headlessConfig,
 				hasConsent: false,
 				expectedValue: "false",
 			};
@@ -218,30 +219,33 @@ test.describe("setConsent", () => {
 
 	test.for(consentValueMatrix)(
 		"Must set the value to $hasConsent in $storageMode using $cookieConsentName name",
-		async ({ headlessOptions, hasConsent, expectedValue }) => {
-			const { onAccept, onReject, headlessCookiesBanner } = initHeadless({
-				headlessOptions,
+		({ headlessConfig, hasConsent, expectedValue }) => {
+			const { listener, headlessCookiesBanner } = initHeadless({
+				headlessConfig,
 			});
 
-			expect(onAccept).not.toHaveBeenCalled();
-			expect(onReject).not.toHaveBeenCalled();
+			expect(listener).toHaveBeenCalledOnce();
+
+			expect(headlessCookiesBanner.getState()).toStrictEqual({
+				mustShowBanner: true,
+				hasConsent: undefined,
+			});
 
 			headlessCookiesBanner.setConsent(hasConsent);
 
-			if (hasConsent) {
-				expect(onAccept).toHaveBeenCalledOnce();
-				expect(onReject).not.toHaveBeenCalled();
-			} else {
-				expect(onAccept).not.toHaveBeenCalledOnce();
-				expect(onReject).toHaveBeenCalled();
+			expect(listener).toHaveBeenCalledTimes(2);
+
+			expect(headlessCookiesBanner.getState()).toStrictEqual({
+				mustShowBanner: false,
+				hasConsent,
+			});
+
+			if (headlessConfig.consentCookieName !== undefined) {
+				expect(headlessConfig.consentCookieName).not.toBe(DEFAULT_CONSENT_COOKIE_NAME);
 			}
 
-			if (headlessOptions.consentCookieName !== undefined) {
-				expect(headlessOptions.consentCookieName).not.toBe(DEFAULT_CONSENT_COOKIE_NAME);
-			}
-
-			const consentKey = headlessOptions.consentCookieName ?? DEFAULT_CONSENT_COOKIE_NAME;
-			if (headlessOptions.useLocalStorage) {
+			const consentKey = headlessConfig.consentCookieName ?? DEFAULT_CONSENT_COOKIE_NAME;
+			if (headlessConfig.useLocalStorage) {
 				expect(getCookie(consentKey)).toBeUndefined();
 				expect(localStorage.getItem(consentKey)).toBe(expectedValue);
 			} else {
@@ -251,31 +255,54 @@ test.describe("setConsent", () => {
 		},
 	);
 
+	test.for(storageModeMatrix)(
+		"Must delete tracking cookies on setConsent(false) using $storageMode",
+		({ headlessConfig }) => {
+			const { headlessCookiesBanner } = initHeadless({
+				headlessConfig,
+			});
+			headlessCookiesBanner.setConsent(false);
+
+			expect(headlessCookiesBanner.deleteTrackingCookies).toHaveBeenCalledOnce();
+		},
+	);
+
+	test("Do not delete tracking cookies on setConsent(true)", () => {
+		DEFAULT_TRACKING_COOKIE_NAMES.forEach((cookieName) => {
+			setCookie(cookieName, "anyValue");
+		});
+
+		const { headlessCookiesBanner } = initHeadless();
+		headlessCookiesBanner.setConsent(true);
+
+		expect(headlessCookiesBanner.deleteTrackingCookies).not.toHaveBeenCalled();
+		expect(headlessCookiesBanner.deleteCookie).not.toHaveBeenCalled();
+
+		DEFAULT_TRACKING_COOKIE_NAMES.forEach((cookieName) => {
+			expect(getCookie(cookieName)).toBe("anyValue");
+		});
+	});
+});
+
+test.describe("deleteTrackCookies", () => {
 	const customTrackingCookieNames = ["__custom_tracking_1", "__custom_tracking_2"];
 	const trackingCookiesMatrix = [
-		...storageModeMatrix.map(({ storageMode, headlessOptions }) => {
-			return {
-				storageMode,
-				trackingCookies: "default",
-				headlessOptions,
-			};
-		}),
-		...storageModeMatrix.map(({ storageMode, headlessOptions }) => {
-			return {
-				storageMode,
-				trackingCookies: "custom",
-				headlessOptions: {
-					...headlessOptions,
-					trackingCookieNames: customTrackingCookieNames,
-				} as HeadlessOptions,
-			};
-		}),
+		{
+			trackingCookies: "default",
+			headlessConfig: {} as HeadlessConfig,
+		},
+		{
+			trackingCookies: "custom",
+			headlessConfig: {
+				trackingCookieNames: customTrackingCookieNames,
+			} as HeadlessConfig,
+		},
 	];
 	test.for(trackingCookiesMatrix)(
-		"Must delete $trackingCookies tracking cookies on setConsent(false) using $storageMode",
-		async ({ headlessOptions }) => {
+		"Must delete $trackingCookies tracking cookies",
+		async ({ headlessConfig }) => {
 			const trackingCookiesToDelete =
-				headlessOptions.trackingCookieNames === undefined
+				headlessConfig.trackingCookieNames === undefined
 					? DEFAULT_TRACKING_COOKIE_NAMES
 					: customTrackingCookieNames;
 
@@ -290,9 +317,9 @@ test.describe("setConsent", () => {
 			});
 
 			const { headlessCookiesBanner } = initHeadless({
-				headlessOptions,
+				headlessConfig,
 			});
-			headlessCookiesBanner.setConsent(false);
+			headlessCookiesBanner.deleteTrackingCookies();
 
 			expect(headlessCookiesBanner.deleteCookie).toHaveBeenCalledTimes(
 				trackingCookiesToDelete.length,
@@ -303,21 +330,6 @@ test.describe("setConsent", () => {
 			});
 		},
 	);
-
-	test("Do not delete tracking cookies on setConsent(true)", () => {
-		DEFAULT_TRACKING_COOKIE_NAMES.forEach((cookieName) => {
-			setCookie(cookieName, "anyValue");
-		});
-
-		const { headlessCookiesBanner } = initHeadless();
-		headlessCookiesBanner.setConsent(true);
-
-		expect(headlessCookiesBanner.deleteCookie).not.toHaveBeenCalled();
-
-		DEFAULT_TRACKING_COOKIE_NAMES.forEach((cookieName) => {
-			expect(getCookie(cookieName)).toBe("anyValue");
-		});
-	});
 });
 
 test.describe("hasConsent", () => {
@@ -340,48 +352,100 @@ test.describe("hasConsent", () => {
 			storageMode: "cookie customName",
 			expectedValue: true,
 			beforeInit: () => setCookie("customCookieName", "true"),
-			headlessOptions: {
+			headlessConfig: {
 				consentCookieName: "customCookieName",
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 		{
 			storageMode: "localStorage",
 			expectedValue: undefined,
-			headlessOptions: {
+			headlessConfig: {
 				useLocalStorage: true,
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 		{
 			storageMode: "localStorage",
 			expectedValue: true,
 			beforeInit: () => localStorage.setItem(DEFAULT_CONSENT_COOKIE_NAME, "true"),
-			headlessOptions: {
+			headlessConfig: {
 				useLocalStorage: true,
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 		{
 			storageMode: "localStorage",
 			expectedValue: false,
 			beforeInit: () => localStorage.setItem(DEFAULT_CONSENT_COOKIE_NAME, "false"),
-			headlessOptions: {
+			headlessConfig: {
 				useLocalStorage: true,
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 		{
 			storageMode: "localStorage customName",
 			expectedValue: false,
 			beforeInit: () => localStorage.setItem("customCookieName", "false"),
-			headlessOptions: {
+			headlessConfig: {
 				useLocalStorage: true,
 				consentCookieName: "customCookieName",
-			} as HeadlessOptions,
+			} as HeadlessConfig,
 		},
 	])(
 		"Returns $expectedValue using $storageMode",
-		({ beforeInit, expectedValue, headlessOptions }) => {
+		({ beforeInit, expectedValue, headlessConfig }) => {
 			beforeInit?.();
-			const { headlessCookiesBanner } = initHeadless({ headlessOptions });
+			const { headlessCookiesBanner } = initHeadless({ headlessConfig });
 			expect(headlessCookiesBanner.hasConsent()).toBe(expectedValue);
+		},
+	);
+});
+
+test.describe("resetConsent", () => {
+	const storageModeMatrix = [
+		{
+			storageMode: "cookie",
+			headlessConfig: {} as HeadlessConfig,
+		},
+		{
+			storageMode: "localStorage",
+			headlessConfig: {
+				useLocalStorage: true,
+			} as HeadlessConfig,
+		},
+	];
+
+	const cookieConsentNameMatrix = [
+		...storageModeMatrix.map(({ storageMode, headlessConfig }) => {
+			return {
+				storageMode,
+				cookieConsentName: "default",
+				headlessConfig,
+			};
+		}),
+		...storageModeMatrix.map(({ storageMode, headlessConfig }) => {
+			return {
+				storageMode,
+				cookieConsentName: "custom",
+				headlessConfig: {
+					...headlessConfig,
+					consentCookieName: "customConsentName",
+				} as HeadlessConfig,
+			};
+		}),
+	];
+
+	test.for(cookieConsentNameMatrix)(
+		"Must clean everything using $storageMode and $cookieConsentName cookie name",
+		({ headlessConfig }) => {
+			const { listener, headlessCookiesBanner } = initHeadless({ headlessConfig });
+			headlessCookiesBanner.setConsent(true);
+			expect(listener).toHaveBeenCalledTimes(2);
+			headlessCookiesBanner.resetConsent();
+			expect(headlessCookiesBanner.deleteTrackingCookies).toHaveBeenCalledOnce();
+			expect(listener).toHaveBeenCalledTimes(3);
+			expect(headlessCookiesBanner.getState()).toStrictEqual({
+				mustShowBanner: true,
+				hasConsent: undefined,
+			});
+			expect(headlessCookiesBanner.hasConsent()).toBe(undefined);
 		},
 	);
 });
@@ -411,7 +475,7 @@ test.describe("setCookie", () => {
 				vi.mocked(getProtocol).mockReturnValueOnce("https:");
 			},
 			expires: "custom",
-			headlessOptions: {
+			headlessConfig: {
 				consentCookieTimeout: 60 * 1000, // 1 minute
 			},
 			expected:
@@ -419,7 +483,7 @@ test.describe("setCookie", () => {
 		},
 	])(
 		"Must write the value in $protocol and expires $expires",
-		({ beforeInit, expected, headlessOptions }) => {
+		({ beforeInit, expected, headlessConfig }) => {
 			beforeInit();
 
 			vi.useFakeTimers();
@@ -427,7 +491,7 @@ test.describe("setCookie", () => {
 
 			const cookieSetterSpy = vi.spyOn(document, "cookie", "set");
 
-			const { headlessCookiesBanner } = initHeadless({ headlessOptions });
+			const { headlessCookiesBanner } = initHeadless({ headlessConfig });
 			headlessCookiesBanner.setCookie("testName", "testValue");
 			expect(getProtocol).toHaveBeenCalledOnce();
 
@@ -468,5 +532,33 @@ test.describe("deleteCookie", () => {
 		expect(getCookie("testGetCookieA")).toBe("testGetCookieValueA");
 		expect(getCookie("testGetCookieB")).toBeUndefined();
 		expect(await cookieStore.getAll()).toHaveLength(1);
+	});
+});
+
+test.describe("setState", () => {
+	test("Must trigger listener callbacks", () => {
+		const { listener, headlessCookiesBanner } = initHeadless();
+		expect(listener).toHaveBeenCalledOnce();
+		headlessCookiesBanner.setConsent(true); // This triggers setState internally
+		expect(listener).toHaveBeenCalledTimes(2);
+	});
+
+	test("Must not re-trigger listener callbacks if no state change", () => {
+		const { listener, headlessCookiesBanner } = initHeadless();
+		expect(listener).toHaveBeenCalledOnce();
+		headlessCookiesBanner.setConsent(true); // This triggers setState internally
+		expect(listener).toHaveBeenCalledTimes(2);
+		headlessCookiesBanner.setConsent(true); // This triggers setState internally
+		expect(listener).toHaveBeenCalledTimes(2);
+	});
+});
+
+test.describe("subscribe", () => {
+	test("Must be able to unsubscribe", () => {
+		const { listener, unsubscribe, headlessCookiesBanner } = initHeadless();
+		expect(listener).toHaveBeenCalledOnce();
+		unsubscribe(); // Must remove the listener from listeners
+		headlessCookiesBanner.setConsent(true);
+		expect(listener).toHaveBeenCalledOnce();
 	});
 });

@@ -5,7 +5,7 @@ import { extractHtmlAttributeFromSelector } from "./utils/extractAttributeFromSe
 import { getCookie, setCookie } from "./utils/cookies.ts";
 
 import { createCookiesBanner, DEFAULT_CONSENT_COOKIE_NAME } from "../src/index.ts";
-import { createHeadlessCookiesBanner, type HeadlessOptions } from "../src/headless.ts";
+import { createHeadlessCookiesBanner, type HeadlessConfig } from "../src/headless.ts";
 
 vi.mock("../src/headless.ts", { spy: true });
 
@@ -422,15 +422,11 @@ test.describe("Headless options", () => {
 			delayBeforeRemove: 150,
 		});
 
-		expect(createHeadlessCookiesBanner).toHaveBeenCalledExactlyOnceWith({
-			onAccept: expect.any(Function),
-			onReject: expect.any(Function),
-			onShowBanner: expect.any(Function),
-		});
+		expect(createHeadlessCookiesBanner).toHaveBeenCalledExactlyOnceWith({});
 	});
 
 	test("All headless options are passed to createHeadlessCookiesBanner", () => {
-		const headlessOptions: HeadlessOptions = {
+		const headlessOptions: HeadlessConfig = {
 			useLocalStorage: true,
 			consentCookieName: "customName",
 			consentCookieTimeout: 300,
@@ -456,11 +452,6 @@ test.describe("Headless options", () => {
 			...headlessOptions,
 		});
 
-		expect(createHeadlessCookiesBanner).toHaveBeenCalledExactlyOnceWith({
-			onAccept: expect.any(Function),
-			onReject: expect.any(Function),
-			onShowBanner: expect.any(Function),
-			...headlessOptions,
-		});
+		expect(createHeadlessCookiesBanner).toHaveBeenCalledExactlyOnceWith(headlessOptions);
 	});
 });

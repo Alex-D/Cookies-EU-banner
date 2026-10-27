@@ -2,7 +2,7 @@ import {
 	createHeadlessCookiesBanner,
 	DEFAULT_CONSENT_COOKIE_NAME,
 	DEFAULT_TRACKING_COOKIE_NAMES,
-	type HeadlessOptions,
+	type HeadlessConfig,
 } from "./headless.ts";
 
 type Prettify<T> = {
@@ -47,7 +47,7 @@ type CookieEuBannerConfig = {
 	 * See also: `onBeforeRemove`
 	 */
 	delayBeforeRemove?: number;
-} & HeadlessOptions;
+} & HeadlessConfig;
 
 const createCookiesBanner = function (config: CookieEuBannerConfig) {
 	const {
@@ -121,20 +121,25 @@ const createCookiesBanner = function (config: CookieEuBannerConfig) {
 		});
 	};
 
-	const { checkConsentAndShowBanner, ...headlessBannerFunctions } = createHeadlessCookiesBanner({
-		...headlessConfig,
-		onAccept: () => {
-			onAccept();
-			void removeBanner();
-		},
-		onReject: () => {
-			onReject?.();
-			void removeBanner();
-		},
-		onShowBanner: () => {
+	const { checkConsentAndShowBanner, ...headlessBannerFunctions } =
+		createHeadlessCookiesBanner(headlessConfig);
+
+	headlessBannerFunctions.subscribe(() => {
+		const { mustShowBanner, hasConsent } = headlessBannerFunctions.getState();
+
+		if (mustShowBanner) {
 			showBanner();
-		},
+			return;
+		}
+
+		if (hasConsent === true) {
+			onAccept();
+		} else {
+			onReject?.();
+		}
+		void removeBanner();
 	});
+
 	checkConsentAndShowBanner();
 
 	const bannerFunctions = {

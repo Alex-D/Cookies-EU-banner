@@ -1,6 +1,6 @@
 {
   "name": "cookies-eu-banner",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Manage display of banner to accept/reject cookies from tracking services like Google Analytics",
   "keywords": [
     "analytics",

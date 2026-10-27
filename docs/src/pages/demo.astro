@@ -51,7 +51,7 @@ document.querySelector("#custom-reset").addEventListener("click", async () => {
 					<dd id="cookie-value">&nbsp;</dd>
 
 					<dt>Consent state</dt>
-					<dd id="cookies-eu-state">&nbsp;</dd>
+					<dd id="cookies-eu-consent-state">&nbsp;</dd>
 
 					<dt>DoNotTrack</dt>
 					<dd id="dnt-state">&nbsp;</dd>
@@ -142,38 +142,37 @@ document.querySelector("#custom-reset").addEventListener("click", async () => {
 		consentCookieName,
 		onAccept: () => {
 			console.log("Run analytics script!");
-
-			updateCookiesEuState();
-		},
-		onReject: () => {
-			updateCookiesEuState();
 		},
 
 		// Manage the transition before removing the banner
 		delayBeforeRemove: 500,
 	});
 
-	function updateCookiesEuState() {
-		setTimeout(() => {
-			// Cookie value
-			const cookieValue = cookiesBanner.getCookie(consentCookieName);
-			document.querySelector<HTMLSpanElement>("#cookie-value")!.innerText = cookieValue ? `"${cookieValue}"` : "undefined";
+	function onStateUpdate() {
+		const state = cookiesBanner.getState();
 
-			// Has consent
-			const hasConsent = cookiesBanner.hasConsent();
+		// Cookie value
+		const cookieValue = cookiesBanner.getCookie(consentCookieName);
+		document.querySelector<HTMLSpanElement>("#cookie-value")!.innerText = cookieValue ? `"${cookieValue}"` : "undefined";
 
-			let state = "No choice";
-			if (hasConsent === true) {
-				state = "Accepted";
-			} else if (hasConsent === false) {
-				state = "Rejected";
-			}
+		// Has consent
+		const hasConsent = state.hasConsent;
 
-			document.querySelector<HTMLSpanElement>("#cookies-eu-state")!.innerText = state;
-		}, 0);
+		let consentState = "No choice";
+		if (hasConsent === true) {
+			consentState = "Accepted";
+		} else if (hasConsent === false) {
+			consentState = "Rejected";
+		}
+
+		document.querySelector<HTMLSpanElement>("#cookies-eu-consent-state")!.innerText = consentState;
 	}
 
-	updateCookiesEuState();
+	cookiesBanner.subscribe(() => {
+		onStateUpdate();
+	});
+
+	onStateUpdate();
 
 	document.querySelector("#custom-accept")!.addEventListener("click", () => {
 		cookiesBanner.setConsent(true);
@@ -183,9 +182,8 @@ document.querySelector("#custom-reset").addEventListener("click", async () => {
 	});
 
 	document.querySelector("#custom-reset")!.addEventListener("click", async () => {
-		cookiesBanner.deleteCookie(consentCookieName);
+		cookiesBanner.resetConsent();
 		await cookiesBanner.removeBanner(0);
 		cookiesBanner.showBanner();
-		updateCookiesEuState();
 	});
 </script>

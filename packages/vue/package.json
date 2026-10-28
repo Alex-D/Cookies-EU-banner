@@ -1,0 +1,60 @@
+{
+  "name": "cookies-eu-banner-vue",
+  "version": "4.0.0",
+  "description": "Vue wrapper for Cookies EU banner, a banner manager to accept/reject cookies from tracking services like Google Analytics",
+  "keywords": [
+    "analytics",
+    "cookies",
+    "gdpr",
+    "rgpd",
+    "store",
+    "vue"
+  ],
+  "homepage": "https://alex-d.github.io/Cookies-EU-banner/",
+  "bugs": {
+    "url": "https://github.com/Alex-D/cookies-eu-banner/issues"
+  },
+  "license": "MIT",
+  "author": "Alex-D <contact@alex-d.fr> (https://alex-d.fr)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Alex-D/cookies-eu-banner.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "unpkg": "./dist/cookies-eu-banner.vue.global.js",
+  "jsdelivr": "./dist/cookies-eu-banner.vue.global.js",
+  "exports": {
+    ".": {
+      "import": "./dist/cookies-eu-banner.vue.js",
+      "types": "./dist/cookies-eu-banner.vue.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "test": "vp test",
+    "check": "vp check",
+    "prepublishOnly": "vp run build",
+    "prepare": "vp config"
+  },
+  "dependencies": {
+    "cookies-eu-banner": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
+    "playwright": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vue": "catalog:"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  }
+}

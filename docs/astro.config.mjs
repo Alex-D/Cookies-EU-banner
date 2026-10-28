@@ -1,12 +1,13 @@
 import path from "node:path";
 
 import mdx from "@astrojs/mdx";
+import vue from "@astrojs/vue";
 import { defineConfig, fontProviders } from "astro/config";
 
 import { WEBSITE_DOMAIN } from "./configConsts.mjs";
 
 export default defineConfig({
-	integrations: [mdx()],
+	integrations: [mdx(), vue()],
 
 	fonts: [
 		{

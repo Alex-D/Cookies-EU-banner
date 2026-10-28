@@ -1,0 +1,41 @@
+@use "../base/variables";
+
+.c-sidebar {
+	padding-inline: 1.6rem;
+	@include variables.squircle(variables.$border-radius-xl);
+
+	ul {
+		list-style: none;
+		padding-left: 0;
+		margin: 0 0 1.6rem;
+	}
+
+	.c-sidebar__category-with-title ul {
+		padding-left: 1.6rem;
+		margin-top: 0.4rem;
+	}
+
+	a {
+		display: block;
+		padding-block: 0.2rem;
+		margin-left: -0.8rem;
+		padding-left: 0.8rem;
+		color: var(--color-text);
+		text-decoration: none;
+		border-radius: variables.$border-radius-xs;
+		transition: background-color 150ms;
+
+		&.is-current {
+			font-weight: bold;
+			color: var(--color-page-background);
+			background-color: var(--color-text);
+		}
+
+		&:not(.is-current) {
+			&:hover,
+			&:focus-visible {
+				background-color: light-dark(var(--color-primary-50), var(--color-primary-900));
+			}
+		}
+	}
+}

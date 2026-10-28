@@ -39,6 +39,11 @@ body {
 		padding-inline: 3.2rem;
 		@include variables.squircle(variables.$border-radius-xl);
 	}
+
+	@media (max-width: variables.$breakpoint-desktop - 1) {
+		--_body-gutters-base: 3.2rem;
+		--body-gutters: calc(var(--_body-gutters-base) + var(--body-border-width) * 2);
+	}
 }
 
 .m-section__title {

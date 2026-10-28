@@ -1,5 +1,8 @@
 ---
 import { getDocs } from "../collectionLoaders.ts";
+import type { SidebarLinksByCategory } from "../types/sidebarLinksByCategory.ts";
+import Sidebar from "./Sidebar.astro";
+
 const docs = await getDocs();
 
 const guides = docs.filter((doc) => doc.id.includes("guide"));
@@ -14,13 +17,7 @@ function docToLink(doc) {
 	};
 }
 
-const linksByCategory: {
-	title?: string;
-	links: {
-		title: string;
-		href: string;
-	}[];
-}[] = [
+const linksByCategory: SidebarLinksByCategory = [
 	{
 		links: rootDocs.map((doc) => docToLink(doc)),
 	},
@@ -35,68 +32,4 @@ const linksByCategory: {
 ];
 ---
 
-<aside class="doc-sidebar">
-	{
-		linksByCategory.map((linkCategory) => (
-			<div class="doc-sidebar__category" class:list={{"doc-sidebar__category-with-title": linkCategory.title}}>
-				{linkCategory.title && <h3>{linkCategory.title}</h3>}
-				<ul>{
-					linkCategory.links.map((link) => (
-						<li>
-							<a
-								href={link.href}
-								class:list={{"is-current": link.href === Astro.url.pathname}}
-							>
-								{link.title}
-							</a>
-						</li>
-					))
-				}</ul>
-			</div>
-		))
-	}
-</aside>
-
-<style lang="scss" is:global>
-	@use "../assets/styles/base/variables";
-
-	.doc-sidebar {
-		padding-inline: 1.6rem;
-		@include variables.squircle(variables.$border-radius-xl);
-
-		ul {
-			list-style: none;
-			padding-left: 0;
-			margin: 0 0 1.6rem;
-		}
-
-		.doc-sidebar__category-with-title ul {
-			padding-left: 1.6rem;
-			margin-top: 0.4rem;
-		}
-
-		a {
-			display: block;
-			padding-block: 0.2rem;
-			margin-left: -0.8rem;
-			padding-left: 0.8rem;
-			color: var(--color-text);
-			text-decoration: none;
-			border-radius: variables.$border-radius-xs;
-			transition: background-color 150ms;
-
-			&.is-current {
-				font-weight: bold;
-				color: var(--color-page-background);
-				background-color: var(--color-text);
-			}
-
-			&:not(.is-current) {
-				&:hover,
-				&:focus-visible {
-					background-color: light-dark(var(--color-primary-50), var(--color-primary-900));
-				}
-			}
-		}
-	}
-</style>
+<Sidebar linksByCategory={linksByCategory} />

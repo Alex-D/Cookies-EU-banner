@@ -1,0 +1,30 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+
+import type { Collection } from "../content.config.ts";
+import Layout from "./Layout.astro";
+import DemoSidebar from "../components/DemoSidebar.astro";
+
+type Props = {
+	title: string
+}
+
+const {
+	title,
+} = Astro.props;
+---
+
+<Layout
+	title={`${title} — Cookies EU banner`}
+>
+	<div class="l-with-sidebar">
+		<DemoSidebar />
+		<div class="l-with-sidebar__content">
+			<slot />
+		</div>
+	</div>
+</Layout>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/layouts/with-sidebar";
+</style>

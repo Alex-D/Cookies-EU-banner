@@ -1,0 +1,80 @@
+---
+import type { SidebarLinksByCategory } from "../types/sidebarLinksByCategory.ts";
+type Props = {
+	linksByCategory: SidebarLinksByCategory;
+};
+
+const {
+	linksByCategory,
+} = Astro.props;
+---
+
+<aside class="c-sidebar">
+	{
+		linksByCategory.map((linkCategory) => (
+			<div class="c-sidebar__category" class:list={{"c-sidebar__category-with-title": linkCategory.title}}>
+				{linkCategory.title && <h3>{linkCategory.title}</h3>}
+				<ul>{
+					linkCategory.links.map((link) => (
+						<li>
+							<a
+								href={link.href}
+								class:list={{"is-current": link.href === Astro.url.pathname}}
+							>
+								{link.title}
+							</a>
+						</li>
+					))
+				}</ul>
+			</div>
+		))
+	}
+</aside>
+
+<style lang="scss" is:global>
+	@use "../assets/styles/base/variables";
+
+	.c-sidebar {
+		padding-inline: 2.2rem;
+		@include variables.squircle(variables.$border-radius-xl);
+
+		@media (min-width: variables.$breakpoint-desktop) {
+			padding-inline: 1rem;
+		}
+
+		ul {
+			list-style: none;
+			padding-left: 0;
+			margin: 0 0 1.6rem;
+		}
+
+		.c-sidebar__category-with-title ul {
+			padding-left: 1.6rem;
+			margin-top: 0.4rem;
+		}
+
+		a {
+			display: block;
+			padding-block: 0.2rem;
+			margin-inline: -0.8rem;
+			padding-left: 0.8rem;
+			color: var(--color-text);
+			text-decoration: none;
+			border-radius: variables.$border-radius-xs;
+			transition: background-color 150ms;
+
+			&.is-current {
+				font-weight: bold;
+				color: var(--color-page-background);
+				background-color: var(--color-text);
+			}
+
+			&:not(.is-current) {
+				&:hover,
+				&:focus-visible {
+					background-color: light-dark(var(--color-primary-50), var(--color-primary-950));
+				}
+			}
+		}
+	}
+</style>

@@ -22,9 +22,9 @@ const {Content} = await render(doc);
 <Layout
 	title={`${title} — Cookies EU banner`}
 >
-	<div class="docs-layout">
+	<div class="l-with-sidebar">
 		<DocsSidebar />
-		<div class="docs-layout__content">
+		<div class="l-with-sidebar__content">
 			<section class="m-section">
 				<Content/>
 				<slot />
@@ -34,26 +34,5 @@ const {Content} = await render(doc);
 </Layout>
 
 <style lang="scss" is:global>
-	@use "../assets/styles/base/variables";
-
-	.docs-layout {
-		display: grid;
-		max-width: #{variables.maxWidth()};
-		margin-inline: auto;
-		margin-block: 3.2rem;
-		gap: 1.6rem;
-
-		&__content {
-			overflow: hidden;
-		}
-
-		.m-section {
-			margin: 0;
-		}
-
-		@media (min-width: #{variables.$breakpoint-desktop}) {
-			grid-template-columns: 30rem auto;
-			gap: 3.2rem;
-		}
-	}
+	@use "../assets/styles/layouts/with-sidebar";
 </style>

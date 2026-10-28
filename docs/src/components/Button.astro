@@ -27,42 +27,5 @@ classNames?.split(" ").forEach((className) => {
 </button>
 
 <style lang="scss" is:global>
-	@use "../assets/styles/base/variables.scss";
-
-	.c-button {
-		--link-shadow-color: light-dark(var(--color-primary-800), var(--color-primary-400));
-		cursor: pointer;
-		padding: 1.2rem 2.4rem;
-		border: 0;
-		color: light-dark(var(--color-primary-50), var(--color-primary-800));
-		background-color: light-dark(var(--color-primary-700), var(--color-primary-200));
-		box-shadow: 0 2px 0 var(--link-shadow-color);
-		text-box-trim: trim-end;
-		@include variables.squircle(variables.$border-radius-s);
-		transition: background-color 150ms, transform 150ms;
-
-		&:hover,
-		&:focus-visible {
-			background-color: light-dark(var(--color-primary-600), var(--color-primary-50));
-			--link-shadow-color: light-dark(var(--color-primary-700), var(--color-primary-100));
-		}
-
-		&:active {
-			transform: translateY(0.2rem);
-			transition: transform 0ms;
-			--link-shadow-color: transparent !important;
-		}
-
-		&--secondary {
-			color: light-dark(var(--color-primary-800), var(--color-primary-100));
-			background-color: light-dark(var(--color-primary-100), var(--color-primary-800));
-			--link-shadow-color: light-dark(var(--color-primary-200), var(--color-primary-900));
-
-			&:hover,
-			&:focus-visible {
-				background-color: light-dark(color-mix(in oklch, var(--color-primary-50), white 50%), var(--color-primary-700));
-				--link-shadow-color: light-dark(var(--color-primary-100), var(--color-primary-900));
-			}
-		}
-	}
+	@use "../assets/styles/components/button";
 </style>

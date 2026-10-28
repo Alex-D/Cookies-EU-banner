@@ -86,7 +86,7 @@ import CardLink from "../components/CardLink.astro";
 		</VerticalCard>
 	</section>
 
-	<section id="donate" class="m-donate">
+	<section id="donate" class="m-section m-donate">
 		<h3 class="m-donate__title">Support the project</h3>
 		<p>
 			Cookies EU banner is an MIT-licensed open source project and completely free to use.
@@ -180,16 +180,11 @@ import CardLink from "../components/CardLink.astro";
 	.m-donate {
 		max-width: min(60rem, variables.maxWidth());
 		margin-top: 12.8rem;
-		margin-inline: auto;
-		padding: 3.2rem 1.6rem;
-		background-color: light-dark(var(--color-primary-50), var(--color-primary-950));
-		@include variables.squircle(variables.$border-radius-l);
+		padding: 3.2rem;
 		overflow: hidden;
 
 		@media (min-width: variables.$breakpoint-desktop) {
 			margin-bottom: 6.4rem;
-			padding-inline: 3.2rem;
-			@include variables.squircle(variables.$border-radius-xl);
 		}
 
 		&__title {
@@ -198,17 +193,9 @@ import CardLink from "../components/CardLink.astro";
 
 		&__links {
 			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 			gap: 2.4rem;
 			margin-top: 2.4rem;
-		}
-	}
-
-	.home-vertical-cards,
-	.m-donate {
-		@media (max-width: variables.$breakpoint-desktop - 1) {
-			--_body-gutters-base: 32px;
-			--body-gutters: calc(var(--_body-gutters-base) + var(--body-border-width) * 2);
 		}
 	}
 </style>

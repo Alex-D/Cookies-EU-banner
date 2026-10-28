@@ -12,7 +12,10 @@
   "dependencies": {
     "@astrojs/markdown-satteri": "catalog:",
     "@astrojs/mdx": "catalog:",
-    "cookies-eu-banner": "workspace:*"
+    "@astrojs/vue": "catalog:",
+    "cookies-eu-banner": "workspace:*",
+    "cookies-eu-banner-vue": "workspace:*",
+    "vue": "catalog:"
   },
   "devDependencies": {
     "astro": "catalog:",

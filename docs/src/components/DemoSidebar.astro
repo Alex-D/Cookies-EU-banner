@@ -1,0 +1,27 @@
+---
+import Sidebar from "./Sidebar.astro";
+import type { SidebarLinksByCategory } from "../types/sidebarLinksByCategory.ts";
+const baseUrl = import.meta.env.BASE_URL;
+
+const linksByCategory: SidebarLinksByCategory = [
+	{
+		links: [
+			{
+				href: baseUrl + "demo/",
+				title: "Default demo (vanilla JS)",
+			},
+		],
+	},
+	{
+		title: "Integrations",
+		links: [
+			{
+				href: baseUrl + "demo/vue/",
+				title: "Vue.js demo",
+			},
+		],
+	},
+];
+---
+
+<Sidebar linksByCategory={linksByCategory} />

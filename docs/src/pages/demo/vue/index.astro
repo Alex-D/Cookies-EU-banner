@@ -1,0 +1,110 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import BannerTemplate from "../../../components/BannerTemplate.astro";
+import Button from "../../../components/Button.astro";
+import Code from "../../../components/Code.astro";
+import DemoNav from "../../../components/DemoNav.astro";
+import DemoVue from "./_Demo.vue";
+import DemoLayout from "../../../layouts/DemoLayout.astro";
+
+const componentCode = `
+<script setup lang="ts">
+import { useCookiesBanner } from "cookies-eu-banner-vue";
+
+const {
+	mustShowBanner,
+	setConsent,
+} = useCookiesBanner();
+
+const accept = () => {
+	setConsent(true);
+};
+const reject = () => {
+	setConsent(false);
+};
+</script>
+
+<template>
+	<Transition :duration="500" leave-to-class="cookies-eu-banner--before-remove">
+		<div v-if="mustShowBanner" class="cookies-eu-banner__wrapper">
+			<div class="cookies-eu-banner">
+				<div class="cookies-eu-banner__text">
+					<div class="cookies-eu-banner__title">
+						Banner demo
+					</div>
+					<p class="cookies-eu-banner__message">
+						This banner is for demo purpose only, and do not trigger anything.
+					</p>
+				</div>
+				<button class="c-button c-button--secondary" @click.prevent="reject">Reject</button>
+				<button class="c-button" @click.prevent="accept">Accept</button>
+			</div>
+		</div>
+	</Transition>
+</template>
+`
+
+const demoCode = `
+<script setup lang="ts">
+import { onMounted } from "vue";
+import { useCookiesBanner } from "cookies-eu-banner-vue";
+import CookiesEuBanner from "./CookiesEuBanner.vue";
+
+const {
+	mustShowBanner,
+	hasConsent,
+	setConsent,
+	resetConsent,
+	checkConsentAndShowBanner,
+} = useCookiesBanner();
+
+// Custom controls
+const accept = () => {
+	setConsent(true);
+};
+const reject = () => {
+	setConsent(false);
+};
+const reset = () => {
+	resetConsent();
+};
+
+onMounted(() => {
+	checkConsentAndShowBanner();
+});
+</script>
+
+<template>
+<button @click.prevent="accept">Accept</button>
+<button @click.prevent="reject">Reject</button>
+<button @click.prevent="reset">Reset</button>
+
+<CookiesEuBanner/>
+</template>
+`;
+---
+
+<DemoLayout title="Vue.js integration demo">
+	<section class="m-section">
+		<h2 class="m-section__title">Demo: Vue.js Integration</h2>
+
+		<p>
+			You should see the banner at the bottom of your screen, and can use the reset button below anytime.
+		</p>
+
+		<DemoVue client:idle />
+	</section>
+	<section class="m-section">
+		<h2 class="m-section__title">The code</h2>
+
+		<h3><code>CookieEuBanner.vue</code></h3>
+		<Code code={componentCode}/>
+
+		<h3><code>Demo.vue</code></h3>
+		<Code code={demoCode}/>
+	</section>
+</DemoLayout>
+
+<style lang="scss" is:global>
+@use "../../../assets/styles/pages/demo";
+</style>

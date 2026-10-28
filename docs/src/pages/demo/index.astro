@@ -1,8 +1,9 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import BannerTemplate from "../components/BannerTemplate.astro";
-import Button from "../components/Button.astro";
-import Code from "../components/Code.astro";
+import DemoLayout from "../../layouts/DemoLayout.astro";
+import BannerTemplate from "../../components/BannerTemplate.astro";
+import Button from "../../components/Button.astro";
+import Code from "../../components/Code.astro";
+import DemoNav from "../../components/DemoNav.astro";
 
 const demoCode = `
 import { createCookiesBanner } from "cookies-eu-banner";
@@ -14,12 +15,12 @@ const cookiesBanner = createCookiesBanner({
 		console.log("Run analytics script!");
 	},
 
-	// Manage the transition before removing the banner
+	// Manage the transition duration before removing the banner
 	delayBeforeRemove: 500,
 });
+`;
 
-
-// Custom controls
+const customControlsCode = `
 document.querySelector("#custom-accept").addEventListener("click", () => {
 	cookiesBanner.setConsent(true);
 });
@@ -34,7 +35,7 @@ document.querySelector("#custom-reset").addEventListener("click", async () => {
 `;
 ---
 
-<Layout title="Demo — Cookies EU banner, A 1kb vanilla JS script to manage consent cookie banner">
+<DemoLayout title="Demo">
 	<section class="m-section">
 		<h2 class="m-section__title">Demo</h2>
 
@@ -52,9 +53,6 @@ document.querySelector("#custom-reset").addEventListener("click", async () => {
 
 					<dt>Consent state</dt>
 					<dd id="cookies-eu-consent-state">&nbsp;</dd>
-
-					<dt>DoNotTrack</dt>
-					<dd id="dnt-state">&nbsp;</dd>
 				</dl>
 			</div>
 
@@ -73,69 +71,25 @@ document.querySelector("#custom-reset").addEventListener("click", async () => {
 		<h2 class="m-section__title">The code</h2>
 
 		<Code code={demoCode}/>
+
+		<h3>Custom controls</h3>
+
+		<p>
+			If you want to control the banner from outside the template, you can.
+		</p>
+
+		<Code code={customControlsCode} />
 	</section>
 
 	<BannerTemplate />
-</Layout>
+</DemoLayout>
 
 <style lang="scss" is:global>
-	@use "../assets/styles/base/variables.scss";
-
-	.demo__blocks {
-		margin-top: 2.4rem;
-
-		@media (min-width: #{variables.$breakpoint-desktop}) {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-		}
-	}
-
-	.demo__state {
-		dl {
-			padding-block: 1.6rem 2.4rem;
-		}
-
-		dt {
-			margin-bottom: -0.25em;
-		}
-
-		dd {
-			font-family: var(--font-family-title);
-			font-weight: bold;
-			margin-bottom: 1.2rem;
-		}
-
-		@media (min-width: #{variables.$breakpoint-large-mobile}) {
-			dl {
-				display: flex;
-				flex-flow: column wrap;
-				box-sizing: content-box;
-				max-height: 4em;
-			}
-
-			dd {
-				min-height: 2em;
-				margin-bottom: unset;
-			}
-		}
-	}
-
-	.demo__buttons {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 0.8rem;
-		margin-top: 1.6rem;
-	}
-
-	#custom-reset {
-		grid-column: span 2;
-	}
+	@use "../../assets/styles/pages/demo";
 </style>
 
 <script>
 	import { createCookiesBanner } from "cookies-eu-banner";
-
-	document.querySelector<HTMLSpanElement>("#dnt-state")!.innerText = navigator.doNotTrack === "1" ? "Enabled" : "Disabled";
 
 	const consentCookieName = "demoConsent";
 	const cookiesBanner = createCookiesBanner({

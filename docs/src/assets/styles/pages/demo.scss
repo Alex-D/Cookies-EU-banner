@@ -1,0 +1,51 @@
+@use "../base/variables";
+
+.demo__blocks {
+	margin-top: 2.4rem;
+
+	@media (min-width: #{variables.$breakpoint-desktop}) {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.demo__state {
+	dl {
+		padding-block: 1.6rem 2.4rem;
+	}
+
+	dt {
+		margin-bottom: -0.25em;
+	}
+
+	dd {
+		font-family: var(--font-family-title);
+		font-weight: bold;
+		margin-bottom: 1.2rem;
+	}
+
+	@media (min-width: #{variables.$breakpoint-large-mobile}) {
+		dl {
+			display: flex;
+			flex-flow: column wrap;
+			box-sizing: content-box;
+			max-height: 4em;
+		}
+
+		dd {
+			min-height: 2em;
+			margin-bottom: unset;
+		}
+	}
+}
+
+.demo__buttons {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0.8rem;
+	margin-top: 1.6rem;
+
+	:last-child {
+		grid-column: span 2;
+	}
+}

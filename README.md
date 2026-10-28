@@ -1,7 +1,7 @@
 <h1 align="center">Cookies EU banner</h1>
 
 <p align="center">
-    <a href="https://bundlejs.com/?q=cookies-eu-banner"><img src="https://img.shields.io/bundlejs/size/cookies-eu-banner.svg?style=for-the-badge" alt="Minimized & gzipped size ~1kb" /></a>
+    <a href="https://bundlejs.com/?q=cookies-eu-banner"><img src="https://deno.bundlejs.com/?q=cookies-eu-banner&badge&badge-style=for-the-badge" alt="Minimized & gzipped size ~1kb" /></a>
     <a href="https://npmx.dev/package/cookies-eu-banner"><img src="https://img.shields.io/npm/dm/cookies-eu-banner.svg?color=blue&label=npm%20downloads&style=for-the-badge" alt="Downloads" /></a>
     <a href="https://github.com/Alex-D/cookies-eu-banner/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/cookies-eu-banner.svg?color=blue&style=for-the-badge" alt="MIT Licence" /></a>
 </p>
@@ -32,7 +32,6 @@ It is a GDPR-compliant way to get cookie consent from visitors.
 
 ### Features
 
-- Do Not Track detection, using `navigator.doNotTrack`
 - Disables banner when the visitor is a bot: prevents SEO Engines from confusing your cookie advert message with the main content of your pages
 - Respects GDPR
 - Fully typed, since it's written in TypeScript
@@ -200,11 +199,11 @@ For a detailed explanation, see comments in the main files: [src/index.ts](src/i
 
 In short:
 
-1. Hide the banner from bots, clients who have DoNotTrack activated, and users who have already declined;
+1. Hide the banner from bots and users who have already declined;
 2. Runs your custom function if the user has already accepted;
 3. Shows the banner, then:
    - if the user accepts, run your custom function and put a cookie to save this acceptance;
-   - if the user declines, remove all Google Analytics cookies (see `trackingCookieNames` option) and put a cookie to save this rejection.
+   - if the user declines, remove all tracking cookies from `trackingCookieNames` option and put a cookie to save this rejection.
 
 ## Technical choices
 

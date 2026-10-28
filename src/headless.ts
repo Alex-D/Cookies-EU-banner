@@ -61,21 +61,19 @@ type CookiesEuBannerState = {
 	hasConsent: boolean | undefined;
 };
 
-const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
+const createHeadlessCookiesBanner = (config: HeadlessConfig = {}) => {
 	let state: CookiesEuBannerState = {
 		mustShowBanner: false,
 		hasConsent: undefined,
 	};
 	const listeners = new Set<() => void>();
 	function setState(patch: Partial<CookiesEuBannerState>) {
-		let hasChanged = false;
-		for (const key of Object.keys(patch) as (keyof CookiesEuBannerState)[]) {
-			if (state[key] !== patch[key]) {
-				hasChanged = true;
-				break;
-			}
-		}
-		if (!hasChanged) {
+		// Prevents patching and triggering listeners when values are the same as before
+		if (
+			!(Object.keys(patch) as (keyof CookiesEuBannerState)[]).some(
+				(key) => state[key] !== patch[key],
+			)
+		) {
 			return;
 		}
 
@@ -92,11 +90,27 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 		botsUserAgentRegexp = /bot|crawler|spider|crawling|preview|vkShare|extended|facebook|meta-/i, // Includes AI bots
 	} = config;
 
+	const consentStorage: {
+		get(): string | undefined;
+		set(value: string): void;
+		delete(): void;
+	} = useLocalStorage
+		? {
+				get: () => localStorage.getItem(consentCookieName) ?? undefined,
+				set: (value: string) => localStorage.setItem(consentCookieName, value),
+				delete: () => localStorage.removeItem(consentCookieName),
+			}
+		: {
+				get: () => headlessBanner.getCookie(consentCookieName),
+				set: (value: string) => headlessBanner.setCookie(consentCookieName, value),
+				delete: () => headlessBanner.deleteCookie(consentCookieName),
+			};
+
 	const headlessBanner = {
 		/**
 		 * Retrieve the current banner state
 		 */
-		getState: () => {
+		getState() {
 			return state;
 		},
 
@@ -112,18 +126,15 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 		},
 
 		/**
-		 * Do checks (bots, DoNotTrack, consent) before creating the banner
+		 * Do checks (bots, consent) before creating the banner
 		 * Triggers `onAccept`, `onReject` or `onShowBanner` when relevant
 		 */
-		checkConsentAndShowBanner: () => {
+		checkConsentAndShowBanner() {
 			// Detect if the visitor is a bot or not
 			// Prevent for search engines take the cookie alert message as main content of the page
 			const isBot = botsUserAgentRegexp.test(navigator.userAgent);
 
-			// Check if DoNotTrack is activated (Deprecated, but it's almost free to implement it)
-			const hasDoNotTrackEnabled = navigator.doNotTrack === "1";
-
-			if (isBot || hasDoNotTrackEnabled || headlessBanner.hasConsent() === false) {
+			if (isBot || headlessBanner.hasConsent() === false) {
 				setState({
 					hasConsent: false,
 				});
@@ -137,13 +148,13 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 				return;
 			}
 
-			// If it's not a bot, no DoNotTrack and not already accept, so show the banner
+			// If it's not a bot and not already accept, so show the banner
 			setState({
 				mustShowBanner: true,
 			});
 		},
 
-		deleteTrackingCookies: () => {
+		deleteTrackingCookies() {
 			trackingCookieNames.forEach((trackingCookieName) =>
 				headlessBanner.deleteCookie(trackingCookieName),
 			);
@@ -152,12 +163,8 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 		/**
 		 * Set consent cookie or localStorage
 		 */
-		setConsent: (hasConsent: boolean) => {
-			if (useLocalStorage) {
-				localStorage.setItem(consentCookieName, hasConsent.toString());
-			} else {
-				headlessBanner.setCookie(consentCookieName, hasConsent.toString());
-			}
+		setConsent(hasConsent: boolean) {
+			consentStorage.set(hasConsent.toString());
 
 			if (!hasConsent) {
 				headlessBanner.deleteTrackingCookies();
@@ -169,12 +176,8 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 			});
 		},
 
-		resetConsent: () => {
-			if (useLocalStorage) {
-				localStorage.removeItem(consentCookieName);
-			} else {
-				headlessBanner.deleteCookie(consentCookieName);
-			}
+		resetConsent() {
+			consentStorage.delete();
 
 			headlessBanner.deleteTrackingCookies();
 
@@ -187,10 +190,8 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 		/**
 		 * Check if the user already consents
 		 */
-		hasConsent: (): boolean | undefined => {
-			const consentValue = useLocalStorage
-				? localStorage.getItem(consentCookieName)
-				: headlessBanner.getCookie(consentCookieName);
+		hasConsent(): boolean | undefined {
+			const consentValue = consentStorage.get();
 
 			switch (consentValue) {
 				case "true":
@@ -205,7 +206,7 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 		/**
 		 * Create/update cookie
 		 */
-		setCookie: (name: string, value: string): void => {
+		setCookie(name: string, value: string): void {
 			const date = new Date();
 			date.setTime(date.getTime() + consentCookieTimeout);
 
@@ -218,7 +219,7 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 		/**
 		 * Get cookie value
 		 */
-		getCookie: (name: string): string | undefined => {
+		getCookie(name: string): string | undefined {
 			return document.cookie
 				.split(";")
 				.find((row) => row.trim().startsWith(`${name}=`))
@@ -228,7 +229,7 @@ const createHeadlessCookiesBanner = (config: HeadlessConfig) => {
 		/**
 		 * Delete cookie by changing expire
 		 */
-		deleteCookie: (name: string) => {
+		deleteCookie(name: string) {
 			const hostname = document.location.hostname.replace(/^www\./, "");
 			const commonSuffix = "; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/";
 

@@ -64,6 +64,20 @@ test.describe("checkConsentAndShowBanner", () => {
 		expect(DEFAULT_CONSENT_COOKIE_NAME).toEqual("hasConsent");
 	});
 
+	test("Works even without any config given", () => {
+		const headlessCookiesBanner = vi.mockObject(createHeadlessCookiesBanner(), { spy: true });
+		headlessCookiesBanner.checkConsentAndShowBanner();
+
+		expect(headlessCookiesBanner.getState()).toStrictEqual({
+			mustShowBanner: true,
+			hasConsent: undefined,
+		});
+
+		expect(headlessCookiesBanner.setConsent).not.toHaveBeenCalled();
+		expect(headlessCookiesBanner.setCookie).not.toHaveBeenCalled();
+		expect(headlessCookiesBanner.deleteCookie).not.toHaveBeenCalled();
+	});
+
 	test("Updates state and call listeners when no cookie is set for normal user", () => {
 		const { listener, headlessCookiesBanner } = initHeadless();
 
@@ -90,10 +104,6 @@ test.describe("checkConsentAndShowBanner", () => {
 			headlessConfig: {
 				botsUserAgentRegexp: /alien/i,
 			} as HeadlessConfig,
-		},
-		{
-			case: "do not track is enabled",
-			beforeInit: () => vi.stubGlobal("navigator", { doNotTrack: "1" }),
 		},
 		{
 			case: "user has already rejected using cookie",

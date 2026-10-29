@@ -1,7 +1,7 @@
 import { ref, type Ref } from "vue";
 import { createHeadlessCookiesBanner } from "cookies-eu-banner/headless";
 
-type CookiesBannerStore = {
+export type CookiesBannerStore = {
 	mustShowBanner: Ref<boolean>;
 	hasConsent: Ref<boolean | undefined>;
 	setConsent: (value: boolean) => void;

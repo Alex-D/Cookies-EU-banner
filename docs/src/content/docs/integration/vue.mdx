@@ -1,0 +1,69 @@
+---
+title: "Vue.js"
+---
+
+# Vue.js
+
+Make this library integrated with the Vue.js reactivity by creating your own store.
+
+## Installation
+
+| Package manager | Command                                    |
+| --------------- | ------------------------------------------ |
+| Vite+           | `vp add cookies-eu-banner-vue`             |
+| pnpm            | `pnpm add cookies-eu-banner-vue`           |
+| npm             | `npm install cookies-eu-banner-vue --save` |
+| yarn            | `yarn add cookies-eu-banner-vue`           |
+
+## Basic usage
+
+### `CookiesEuBanner.vue`
+
+```html
+<script setup>
+	import { useCookiesBanner } from "cookies-eu-banner-vue";
+
+	const { mustShowBanner, setConsent } = useCookiesBanner();
+
+	const accept = () => setConsent(true);
+	const reject = () => setConsent(false);
+</script>
+
+<template>
+	<div v-if="mustShowBanner">
+		<p>Banner demo</p>
+		<button @click.prevent="accept">Accept</button>
+		<button @click.prevent="reject">Reject</button>
+	</div>
+</template>
+```
+
+### `App.vue`
+
+```html
+<script setup>
+	import { onMounted, watch } from "vue";
+	import { useCookiesBanner } from "cookies-eu-banner-vue";
+	import CookiesEuBanner from "./CookiesEuBanner.vue";
+
+	const { hasConsent, checkConsentAndShowBanner } = useCookiesBanner();
+
+	const stopWatching = watch(hasConsent, (newValue) => {
+		if (newValue) {
+			console.log("Run analytics script!");
+			stopWatching(); // Remove the watch once the consent has been given
+		}
+	});
+
+	onMounted(() => {
+		checkConsentAndShowBanner();
+	});
+</script>
+
+<template>
+	<p>Has consent: {{ hasConsent ?? 'not set' }}</p>
+	<CookiesEuBanner />
+</template>
+```
+
+## Advanced usage

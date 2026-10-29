@@ -6,8 +6,9 @@ import Sidebar from "./Sidebar.astro";
 const docs = await getDocs();
 
 const guides = docs.filter((doc) => doc.id.includes("guide"));
+const integrations = docs.filter((doc) => doc.id.includes("integration"));
 const reference = docs.filter((doc) => doc.id.includes("reference"));
-const rootDocs = docs.filter((doc) => !guides.includes(doc) && !reference.includes(doc));
+const rootDocs = docs.filter((doc) => !guides.includes(doc) && !integrations.includes(doc) && !reference.includes(doc));
 
 const baseUrl = import.meta.env.BASE_URL;
 function docToLink(doc) {
@@ -24,6 +25,10 @@ const linksByCategory: SidebarLinksByCategory = [
 	{
 		title: "Guides",
 		links: guides.map((doc) => docToLink(doc)),
+	},
+	{
+		title: "Integrations",
+		links: integrations.map((doc) => docToLink(doc)),
 	},
 	{
 		title: "Reference",

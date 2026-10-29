@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed, watch, onMounted } from "vue";
 import { useCookiesBanner } from "cookies-eu-banner-vue";
 import VueBanner from "./_VueBanner.vue";
 
@@ -27,6 +27,12 @@ const reject = () => {
 const reset = () => {
 	resetConsent();
 };
+
+watch(hasConsent, (newValue) => {
+	if (newValue) {
+		console.log("Run analytics script!");
+	}
+});
 
 onMounted(() => {
 	checkConsentAndShowBanner();
